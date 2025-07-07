@@ -89,3 +89,9 @@ export function setInteractive(gameObject, config = {}) {
         scene.input.enableDebug(gameObject, debug.color);
     }
 }
+
+export function getDifferenceTimeInS(startTime) {
+    let currentTime = new Date();
+    let durationInMs = currentTime.getTime() - startTime.getTime();
+    return durationInMs / 1000;
+}

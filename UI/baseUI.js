@@ -6,6 +6,8 @@ import InteractiveContainer from "../UI/interactiveContainer.js";
 import DefaultEventNames from "../utils/eventNames.js";
 import { splitByWord } from "../utils/misc.js";
 
+import xApiTracker from "../../lib/xApiTracker.js";
+
 export default class BaseUI extends BaseScene {
     /**
     * Clase base para la escena en la que se crean los elementos para la interfaz
@@ -214,6 +216,10 @@ export default class BaseUI extends BaseScene {
         for (let i = 0; i < node.choices.length; i++) {
             // Crea una OptionBox cuyo onClick establece como siguiente nodo el correspondiente al indice de la opcion elegida y elimina el resto de opciones
             let opt = new OptionBox(this, i, node.choices.length, this.replaceRegularExpressions(node.choices[i], node), () => {
+                // TRACKER EVENT
+                xApiTracker.alternativeTracker.Selected(node.fullId, node.choices[i], JSTracker.ALTERNATIVETYPE.DIALOG);               
+                
+                // TODO: quizas revisar?
                 node.nextIndex = i;
                 node.nextNode();
                 this.removeOptions();

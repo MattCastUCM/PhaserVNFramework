@@ -2,6 +2,8 @@ import DialogNode from "../dialogNode.js";
 import LocalizationManager from "../../managers/localizationManager.js";
 import DefaultEventNames from "../../utils/eventNames.js";
 
+import xApiTracker from "../../../lib/xApiTracker.js";
+
 export default class TextNode extends DialogNode {
     /**
     * Clase para la informacion de los nodos de texto
@@ -76,18 +78,28 @@ export default class TextNode extends DialogNode {
 
     processNode() {
         this.currDialog = 0;
+
         // Si hay dialogos
         if (this.dialogs.length > 0) {
+            // TRACKER EVENT
+            this.sendInitializeTextNode();
+
             // Se lanza el evento de empezar nodo de texto
             this.dispatcher.dispatch(DefaultEventNames.startTextNode, this);
 
             // Se escucha el evento de siguiente dialogo
             this.dispatcher.add(DefaultEventNames.nextDialog, this, () => {
+                // TRACKER EVENT
+                this.sendCompleteTextNode();
+
                 // Se actualiza el dialogo
                 this.currDialog++;
 
                 // Si sigue habiendo mas dialogos, se lanza el evento de pasar al siguiente dialogo
                 if (this.currDialog < this.dialogs.length) {
+                    // TRACKER EVENT
+                    this.sendInitializeTextNode();
+
                     this.dispatcher.dispatch(DefaultEventNames.updateTextNode, this);
                 }
                 // Si no, pasa al siguiente nodo
@@ -96,5 +108,13 @@ export default class TextNode extends DialogNode {
                 }
             });
         }
+    }
+
+    sendInitializeTextNode() {
+        xApiTracker.completableTracker.Initialized(`${this.name} ${this.dialogs[this.currDialog]}`, JSTracker.COMPLETABLETYPE.STORYNODE);
+    }
+
+    sendCompleteTextNode() {
+        xApiTracker.completableTracker.Completed(`${this.name} ${this.dialogs[this.currDialog].text}`, JSTracker.COMPLETABLETYPE.STORYNODE, null, true, 1);
     }
 }

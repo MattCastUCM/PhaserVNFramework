@@ -1,5 +1,8 @@
 import Singleton from "../utils/singleton.js";
 
+import xApiTracker from "../../lib/xApiTracker.js";
+import { getDifferenceTimeInS } from "../utils/misc.js";
+
 export default class SceneManager extends Singleton {
     /**
     * Gestiona los cambios de escena y la vida de las mismas para
@@ -14,11 +17,16 @@ export default class SceneManager extends Singleton {
 
         this.DEFAULT_FADE_OUT_TIME = 200;
         this.DEFAULT_FADE_IN_TIME = 200;
+
+        this.lastSceneTime = null;
     }
 
     init(scene) {
         this.currentScene = scene;
         this.runningScenes.add(this.currentScene);
+
+        // TRACKER EVENT
+        this.sendStartScene(scene);
     }
 
     /**
@@ -51,10 +59,10 @@ export default class SceneManager extends Singleton {
         sc.scene.restart();
     }
 
-     /**
-    * Detener la escena indicada
-    * @param {String} sceneKey - key de la escena a detener
-    */
+    /**
+   * Detener la escena indicada
+   * @param {String} sceneKey - key de la escena a detener
+   */
     stopScene(sceneKey) {
         let sc = this.currentScene.scene.get(sceneKey);
         sc.scene.stop(sc);
@@ -91,6 +99,9 @@ export default class SceneManager extends Singleton {
         }
 
         let change = (cam, effect) => {
+            // TRACKER EVENT
+            this.sendEndScene(this.currentScene);
+
             // Si se puede regresar a la escena de la que se viene, se duerme 
             // para mantener su estado por si se quiere volver a ella
             if (canReturn) {
@@ -113,7 +124,6 @@ export default class SceneManager extends Singleton {
             // Se guarda la escena a las escenas que estan ejecutandose
             this.runningScenes.add(this.currentScene);
 
-            
             if (anim) {
                 let fadeIn = () => {
                     this.fadeIn(fadeInTime);
@@ -122,6 +132,9 @@ export default class SceneManager extends Singleton {
                 this.currentScene.events.on("create", fadeIn);
                 this.currentScene.events.on("wake", fadeIn);
             }
+
+            // TRACKER EVENT
+            this.sendStartScene(this.currentScene);
         }
         if (anim) {
             // Cuando acaba el fade out de la escena actual se cambia a la siguiente
@@ -134,6 +147,16 @@ export default class SceneManager extends Singleton {
         }
     }
 
+    sendStartScene(scene) {
+        xApiTracker.accessibleTracker.Accessed(scene.scene.key, JSTracker.ACCESSIBLETYPE.SCREEN);
+        this.lastSceneTime = new Date();
+    }
+
+    sendEndScene(scene) {
+        let duration = getDifferenceTimeInS(this.lastSceneTime);
+        xApiTracker.completableTracker.Completed(scene.scene.key, JSTracker.COMPLETABLETYPE.COMPLETABLE, null, true, 1)
+            .withDuration(duration);
+    }
 
     /**
     * Detener y borrar todas las escenas activas
