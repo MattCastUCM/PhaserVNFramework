@@ -1,12 +1,11 @@
-import TextButton from "./textButton.js";
+import Button from "./button.js";
 import { completeMissingProperties } from "../utils/misc.js"
 import { DEFAULT_TEXT_CONFIG } from "../utils/graphics.js"
-import TextArea from "./textArea.js";
 
-export default class OptionBox extends TextButton {
+export default class OptionBox extends Button {
     /**
     * Caja de texto para los dialogos
-    * @extends TextButton
+    * @extends Button
     * @param {Phaser.Scene} scene - escena en la que se crea (idealmente la escena de UI)
     * @param {Number} index - indice de la opcion de entre todas las opciones
     * @param {Number} totalOpts - numero total de opciones
@@ -18,7 +17,7 @@ export default class OptionBox extends TextButton {
     constructor(scene, index, totalOpts, text, onClick = {}, boxConfig = {}, textConfig = {}) {
         super(scene, 0, 0, 0, 0);
 
-        let debug = false;
+        let debug = true;
 
         let DEFAULT_BOX_CONFIG = {
             collectiveAlignY: 1,
@@ -35,19 +34,20 @@ export default class OptionBox extends TextButton {
 
             boxSpacing: 10,
 
+            textPaddingX: 25,
+            textPaddingY: 25,
+
+            textOffsetX: 70,
+            textOffsetY: 42,
+
             textOriginX: 0.5,
             textOriginY: 0.5,
-
+            
             textAlignX: 0.5,
             textAlignY: 0.5,
 
-            textMarginX: 70,
-            textMarginY: 42,
-
             realWidth: 0,
             realHeight: 0,
-            textHorizontalPadding: 25,
-            textVerticalPadding: 25,
 
             noTintColor: "#ffffff",
             pointerOverColor: "#d9d9d9"
@@ -59,16 +59,14 @@ export default class OptionBox extends TextButton {
         this.boxConfig = completeMissingProperties(boxConfig, DEFAULT_BOX_CONFIG);
         this.textConfig = completeMissingProperties(textConfig, DEFAULT_TEXT_CONFIG);
 
-        this.createImgButton(text, this.textConfig, onClick, this.boxConfig.img, this.boxConfig.imgOriginX, this.boxConfig.imgOriginY, this.boxConfig.scaleX, 
-            this.boxConfig.scaleY, this.boxConfig.imgAlpha, this.boxConfig.textMarginX, this.boxConfig.textMarginY, this.boxConfig.textOriginX, this.boxConfig.textOriginY,
-            this.boxConfig.textAlignX, this.boxConfig.textAlignY);
+        this.createImgButton(text, onClick);
 
         // Se calcula el ancho en base a la imagen
         if (boxConfig.realWidth == null) {
-            this.boxConfig.realWidth = this.image.displayWidth - this.boxConfig.textHorizontalPadding * 2;
+            this.boxConfig.realWidth = this.image.displayWidth - this.boxConfig.textPaddingX * 2;
         }
         if (boxConfig.realHeight == null) {
-            this.boxConfig.realHeight = this.image.displayHeight - this.boxConfig.textVerticalPadding * 2;
+            this.boxConfig.realHeight = this.image.displayHeight - this.boxConfig.textPaddingY * 2;
         }
 
         if (textConfig.wordWrap != null) {
@@ -92,9 +90,7 @@ export default class OptionBox extends TextButton {
         this.removeAllListeners();
 
         // Se vuelve a crear la caja con las dimensiones bien calculadas 
-        this.createImgButton(text, this.textConfig, onClick, this.boxConfig.img, this.boxConfig.imgOriginX, this.boxConfig.imgOriginY, this.boxConfig.scaleX, 
-            this.boxConfig.scaleY, this.boxConfig.imgAlpha, this.boxConfig.textMarginX, this.boxConfig.textMarginY, this.boxConfig.textOriginX, this.boxConfig.textOriginY,
-            this.boxConfig.textAlignX, this.boxConfig.textAlignY);
+        this.createImgButton(text, onClick);
 
 
         this.posX = this.boxConfig.imgX;
@@ -111,5 +107,11 @@ export default class OptionBox extends TextButton {
         }
 
         this.setVisible(false);
+    }
+
+    createImgButton(text, onClick) {
+        super.createImgButton(text, this.textConfig, onClick, this.boxConfig.img, this.boxConfig.imgOriginX, this.boxConfig.imgOriginY, this.boxConfig.scaleX, 
+            this.boxConfig.scaleY, this.boxConfig.imgAlpha, this.boxConfig.textPaddingX, this.boxConfig.textPaddingY, this.boxConfig.textOffsetX, this.boxConfig.textOffsetY,
+            this.boxConfig.textOriginX, this.boxConfig.textOriginY, this.boxConfig.textAlignX, this.boxConfig.textAlignY);
     }
 }
