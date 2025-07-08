@@ -2,7 +2,7 @@ import InteractiveContainer from "./interactiveContainer.js";
 import TextArea from "./textArea.js";
 import { hexToColor } from "../utils/graphics.js";
 
-export default class TextButton extends InteractiveContainer {
+export default class Button extends InteractiveContainer {
     /**
     * Clase para los botones con texto 
     * 
@@ -36,8 +36,10 @@ export default class TextButton extends InteractiveContainer {
     * @param {Number} imgScaleX - escala x de la imagen (opcional)
     * @param {Number} imgScaleY - escala y de la imagen (opcional)
     * @param {Number} imgAlpha - alpha de la imagen [0-1] (opcional)
-    * @param {Number} textMarginX - margen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textMarginY - margen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {Number} textPaddingX - margen x del texto (opcional)
+    * @param {Number} textPaddingY - margen y del texto (opcional)
+    * @param {Number} textOffsetX - offset x del texto (opcional)
+    * @param {Number} textOffsetY - offset y del texto (opcional)
     * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
     * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
     * @param {Number} textAlignX - alineacion horizontal del texto [0-1] (opcional)
@@ -48,13 +50,13 @@ export default class TextButton extends InteractiveContainer {
     */
     createImgButton(text = "", textConfig = {}, onClick = () => { },
         img = "", imgOriginX = 0.5, imgOriginY = 0.5, imgScaleX = 1, imgScaleY = 1, imgAlpha = 1,
-        textMarginX = 0, textMarginY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
+        textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
         normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696)
     {
         this.image = this.scene.add.image(this.posX, this.posY, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
         this.add(this.image);
 
-        this.textObj = this.createText(text, textConfig, textMarginX, textMarginY, textOriginX, textOriginY, textAlignX, textAlignY);
+        this.textObj = this.createText(text, textConfig, textPaddingX, textPaddingY, textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY);
         this.add(this.textObj);
 
         this.calculateRectangleSize();
@@ -75,8 +77,10 @@ export default class TextButton extends InteractiveContainer {
     * @param {Number} borderNormalColor - valor hex del color por defecto del borde (opcional)
     * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
     * @param {Number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
-    * @param {Number} textMarginX - margen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textMarginY - margen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {Number} textPaddingX - margen x del texto (opcional)
+    * @param {Number} textPaddingY - margen y del texto (opcional)
+    * @param {Number} textOffsetX - offset x del texto (opcional)
+    * @param {Number} textOffsetY - offset y del texto (opcional)
     * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
     * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
     * @param {Number} textAlignX - alineacion horizontal del texto [0-1] (opcional)
@@ -86,7 +90,7 @@ export default class TextButton extends InteractiveContainer {
     */
     createRectButton(text = "", textConfig = {}, onClick = () => { }, textureId = "buttonTexture",
         radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1,
-        textMarginX = 0, textMarginY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
+        textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
         normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
     {
         // Se crea el rectangulo con el borde
@@ -107,7 +111,7 @@ export default class TextButton extends InteractiveContainer {
         this.image = this.scene.add.image(this.posX, this.posY, textureId).setOrigin(0.5, 0.5);
         this.add(this.image);
 
-        this.textObj = this.createText(text, textConfig, textMarginX, textMarginY, textOriginX, textOriginY, textAlignX, textAlignY);
+        this.textObj = this.createText(text, textConfig, textPaddingX, textPaddingY,textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY);
         this.add(this.textObj);
 
         this.calculateRectangleSize();
@@ -119,20 +123,24 @@ export default class TextButton extends InteractiveContainer {
     * Se crea el texto del boton
     * @param {String} text - texto a escribir
     * @param {Object} textConfig - configuracion del texto
-    * @param {Number} textMarginX - margen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textMarginY - margen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {Number} textPaddingX - margen x del texto (opcional)
+    * @param {Number} textPaddingY - margen y del texto (opcional)
+    * @param {Number} textOffsetX - offset x del texto (opcional)
+    * @param {Number} textOffsetY - offset y del texto (opcional)
     * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
     * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
     * @param {Number} textAlignX - alineacion horizontal del texto [0-1] (opcional)
     * @param {Number} textAlignY - alineacion vertical del texto [0-1] (opcional)
     * @returns {TextArea} - texto creado
     */
-    createText(text = "", textConfig = {}, textMarginX = 0, textMarginY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5) {
-        let textObj = new TextArea(this.scene, this.posX, this.posY, this.rectWidth - textMarginX * 2, this.rectHeight - textMarginY * 2, text, textConfig)
+    createText(text = "", textConfig = {}, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, 
+        textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5) 
+    {
+        let textObj = new TextArea(this.scene, this.posX, this.posY, this.rectWidth - textPaddingX * 2, this.rectHeight - textPaddingY * 2, text, textConfig)
             .setOrigin(textOriginX, textOriginY);
 
-        this.textX = this.posX - this.rectWidth * (0.5 - textAlignX) + textMarginX * (0.5 - textAlignX) * 2;
-        this.textY = this.posY - this.rectHeight * (0.5 - textAlignY) + textMarginY * (0.5 - textAlignY) * 2;
+        this.textX = this.posX - this.rectWidth * (0.5 - textAlignX) + textPaddingX * (0.5 - textAlignX) * 2 + textOffsetX;
+        this.textY = this.posY - this.rectHeight * (0.5 - textAlignY) + textPaddingY * (0.5 - textAlignY) * 2 + textOffsetY;
         textObj.setPosition(this.textX, this.textY);
 
         textObj.adjustFontSize();
