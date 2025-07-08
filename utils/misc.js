@@ -90,6 +90,13 @@ export function setInteractive(gameObject, config = {}) {
     }
 }
 
+/**
+* Calcular la diferencia de tiempo en segundos entre el momento actual
+* y un tiempo de inicio proporcionado
+* @param {Date} startTime - tiempo de inicio
+* @returns {number} - diferencia de tiempo en segundos entre el momento actual y un tiempo de inicio
+*
+**/
 export function getDifferenceTimeInS(startTime) {
     let currentTime = new Date();
     let durationInMs = currentTime.getTime() - startTime.getTime();
