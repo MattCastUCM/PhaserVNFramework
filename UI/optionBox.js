@@ -63,14 +63,14 @@ export default class OptionBox extends Button {
 
         // Se calcula el ancho en base a la imagen
         if (boxConfig.realWidth == null) {
-            this.boxConfig.realWidth = this.image.displayWidth - this.boxConfig.textPaddingX * 2;
+            this.boxConfig.realWidth = this.image.displayWidth;
         }
         if (boxConfig.realHeight == null) {
-            this.boxConfig.realHeight = this.image.displayHeight - this.boxConfig.textPaddingY * 2;
+            this.boxConfig.realHeight = this.image.displayHeight;
         }
 
         if (textConfig.wordWrap != null) {
-            this.textConfig.wordWrap.width = this.boxConfig.realWidth;
+            this.textConfig.wordWrap.width = this.boxConfig.realWidth - this.boxConfig.textPaddingX * 2;
         }
 
         // Calcular la posicion de la caja dependiendo del numero total de cajas y su alineacion vertical total
@@ -99,8 +99,8 @@ export default class OptionBox extends Button {
         
 
         if (debug) {
-            let textDebug = scene.add.rectangle(this.textObj.x, this.textObj.y, this.boxConfig.realWidth, this.boxConfig.realHeight, 0xfff, 0.5)
-                .setOrigin(this.boxConfig.textOriginX, this.boxConfig.textOriginY).setScale(this.boxConfig.scaleX, this.boxConfig.scaleY);
+            let textDebug = scene.add.rectangle(this.textObj.x, this.textObj.y, this.boxConfig.realWidth - this.boxConfig.textPaddingX * 2, 
+                this.boxConfig.realHeight - this.boxConfig.textPaddingY * 2, 0xfff, 0.5).setOrigin(this.boxConfig.textOriginX, this.boxConfig.textOriginY).setScale(this.boxConfig.scaleX, this.boxConfig.scaleY);
 
             this.add(textDebug);
             this.bringToTop(this.textObj);
