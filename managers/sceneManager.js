@@ -1,6 +1,6 @@
 import Singleton from "../utils/singleton.js";
 
-import xApiTracker from "../../lib/xApiTracker.js";
+import xApiTracker from "../lib/xApiTracker.js";
 import { getDifferenceTimeInS } from "../utils/misc.js";
 
 export default class SceneManager extends Singleton {

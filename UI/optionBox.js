@@ -17,7 +17,7 @@ export default class OptionBox extends Button {
     constructor(scene, index, totalOpts, text, onClick = {}, boxConfig = {}, textConfig = {}) {
         super(scene, 0, 0, 0, 0);
 
-        let debug = true;
+        let debug = false;
 
         let DEFAULT_BOX_CONFIG = {
             collectiveAlignY: 1,

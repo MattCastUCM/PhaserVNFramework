@@ -6,7 +6,7 @@ import InteractiveContainer from "../UI/interactiveContainer.js";
 import DefaultEventNames from "../utils/eventNames.js";
 import { splitByWord } from "../utils/misc.js";
 
-import xApiTracker from "../../lib/xApiTracker.js";
+import xApiTracker from "../lib/xApiTracker.js";
 
 export default class BaseUI extends BaseScene {
     /**

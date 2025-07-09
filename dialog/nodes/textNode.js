@@ -2,7 +2,7 @@ import DialogNode from "../dialogNode.js";
 import LocalizationManager from "../../managers/localizationManager.js";
 import DefaultEventNames from "../../utils/eventNames.js";
 
-import xApiTracker from "../../../lib/xApiTracker.js";
+import xApiTracker from "../../lib/xApiTracker.js";
 
 export default class TextNode extends DialogNode {
     /**
