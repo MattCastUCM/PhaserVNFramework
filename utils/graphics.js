@@ -45,3 +45,36 @@ export function hexToRgb(hex) {
 export function hexToColor(hex) {
     return Phaser.Display.Color.IntegerToColor(hex);
 }
+
+    /**
+    * Crea una textura a partir de un rectangulo con las caracteristicas indicadas
+    * @param {Phaser.Scene} scene - escena con acceso a las texturas existentes
+    * @param {String} textureId - id de la textura que se creara para el rectangulo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree
+    * @param {Number} width - ancho del rectangulo
+    * @param {Number} height - alto del rectangulo
+    * @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
+    * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
+    * @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
+    * @param {Number} borderNormalColor - valor hex del color por defecto del borde (opcional)
+    * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
+    * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
+    */
+export function createRectTexture(scene, textureId = "buttonTexture", width, height, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, 
+    borderAlpha = 1, radiusPercentage = 0, )
+{
+    if (!scene.textures.exists(textureId)) {
+        // Se crea el rectangulo con el borde
+        let graphics = scene.add.graphics();
+        graphics.fillStyle(fillColor, fillAlpha);
+        graphics.lineStyle(borderThickness, borderNormalColor, borderAlpha);
+
+        // Se calcula el radio y se rellenan el rectangulo y el borde redondeados
+        let radius = Math.min(width, height) * (radiusPercentage / 100);
+        graphics.fillRoundedRect(borderThickness, borderThickness, width, height, radius);
+        graphics.strokeRoundedRect(borderThickness, borderThickness, width, height, radius);
+
+        // Se crea la textura a utilizar para el fondo
+        graphics.generateTexture(textureId, width + borderThickness * 2, height + borderThickness * 2);
+        graphics.destroy();
+    }
+}

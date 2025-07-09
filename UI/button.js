@@ -1,6 +1,6 @@
 import InteractiveContainer from "./interactiveContainer.js";
 import TextArea from "./textArea.js";
-import { hexToColor } from "../utils/graphics.js";
+import { createRectTexture, hexToColor } from "../utils/graphics.js";
 
 export default class Button extends InteractiveContainer {
     /**
@@ -69,7 +69,7 @@ export default class Button extends InteractiveContainer {
     * @param {String} text - texto a escribir
     * @param {Object} textConfig - configuracion del texto
     * @param {Function} onClick - funcion a llamar al pulsar el boton
-    * @param {String} img - id de la textura que se creara para el fondo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
+    * @param {String} textureId - id de la textura que se creara para el fondo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
     * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
     * @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
     * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
@@ -93,19 +93,7 @@ export default class Button extends InteractiveContainer {
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
         normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
     {
-        // Se crea el rectangulo con el borde
-        let graphics = this.scene.add.graphics();
-        graphics.fillStyle(fillColor, fillAlpha);
-        graphics.lineStyle(borderThickness, borderNormalColor, borderAlpha);
-
-        // Se calcula el radio y se rellenan el rectangulo y el borde redondeados
-        this.radius = Math.min(this.rectWidth, this.rectHeight) * (radiusPercentage / 100);
-        graphics.fillRoundedRect(borderThickness, borderThickness, this.rectWidth, this.rectHeight, this.radius);
-        graphics.strokeRoundedRect(borderThickness, borderThickness, this.rectWidth, this.rectHeight, this.radius);
-
-        // Se crea la textura a utilizar para el fondo
-        graphics.generateTexture(textureId, this.rectWidth + borderThickness * 2, this.rectHeight + borderThickness * 2);
-        graphics.destroy();
+        createRectTexture(this.scene, textureId, this.rectWidth, this.rectHeight, fillColor, fillAlpha, borderThickness, borderNormalColor, borderAlpha, radiusPercentage);
 
         // Se crea la imagen en base a la textura
         this.image = this.scene.add.image(this.posX, this.posY, textureId).setOrigin(0.5, 0.5);
