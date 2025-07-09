@@ -1,15 +1,36 @@
 import Singleton from "../utils/singleton.js";
-import { splitByWord } from "../utils/misc.js";
+import Blackboard from "../utils/blackboard.js";
 
 export default class LocalizationManager extends Singleton {
     constructor() {
         super("LocalizationManager");
 
         this.i18next = null;
+
+        // Blackboards de los que se sacaran las variables para el reempalzo de expresiones regulares
+        // si alguna clave coincide, se guardara el valor que tenga dicha clave en la ultima blackboard
+        this.blackboards = new Set();
     }
 
     init(i18n) {
         this.i18next = i18n;
+    }
+
+
+    /**
+    * Anade la blackboard para que se usen sus variables al reemplazar expresiones regulares
+    * @param {Blackboard} blackboard - blackboard a anadir
+    */
+    subscribeBlackboard(blackboard) {
+        this.blackboards.add(blackboard);
+    }
+
+    /**
+    * Quita la blackboard para que se dejen de usar sus variables al reemplazar expresiones regulares
+    * @param {Blackboard} blackboard - blackboard a eliminar
+    */
+    unsubscribeBlackboard(blackboard) {
+        this.blackboards.delete(blackboard);
     }
 
     /**
@@ -73,13 +94,11 @@ export default class LocalizationManager extends Singleton {
     * 
     * 
     * @param {String} inputText - texto en el que reemplazar las expresiones regulares
-    * @param {Array[Map]} contextMaps - array de mapas en los que buscar el valor de la expresion a sustituir
-    * (si alguna clave coincide, se guardara el valor que tenga dicha clave en el ultimo mapa del array)
     * @returns {String} - texto con las expresiones regulares reemplazadas
     */
-    replaceRegularExpressions(inputText, contextMaps) {
-        // Se unen los mapas del array en otro mapa
-        const mergedContext = contextMaps.reduce((merged, current) => {
+    replaceRegularExpressions(inputText) {
+        // Se unen los mapas suscritos en otro mapa (si alguna clave coincide, se guardara el valor que tenga dicha clave en el ultimo mapa)
+        const mergedContext = [...this.blackboards].reduce((merged, current) => {
             for (const [key, value] of current) {
                 merged.set(key, value);
             }
@@ -87,6 +106,7 @@ export default class LocalizationManager extends Singleton {
         }, new Map());
 
         // console.log(inputText)
+        // console.log(mergedContext)
 
         let result = this.replaceValues(inputText, mergedContext);
         result = this.replaceVariants(result, mergedContext);

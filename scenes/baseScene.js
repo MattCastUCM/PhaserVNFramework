@@ -30,6 +30,8 @@ export default class BaseScene extends Phaser.Scene {
         this.localizationManager = LocalizationManager.getInstance();
         this.dispatcher = EventDispatcher.getInstance();
 
+        this.localizationManager.subscribeBlackboard(this.blackboard);
+
         this.bgScale = 1;
 
         // Funciones adicionales a las que se llamara al crear y reactivar la escena
@@ -62,6 +64,8 @@ export default class BaseScene extends Phaser.Scene {
     * Limpia los eventos del dispatcher
     */
     shutdown() {
+        this.localizationManager.unsubscribeBlackboard(this.blackboard);
+
         if (this.dispatcher != null) {
             this.dispatcher.removeByObject(this);
         }

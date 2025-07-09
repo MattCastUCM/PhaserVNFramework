@@ -19,7 +19,7 @@ export function completeMissingProperties(targetObj, defaultObj) {
 }
 
 export function splitByWord(text) {
-    // Sustituit los espacios provocados por caracteres especiales por espacios regulares
+    // Sustituir los espacios provocados por caracteres especiales por espacios regulares
     const regularSpaces = text.replace(/[\r\n]/g, " ");
 
     // Separar el texto por espacios

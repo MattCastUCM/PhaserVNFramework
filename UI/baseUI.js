@@ -79,7 +79,7 @@ export default class BaseUI extends BaseScene {
                 let dialogs = [];
 
                 node.dialogs.forEach((dialog) => {
-                    this.splitDialog(dialogs, this.replaceRegularExpressions(dialog, node));
+                    this.splitDialog(dialogs, this.localizationManager.replaceRegularExpressions(dialog));
                 })
                 node.dialogs = dialogs;
                 node.textAdjusted = true;
@@ -128,10 +128,6 @@ export default class BaseUI extends BaseScene {
         }
     }
 
-
-    replaceRegularExpressions(text, node) {
-        return this.localizationManager.replaceRegularExpressions(text, [node.scene.blackboard]);
-    }
 
     /**
     * Divide el texto por si alguno es demasiado largo y se sale de la caja de texto
@@ -215,7 +211,7 @@ export default class BaseUI extends BaseScene {
         // Recorre todos los textos de las opciones
         for (let i = 0; i < node.choices.length; i++) {
             // Crea una OptionBox cuyo onClick establece como siguiente nodo el correspondiente al indice de la opcion elegida y elimina el resto de opciones
-            let opt = new OptionBox(this, i, node.choices.length, this.replaceRegularExpressions(node.choices[i], node), () => {
+            let opt = new OptionBox(this, i, node.choices.length, this.localizationManager.replaceRegularExpressions(node.choices[i]), () => {
                 // TRACKER EVENT
                 xApiTracker.alternativeTracker.Selected(node.fullId, node.choices[i], JSTracker.ALTERNATIVETYPE.DIALOG);               
                 
