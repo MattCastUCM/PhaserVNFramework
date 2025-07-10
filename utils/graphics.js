@@ -59,8 +59,8 @@ export function hexToColor(hex) {
     * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
     * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
     */
-export function createRectTexture(scene, textureId = "buttonTexture", width, height, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, 
-    borderAlpha = 1, radiusPercentage = 0, )
+export function createRectTexture(scene, textureId = "rectTexture", width, height, 
+    fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1, radiusPercentage = 0)
 {
     if (!scene.textures.exists(textureId)) {
         // Se crea el rectangulo con el borde
@@ -75,6 +75,23 @@ export function createRectTexture(scene, textureId = "buttonTexture", width, hei
 
         // Se crea la textura a utilizar para el fondo
         graphics.generateTexture(textureId, width + borderThickness * 2, height + borderThickness * 2);
+        graphics.destroy();
+    }
+}
+
+export function createCircleTexture(scene, textureId = "circleTexture", radius, 
+    fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1) 
+{
+    if (!scene.textures.exists(textureId)) {
+        let graphics = scene.add.graphics();
+        graphics.fillStyle(fillColor, fillAlpha);
+        graphics.lineStyle(borderThickness, borderNormalColor, borderAlpha);
+
+        let circle = new Phaser.Geom.Circle(radius + borderThickness / 2, radius + borderThickness / 2, radius);
+        graphics.fillCircleShape(circle);
+        graphics.strokeCircleShape(circle);
+
+        graphics.generateTexture(textureId, (radius + borderThickness) * 2, (radius + borderThickness) * 2);
         graphics.destroy();
     }
 }
