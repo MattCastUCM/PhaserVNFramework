@@ -1,10 +1,10 @@
-export default class Grid {
+export default class Grid extends Phaser.GameObjects.Container {
     /**
     * Crea una cuadricula para organizar elementos visuales
     *
     * @param {Phaser.Scene} scene - escena donde se crea la cuadricula.
-    * @param {number} x - posicion x de la cuadricula
-    * @param {number} y - posicion y de la cuadricula
+    * @param {number} x - posicion x de la esquina superior izquierda
+    * @param {number} y - posicion y de la esquina superior izquierda
     * @param {number} width - ancho total de la cuadricula
     * @param {number} height - alto total de la cuadrícula
     * @param {number} columns - nuemro de columnas
@@ -12,11 +12,11 @@ export default class Grid {
     * @param {number} margin - margen (espacio desde los bordes hacia dentro)
     */
     constructor(scene, x, y, width, height, columns, rows, margin) {
-        this.scene = scene;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        super(scene, x, y);
+
+        scene.add.existing(this);
+        
+        this.setSize(width, height);
         this.columns = columns;
         this.rows = rows;
         this.margin = margin;
@@ -29,8 +29,6 @@ export default class Grid {
         this.cellWidth = (this.width - this.margin * 2) / this.columns;
         this.cellHeight = (this.height - this.margin * 2) / this.rows;
 
-        this.items = this.scene.add.group();
-
         let debug = this.scene.sys.game.debug;
         if (debug.enable) {
             let debugRect = this.scene.add.rectangle(this.startingX, this.startingY, this.columns * this.cellWidth, this.rows * this.cellHeight, 0x000000, 0);
@@ -40,20 +38,20 @@ export default class Grid {
     }
 
     arrange() {
-        Phaser.Actions.GridAlign(this.items.getChildren(), {
+        Phaser.Actions.GridAlign(this.list, {
             width: this.columns,
             height: this.rows,
             cellWidth: this.cellWidth,
             cellHeight: this.cellHeight,
             position: Phaser.Display.Align.CENTER,
-            x: this.startingX,
-            y: this.startingY
+            x: this.margin,
+            y: this.margin
         })
     }
 
     addItem(item) {
-        if (!this.items.contains(item)) {
-            this.items.add(item);
+        if (!this.exists(item)) {
+            this.add(item);
             this.arrange();
         }
     }
