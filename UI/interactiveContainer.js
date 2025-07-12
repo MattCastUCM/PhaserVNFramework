@@ -4,7 +4,7 @@ import AnimatedContainer from "./animatedContainer.js";
 export default class InteractiveContainer extends AnimatedContainer {
     /**
     * Clase base para los elementos de dialogo, con metodos para activar/desactivar el objeto y calcular su rectangulo de colision
-    * @extends Phaser.GameObjects.Container
+    * @extends AnimatedContainer
     * @param {Phaser.Scene} scene - escena a la que pertenece
     * @param {Number} x - posicion x (opcional)
     * @param {Number} y - posicion y (opcional)

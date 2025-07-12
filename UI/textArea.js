@@ -1,7 +1,7 @@
 export default class TextArea extends Phaser.GameObjects.Text {
     /**
     * Texto que tiene que estar contenido en un area especifica
-    * @extends DialogObject
+    * @extends Phaser.GameObjects.Text
     * @param {Phaser.GameObjects.Scene} scene - escena en la que se crea (idealmente la escena de UI)
     * @param {Number} x - posicion x del texto (opcional)
     * @param {Number} y - posicion y del texto (opcional)

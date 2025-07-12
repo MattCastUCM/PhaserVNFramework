@@ -1,7 +1,6 @@
 export default class Singleton {
     /**
     * Clase base para los singletons 
-    * @extends Phaser.Scene
     * @param {String} className - nombre de la clase. Se usa solo para el mensaje de la constructora
     */
     constructor(className = "Singleton") {
