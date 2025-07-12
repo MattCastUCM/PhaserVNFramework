@@ -232,7 +232,7 @@ export default class LocalizationManager extends Singleton {
     /**
     * Cambia el idioma actual de la aplicacion
     *
-    * @param {String} language - Codigo del idioma a establecer (por ejemplo, 'en', 'es', 'fr').
+    * @param {String} language - Codigo del idioma a establecer (por ejemplo,"en", "es", "fr").
     */
     changeLanguage(language) {
         this.i18next.changeLanguage(language);

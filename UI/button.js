@@ -169,7 +169,7 @@ export default class Button extends InteractiveContainer {
         let hoverTint = hexToColor(hoverTintColor);
         let pressingTint = hexToColor(pressingTintColor);
 
-        this.on('pointerover', () => {
+        this.on("pointerover", () => {
             this.scene.tweens.addCounter({
                 targets: targets,
                 from: 0,
@@ -184,7 +184,7 @@ export default class Button extends InteractiveContainer {
                 repeat: 0,
             });
         });
-        this.on('pointerout', () => {
+        this.on("pointerout", () => {
             this.scene.tweens.addCounter({
                 targets: this,
                 from: 0,
@@ -200,7 +200,7 @@ export default class Button extends InteractiveContainer {
             });
         });
 
-        this.on('pointerdown', () => {
+        this.on("pointerdown", () => {
             let fadeColor = this.scene.tweens.addCounter({
                 targets: this,
                 from: 0,
@@ -215,7 +215,7 @@ export default class Button extends InteractiveContainer {
                 repeat: 0,
                 yoyo: true
             });
-            fadeColor.on('complete', () => {
+            fadeColor.on("complete", () => {
                 if (onClick != null && typeof onClick == "function") {
                     onClick();
                 }
