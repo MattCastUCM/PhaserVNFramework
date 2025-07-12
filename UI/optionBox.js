@@ -29,9 +29,8 @@ export default class OptionBox extends Button {
             imgOriginX: 0.5,
             imgOriginY: 0.5,
             imgAlpha: 1,
-
-            scaleX: 1,
-            scaleY: 1,
+            imgScaleX: 1,
+            imgScaleY: 1,
 
             boxSpacing: 10,
 

@@ -31,9 +31,8 @@ export default class DialogBox extends InteractiveContainer {
             imgOriginX: 0.5,
             imgOriginY: 0.5,
             imgAlpha: 1,
-
-            scaleX: 1,
-            scaleY: 1,
+            imgScaleX: 1,
+            imgScaleY: 1,
 
             textX: 225,
             textY: 630,
@@ -55,9 +54,8 @@ export default class DialogBox extends InteractiveContainer {
             imgOriginX: 0.5,
             imgOriginY: 0.5,
             imgAlpha: 1,
-
-            scaleX: 1,
-            scaleY: 1,
+            imgScaleX: 1,
+            imgScaleY: 1,
 
             textX: 450,
             textY: 570,
@@ -94,7 +92,7 @@ export default class DialogBox extends InteractiveContainer {
                 .setAlpha(this.textboxConfig.imgAlpha);
         }
         this.textObj = new TextArea(scene, this.textboxConfig.textX, this.textboxConfig.textY, this.textboxConfig.realWidth, this.textboxConfig.realHeight, "", this.textConfig, debug)
-            .setOrigin(this.textboxConfig.textOriginX, this.textboxConfig.textOriginY).setScale(this.textboxConfig.scaleX, this.textboxConfig.scaleY);
+            .setOrigin(this.textboxConfig.textOriginX, this.textboxConfig.textOriginY);
 
         // Crear la imagen y el texto de la caja de nombre
         if (this.nameBoxConfig.img) {
@@ -110,7 +108,7 @@ export default class DialogBox extends InteractiveContainer {
             }
         }
         this.nameTextObj = new TextArea(scene, this.nameBoxConfig.textX, this.nameBoxConfig.textY, this.nameBoxConfig.realWidth, this.nameBoxConfig.realHeight, "", this.nameTextConfig)
-            .setOrigin(this.nameBoxConfig.textOriginX, this.nameBoxConfig.textOriginY).setScale(this.nameBoxConfig.scaleX, this.nameBoxConfig.scaleY);
+            .setOrigin(this.nameBoxConfig.textOriginX, this.nameBoxConfig.textOriginY);
 
 
         // Anadir los elementos al container
