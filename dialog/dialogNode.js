@@ -1,4 +1,5 @@
 import EventDispatcher from "../managers/eventDispatcher.js";
+import LocalizationManager from "../managers/localizationManager.js";
 import DefaultEventNames from "../utils/eventNames.js";
 
 export default class DialogNode {
@@ -17,6 +18,7 @@ export default class DialogNode {
     constructor(scene) {
         this.scene = scene;
         this.dispatcher = EventDispatcher.getInstance();
+        this.localizationManager = LocalizationManager.getInstance();
 
         this.id = "";                   // id del nodo dentro del objeto en el que se encuentra
         this.fullId = "";               // id completa del nodo en el archivo en general
@@ -45,4 +47,5 @@ export default class DialogNode {
             this.dispatcher.dispatch(DefaultEventNames.endNodes);
         }
     }
+
 }

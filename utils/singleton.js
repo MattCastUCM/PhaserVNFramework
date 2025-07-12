@@ -3,14 +3,18 @@ export default class Singleton {
     * Clase base para los singletons 
     * @param {String} className - nombre de la clase. Se usa solo para el mensaje de la constructora
     */
+
+    static instance = null;
+
     constructor(className = "Singleton") {
-        if (this.constructor.instance === undefined) {
-            this.constructor.instance = this;
+        const Class = this.constructor;
+        if (!Class.instance) {
+            Class.instance = this;
         }
         else {
-            console.warn(className,"is a Singleton class!");
+            console.warn(className, "is a Singleton class!");
         }
-        return this.constructor.instance;
+        return Class.instance;
     }
 
     /**

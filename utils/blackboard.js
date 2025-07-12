@@ -15,7 +15,7 @@ export default class Blackboard extends Map {
     * Establece un valor en la blackboard
     * @param {String} key - valor que se va a cambiar
     * @param {Object} value - valor que se le va a poner al valor a cambiar
-    * @returns {boolean} - true si se ha sobrescrito un valor. false en caso contrario
+    * @returns {boolean} - si se ha sobreescrito un valor (true) o no (false)
     */
     set(key, value) {
         let exists = false;

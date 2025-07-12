@@ -6,8 +6,6 @@ import InteractiveContainer from "../UI/interactiveContainer.js";
 import DefaultEventNames from "../utils/eventNames.js";
 import { splitByWord } from "../utils/misc.js";
 
-import xApiTracker from "../lib/xApiTracker.js";
-
 export default class BaseUI extends BaseScene {
     /**
     * Clase base para la escena en la que se crean los elementos para la interfaz
@@ -79,7 +77,8 @@ export default class BaseUI extends BaseScene {
                 let dialogs = [];
 
                 node.dialogs.forEach((dialog) => {
-                    this.splitDialog(dialogs, this.localizationManager.replaceRegularExpressions(dialog));
+                    this.splitDialog(dialogs, dialog);
+                    // this.splitDialog(dialogs, this.localizationManager.replaceRegularExpressions(dialog));
                 })
                 node.dialogs = dialogs;
                 node.textAdjusted = true;
@@ -211,10 +210,11 @@ export default class BaseUI extends BaseScene {
         // Recorre todos los textos de las opciones
         for (let i = 0; i < node.choices.length; i++) {
             // Crea una OptionBox cuyo onClick establece como siguiente nodo el correspondiente al indice de la opcion elegida y elimina el resto de opciones
-            let opt = new OptionBox(this, i, node.choices.length, this.localizationManager.replaceRegularExpressions(node.choices[i]), () => {
+            // let opt = new OptionBox(this, i, node.choices.length, this.localizationManager.replaceRegularExpressions(node.choices[i]), () => {
+            let opt = new OptionBox(this, i, node.choices.length, node.choices[i], () => {
                 // TRACKER EVENT
-                xApiTracker.alternativeTracker.Selected(node.fullId, node.choices[i], JSTracker.ALTERNATIVETYPE.DIALOG);               
-                
+                this.trackerManager.sendSelectChoice(node.fullId, node.choices[i]);
+
                 // TODO: quizas revisar?
                 node.nextIndex = i;
                 node.nextNode();

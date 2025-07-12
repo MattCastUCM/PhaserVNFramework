@@ -1,7 +1,5 @@
 import Singleton from "../utils/singleton.js";
-
-import xApiTracker from "../lib/xApiTracker.js";
-import { getDifferenceTimeInS } from "../utils/misc.js";
+import BaseTrackerManager from "./baseTrackerManager.js";
 
 export default class SceneManager extends Singleton {
     /**
@@ -18,7 +16,7 @@ export default class SceneManager extends Singleton {
         this.DEFAULT_FADE_OUT_TIME = 200;
         this.DEFAULT_FADE_IN_TIME = 200;
 
-        this.lastSceneTime = null;
+        this.trackerManager = BaseTrackerManager.getInstance();
     }
 
     init(scene) {
@@ -26,7 +24,7 @@ export default class SceneManager extends Singleton {
         this.runningScenes.add(this.currentScene);
 
         // TRACKER EVENT
-        this.sendStartScene(scene);
+        this.trackerManager.sendInitializeScene(scene.scene.key);
     }
 
     /**
@@ -100,7 +98,7 @@ export default class SceneManager extends Singleton {
 
         let change = (cam, effect) => {
             // TRACKER EVENT
-            this.sendEndScene(this.currentScene);
+            this.trackerManager.sendCompleteScene(this.currentScene.scene.key);
 
             // Si se puede regresar a la escena de la que se viene, se duerme 
             // para mantener su estado por si se quiere volver a ella
@@ -134,7 +132,7 @@ export default class SceneManager extends Singleton {
             }
 
             // TRACKER EVENT
-            this.sendStartScene(this.currentScene);
+            this.trackerManager.sendInitializeScene(sceneKey);
         }
         if (anim) {
             // Cuando acaba el fade out de la escena actual se cambia a la siguiente
@@ -145,17 +143,6 @@ export default class SceneManager extends Singleton {
         else {
             change(null, null);
         }
-    }
-
-    sendStartScene(scene) {
-        xApiTracker.accessibleTracker.Accessed(scene.scene.key, JSTracker.ACCESSIBLETYPE.SCREEN);
-        this.lastSceneTime = new Date();
-    }
-
-    sendEndScene(scene) {
-        let duration = getDifferenceTimeInS(this.lastSceneTime);
-        xApiTracker.completableTracker.Completed(scene.scene.key, JSTracker.COMPLETABLETYPE.COMPLETABLE, null, true, 1)
-            .withDuration(duration);
     }
 
     /**

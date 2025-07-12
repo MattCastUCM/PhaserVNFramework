@@ -93,6 +93,7 @@ export default class Button extends InteractiveContainer {
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
         normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
     {
+        // TODO: probablemente se podria hacer con Shape, que es la version mejor o no crear la textura, porque nunca se va a reutilizar
         createRectTexture(this.scene, textureId, this.rectWidth, this.rectHeight, fillColor, fillAlpha, borderThickness, borderNormalColor, borderAlpha, radiusPercentage);
 
         // Se crea la imagen en base a la textura

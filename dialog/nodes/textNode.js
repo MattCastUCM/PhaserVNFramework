@@ -1,8 +1,7 @@
 import DialogNode from "../dialogNode.js";
 import LocalizationManager from "../../managers/localizationManager.js";
 import DefaultEventNames from "../../utils/eventNames.js";
-
-import xApiTracker from "../../lib/xApiTracker.js";
+import BaseTrackerManager from "../../managers/baseTrackerManager.js";
 
 export default class TextNode extends DialogNode {
     /**
@@ -45,11 +44,11 @@ export default class TextNode extends DialogNode {
     */
     constructor(scene, node, fullId, namespace) {
         super(scene);
-        let localizationManager = LocalizationManager.getInstance();
+        this.trackerManager = BaseTrackerManager.getInstance();
 
         // Se obtiene la id y nombre traducido del personaje
         this.character = node.character;                                            // id del personaje que habla
-        this.name = localizationManager.translate(this.character, "names");         // nombre traducido del personaje que habla
+        this.name = this.localizationManager.translate(this.character, "names");    // nombre traducido del personaje que habla
 
         this.dialogs = [];                                                          // serie de dialogos que se van a mostrar
         this.currDialog = 0;                                                        // indice del dialogo que se esta mostrando
@@ -57,7 +56,7 @@ export default class TextNode extends DialogNode {
         this.centered = (node.centered == null) ? false : node.centered;            // indica si el texto esta centrado o no (en caso de que no se especifique aparece alineado arriba a la izquierda)
 
         // Se obtiene el dialogo traducido
-        let translation = localizationManager.translate(fullId, namespace, true);
+        let translation = this.localizationManager.translate(fullId, namespace, true);
 
         // Si el texto no esta dividido en fragmentos, se guarda en el array de fragmentos
         // si no, el array de fragmentos es directamente el obtenido al traducir el nodo
@@ -67,6 +66,11 @@ export default class TextNode extends DialogNode {
         else if (Array.isArray(translation) && translation.length > 0) {
             this.dialogs = translation;
         }
+
+        // Se sustituyen las expresiones regulares
+        this.dialogs.forEach((dialog, index, dialogs) => {
+            dialogs[index] = this.localizationManager.replaceRegularExpressions(dialog)
+        });
 
         // Guarda el siguiente nodo en la lista de siguientes
         if (node.next != null && node.next != "") {
@@ -82,7 +86,7 @@ export default class TextNode extends DialogNode {
         // Si hay dialogos
         if (this.dialogs.length > 0) {
             // TRACKER EVENT
-            this.sendInitializeTextNode();
+            this.trackerManager.sendInitializeDialog(this.name, this.dialogs[this.currDialog]);
 
             // Se lanza el evento de empezar nodo de texto
             this.dispatcher.dispatch(DefaultEventNames.startTextNode, this);
@@ -90,7 +94,7 @@ export default class TextNode extends DialogNode {
             // Se escucha el evento de siguiente dialogo
             this.dispatcher.add(DefaultEventNames.nextDialog, this, () => {
                 // TRACKER EVENT
-                this.sendCompleteTextNode();
+                this.trackerManager.sendCompleteDialog(this.name, this.dialogs[this.currDialog]);
 
                 // Se actualiza el dialogo
                 this.currDialog++;
@@ -98,7 +102,8 @@ export default class TextNode extends DialogNode {
                 // Si sigue habiendo mas dialogos, se lanza el evento de pasar al siguiente dialogo
                 if (this.currDialog < this.dialogs.length) {
                     // TRACKER EVENT
-                    this.sendInitializeTextNode();
+                    this.trackerManager.sendInitializeDialog(this.name, this.dialogs[this.currDialog]);
+
 
                     this.dispatcher.dispatch(DefaultEventNames.updateTextNode, this);
                 }
@@ -108,13 +113,5 @@ export default class TextNode extends DialogNode {
                 }
             });
         }
-    }
-
-    sendInitializeTextNode() {
-        xApiTracker.completableTracker.Initialized(`${this.name} ${this.dialogs[this.currDialog]}`, JSTracker.COMPLETABLETYPE.STORYNODE);
-    }
-
-    sendCompleteTextNode() {
-        xApiTracker.completableTracker.Completed(`${this.name} ${this.dialogs[this.currDialog].text}`, JSTracker.COMPLETABLETYPE.STORYNODE, null, true, 1);
     }
 }

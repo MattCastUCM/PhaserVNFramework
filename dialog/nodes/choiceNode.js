@@ -44,7 +44,12 @@ export default class ChoiceNode extends DialogNode {
         this.choices = [];              // Lista con el texto traducido de cada opcion
 
         // Obtiene el texto traducido de las opciones y lo guarda en la lista
-        this.choices = LocalizationManager.getInstance().translate(fullId, namespace, true);
+        this.choices = this.localizationManager.translate(fullId, namespace, true);
+
+        // Se sustituye usando las expresiones regulares
+        this.choices.forEach((choice, index, choices) => {
+            choices[index] = this.localizationManager.replaceRegularExpressions(choice)
+        });
 
         // Recorre cada opcion del nodo y guarda el nodo siguiente a cada opcion
         node.choices.forEach((choice) => {

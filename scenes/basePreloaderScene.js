@@ -1,6 +1,8 @@
 import SceneManager from "../managers/sceneManager.js";
 import LocalizationManager from "../managers/localizationManager.js";
 import EventDispatcher from "../managers/eventDispatcher.js";
+import BaseTrackerManager from "../managers/baseTrackerManager.js";
+import createSeriousGameTracker from "../lib/seriousGameTracker.js";
 
 export default class BasePreloaderScene extends Phaser.Scene {
     /**
@@ -89,7 +91,11 @@ export default class BasePreloaderScene extends Phaser.Scene {
         this.load.setPath("");
     }
 
-    create() {
+    async create(gameTitle) {
+        this.seriousGameTracker = await createSeriousGameTracker(gameTitle);
+        let baseTrackerManager = BaseTrackerManager.create();
+        baseTrackerManager.init(this.seriousGameTracker, gameTitle);
+
         let sceneManager = SceneManager.create();
         sceneManager.init(this);
         // sceneManager.fadeIn();

@@ -2,8 +2,8 @@ import Blackboard from "../utils/blackboard.js";
 import SceneManager from "../managers/sceneManager.js";
 import LocalizationManager from "../managers/localizationManager.js";
 import EventDispatcher from "../managers/eventDispatcher.js";
-
 import { setInteractive } from "../utils/misc.js";
+import BaseTrackerManager from "../managers/baseTrackerManager.js";
 
 export default class BaseScene extends Phaser.Scene {
     /**
@@ -29,6 +29,7 @@ export default class BaseScene extends Phaser.Scene {
         this.sceneManager = SceneManager.getInstance();
         this.localizationManager = LocalizationManager.getInstance();
         this.dispatcher = EventDispatcher.getInstance();
+        this.trackerManager = BaseTrackerManager.getInstance();
 
         this.localizationManager.subscribeBlackboard(this.blackboard);
 
