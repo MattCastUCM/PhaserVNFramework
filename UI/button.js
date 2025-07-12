@@ -30,6 +30,7 @@ export default class Button extends InteractiveContainer {
     * @param {String} text - texto a escribir
     * @param {Object} textConfig - configuracion del texto
     * @param {Function} onClick - funcion a llamar al pulsar el boton
+    * @param {String} imgAtlas - id del atlas en el que esta la imagen de fondo
     * @param {String} img - id de la imagen a utilizar de fondo
     * @param {Number} imgOriginX - origen x de la imagen [0-1] (opcional)
     * @param {Number} imgOriginY - origen y de la imagen [0-1] (opcional)
@@ -53,7 +54,20 @@ export default class Button extends InteractiveContainer {
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
         normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696)
     {
-        this.image = this.scene.add.image(this.posX, this.posY, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
+        this.createImgButtonWithAtlas(text, textConfig, onclick, "", img, imgOriginX, imgOriginY, imgScaleX, imgScaleY, imgAlpha, textPaddingX, textPaddingY, 
+            textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY, normalTintColor, hoverTintColor, pressingTintColor);
+    }
+    createImgButtonWithAtlas(text = "", textConfig = {}, onClick = () => { },
+        imgAtlas = "", img = "", imgOriginX = 0.5, imgOriginY = 0.5, imgScaleX = 1, imgScaleY = 1, imgAlpha = 1,
+        textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
+        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
+    {
+        if (imgAtlas == "") {
+            this.image = this.scene.add.image(this.posX, this.posY, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
+        }
+        else {
+            this.image = this.scene.add.image(this.posX, this.posY, imgAtlas, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
+        }
         this.add(this.image);
 
         this.textObj = this.createText(text, textConfig, textPaddingX, textPaddingY, textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY);
@@ -63,6 +77,8 @@ export default class Button extends InteractiveContainer {
         this.setInteractive();
         this.animateButton([this.image, this.textObj], onClick, normalTintColor, hoverTintColor, pressingTintColor);
     }
+
+
 
     /**
     * Crea el boton con un rectangulo de fondo

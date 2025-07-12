@@ -24,6 +24,7 @@ export default class OptionBox extends Button {
             collectiveTopMargin: 0,
 
             imgX: this.CANVAS_WIDTH / 2,
+            imgAtlas: "",
             img: "optionBox",
             imgOriginX: 0.5,
             imgOriginY: 0.5,
@@ -110,7 +111,7 @@ export default class OptionBox extends Button {
     }
 
     createImgButton(text, onClick) {
-        super.createImgButton(text, this.textConfig, onClick, this.boxConfig.img, this.boxConfig.imgOriginX, this.boxConfig.imgOriginY, this.boxConfig.scaleX, 
+        super.createImgButton(text, this.textConfig, onClick, this.boxConfig.imgAtlas, this.boxConfig.img, this.boxConfig.imgOriginX, this.boxConfig.imgOriginY, this.boxConfig.scaleX, 
             this.boxConfig.scaleY, this.boxConfig.imgAlpha, this.boxConfig.textPaddingX, this.boxConfig.textPaddingY, this.boxConfig.textOffsetX, this.boxConfig.textOffsetY,
             this.boxConfig.textOriginX, this.boxConfig.textOriginY, this.boxConfig.textAlignX, this.boxConfig.textAlignY);
     }

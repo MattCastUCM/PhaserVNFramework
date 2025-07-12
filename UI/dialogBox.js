@@ -26,6 +26,7 @@ export default class DialogBox extends InteractiveContainer {
         let DEFAULT_TEXTBOX_CONFIG = {
             imgX: this.CANVAS_WIDTH / 2,
             imgY: this.CANVAS_HEIGHT * 0.77,
+            imgAtlas: "",
             img: "textbox",
             imgOriginX: 0.5,
             imgOriginY: 0.5,
@@ -49,6 +50,7 @@ export default class DialogBox extends InteractiveContainer {
         let DEFAULT_NAMEBOX_CONFIG = {
             imgX: 310,
             imgY: 550,
+            imgAtlas: "",
             img: "nameBox",
             imgOriginX: 0.5,
             imgOriginY: 0.5,
@@ -81,17 +83,31 @@ export default class DialogBox extends InteractiveContainer {
         }
 
         // Crear la imagen y el texto de la caja de texto
-        this.box = scene.add.image(this.textboxConfig.imgX, this.textboxConfig.imgY, this.textboxConfig.img)
-            .setOrigin(this.textboxConfig.imgOriginX, this.textboxConfig.imgOriginY).setScale(this.textboxConfig.scaleX, this.textboxConfig.scaleY)
-            .setAlpha(this.textboxConfig.imgAlpha);
+        if (this.textboxConfig.imgAtlas == "") {
+            this.box = scene.add.image(this.textboxConfig.imgX, this.textboxConfig.imgY, this.textboxConfig.img)
+                .setOrigin(this.textboxConfig.imgOriginX, this.textboxConfig.imgOriginY).setScale(this.textboxConfig.scaleX, this.textboxConfig.scaleY)
+                .setAlpha(this.textboxConfig.imgAlpha);
+        }
+        else {
+            this.box = scene.add.image(this.textboxConfig.imgX, this.textboxConfig.imgY, this.textboxConfig.imgAtlas, this.textboxConfig.img)
+                .setOrigin(this.textboxConfig.imgOriginX, this.textboxConfig.imgOriginY).setScale(this.textboxConfig.scaleX, this.textboxConfig.scaleY)
+                .setAlpha(this.textboxConfig.imgAlpha);
+        }
         this.textObj = new TextArea(scene, this.textboxConfig.textX, this.textboxConfig.textY, this.textboxConfig.realWidth, this.textboxConfig.realHeight, "", this.textConfig, debug)
             .setOrigin(this.textboxConfig.textOriginX, this.textboxConfig.textOriginY).setScale(this.textboxConfig.scaleX, this.textboxConfig.scaleY);
 
         // Crear la imagen y el texto de la caja de nombre
         if (this.nameBoxConfig.img) {
-            this.nameBox = scene.add.image(this.nameBoxConfig.imgX, this.nameBoxConfig.imgY, this.nameBoxConfig.img)
-                .setOrigin(this.nameBoxConfig.imgOriginX, this.nameBoxConfig.imgOriginY).setScale(this.nameBoxConfig.scaleX, this.nameBoxConfig.scaleY)
-                .setAlpha(this.textboxConfig.imgAlpha);
+            if (this.nameBoxConfig.imgAtlas == "") {
+                this.nameBox = scene.add.image(this.nameBoxConfig.imgX, this.nameBoxConfig.imgY, this.nameBoxConfig.img)
+                    .setOrigin(this.nameBoxConfig.imgOriginX, this.nameBoxConfig.imgOriginY).setScale(this.nameBoxConfig.scaleX, this.nameBoxConfig.scaleY)
+                    .setAlpha(this.textboxConfig.imgAlpha);
+            }
+            else {
+                this.nameBox = scene.add.image(this.nameBoxConfig.imgX, this.nameBoxConfig.imgY, this.nameBoxConfig.imgAtlas, this.nameBoxConfig.img)
+                    .setOrigin(this.nameBoxConfig.imgOriginX, this.nameBoxConfig.imgOriginY).setScale(this.nameBoxConfig.scaleX, this.nameBoxConfig.scaleY)
+                    .setAlpha(this.textboxConfig.imgAlpha);
+            }
         }
         this.nameTextObj = new TextArea(scene, this.nameBoxConfig.textX, this.nameBoxConfig.textY, this.nameBoxConfig.realWidth, this.nameBoxConfig.realHeight, "", this.nameTextConfig)
             .setOrigin(this.nameBoxConfig.textOriginX, this.nameBoxConfig.textOriginY).setScale(this.nameBoxConfig.scaleX, this.nameBoxConfig.scaleY);
