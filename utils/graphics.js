@@ -1,3 +1,5 @@
+import { setInteractive } from "./misc.js";
+
 // Configuracion de texto por defecto
 export let DEFAULT_TEXT_CONFIG = {
     fontFamily: "Arial",        // Fuente (tiene que estar precargada en el html o el css)
@@ -59,9 +61,8 @@ export function hexToColor(hex) {
 * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
 * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
 */
-export function createRectTexture(scene, textureId = "rectTexture", width, height, 
-    fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1, radiusPercentage = 0)
-{
+export function createRectTexture(scene, textureId = "rectTexture", width, height,
+    fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1, radiusPercentage = 0) {
     if (!scene.textures.exists(textureId)) {
         // Se crea el rectangulo con el borde
         let graphics = scene.add.graphics();
@@ -79,7 +80,18 @@ export function createRectTexture(scene, textureId = "rectTexture", width, heigh
     }
 }
 
-export function createCircleTexture(scene, textureId = "circleTexture", radius, 
+/**
+* Crea una textura a partir de un circulo con las caracteristicas indicadas
+* @param {Phaser.Scene} scene - escena con acceso a las texturas existentes
+* @param {String} textureId - id de la textura que se creara para el circulo. Si no se especifica, se reutilizara la del primer circulo sin id que se cree
+* @param {Number} radius - radio del circulo
+* @param {Number} fillColor - valor hex del color por defecto del circulo (opcional)
+* @param {Number} fillAlpha - alpha del circulo [0-1] (opcional) 
+* @param {Number} borderThickness - ancho del borde del circulo (opcional)
+* @param {Number} borderNormalColor - valor hex del color por defecto del borde (opcional)
+* @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
+*/
+export function createCircleTexture(scene, textureId = "circleTexture", radius,
     fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1) 
 {
     if (!scene.textures.exists(textureId)) {
@@ -94,4 +106,130 @@ export function createCircleTexture(scene, textureId = "circleTexture", radius,
         graphics.generateTexture(textureId, (radius + borderThickness) * 2, (radius + borderThickness) * 2);
         graphics.destroy();
     }
+}
+
+/**
+* Anadir animacion de cambio de color al pasar y quitar el raton por encima
+* @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
+* @param {Array} targets - objetos que cambiar de color 
+* @param {Function} onClick - funcion a llamar al pulsar el boton
+* @param {Number} scaleFactor - escala respecto de la escala del boton que crecera al pasar el puntero por encima
+* @param {Boolean} smooth - si la animacion es progresiva o inmediata
+* @param {Number} duration - tiempo que dura la animacino
+*/
+export function growAnimation(button, targets, onClick = () => { }, scaleFactor = 1.1, smooth = true, duration = 20) {
+    setInteractive(button);
+
+    let originalScale = button.scale;
+    let growDuration = smooth ? duration : 0;
+
+    // Al pasar el raton por encima del icono, se hace mas grande
+    button.on('pointerover', () => {
+        button.scene.tweens.add({
+            targets: targets,
+            scale: originalScale * scaleFactor,
+            duration: growDuration,
+            repeat: 0,
+        });
+    });
+    // Al quitar el raton de encima vuelve a su tamano original
+    button.on('pointerout', () => {
+        button.scene.tweens.add({
+            targets: targets,
+            scale: originalScale,
+            duration: growDuration,
+            repeat: 0,
+        });
+    });
+    // Al pulsar, se hace pequeno y grande de nuevo y se activa/desactiva el telefono
+    button.on('pointerdown', () => {
+        let anim = button.scene.tweens.add({
+            targets: targets,
+            scale: originalScale,
+            duration: duration,
+            repeat: 0,
+            yoyo: true
+        });
+
+        // Al terminar la animacion se ejecucta el onClick
+        anim.on("complete", () => {
+            if (onClick != null && typeof onClick == "function") {
+                onClick();
+            }
+        });
+    });
+}
+
+
+/**
+* Anadir animacion de cambio de color al pasar y quitar el raton por encima
+* @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
+* @param {Array} targets - objetos que cambiar de color 
+* @param {Function} onClick - funcion a llamar al pulsar el boton
+* @param {Number} normalTintColor - valor hex del color normal (opcional)
+* @param {Number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
+* @param {Number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
+* @param {Number} duration - tiempo que dura la animacino
+*/
+export function tintAnimation(button, targets, onClick = () => { }, normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696, duration = 50) {
+    setInteractive(button);
+
+    let normalTint = hexToColor(normalTintColor);
+    let hoverTint = hexToColor(hoverTintColor);
+    let pressingTint = hexToColor(pressingTintColor);
+    
+    button.on("pointerover", () => {
+        button.scene.tweens.addCounter({
+            targets: button,
+            from: 0,
+            to: 100,
+            onUpdate: (tween) => {
+                const value = tween.getValue();
+                let col = Phaser.Display.Color.Interpolate.ColorWithColor(normalTint, hoverTint, 100, value);
+                let colInt = Phaser.Display.Color.GetColor(col.r, col.g, col.b);
+                Phaser.Actions.SetTint(targets, colInt);
+            },
+            duration: duration,
+            repeat: 0,
+        });
+    });
+    button.on("pointerout", () => {
+        button.scene.tweens.addCounter({
+            targets: button,
+            from: 0,
+            to: 100,
+            onUpdate: (tween) => {
+                const value = tween.getValue();
+                let col = Phaser.Display.Color.Interpolate.ColorWithColor(hoverTint, normalTint, 100, value);
+                let colInt = Phaser.Display.Color.GetColor(col.r, col.g, col.b);
+                Phaser.Actions.SetTint(targets, colInt);
+            },
+            duration: duration,
+            repeat: 0,
+        });
+    });
+
+    button.on("pointerdown", () => {
+        let fadeColor = button.scene.tweens.addCounter({
+            targets: button,
+            from: 0,
+            to: 100,
+            onUpdate: (tween) => {
+                const value = tween.getValue();
+                let col = Phaser.Display.Color.Interpolate.ColorWithColor(hoverTint, pressingTint, 100, value);
+                let colInt = Phaser.Display.Color.GetColor(col.r, col.g, col.b);
+                Phaser.Actions.SetTint(targets, colInt);
+            },
+            duration: duration,
+            repeat: 0,
+            yoyo: true
+        });
+
+        // Al terminar la animacion se ejecucta el onClick
+        fadeColor.on("complete", () => {
+            if (onClick != null && typeof onClick == "function") {
+                onClick();
+            }
+        });
+    });
 }

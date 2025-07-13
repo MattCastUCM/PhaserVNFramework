@@ -1,6 +1,6 @@
 import InteractiveContainer from "./interactiveContainer.js";
 import TextArea from "./textArea.js";
-import { createRectTexture, hexToColor } from "../utils/graphics.js";
+import { createRectTexture, tintAnimation } from "../utils/graphics.js";
 
 export default class Button extends InteractiveContainer {
     /**
@@ -75,7 +75,7 @@ export default class Button extends InteractiveContainer {
 
         this.calculateRectangleSize();
         this.setInteractive();
-        this.animateButton([this.image, this.textObj], onClick, normalTintColor, hoverTintColor, pressingTintColor);
+        tintAnimation(this.image, [this.image, this.textObj], onClick, normalTintColor, hoverTintColor, pressingTintColor);
     }
 
 
@@ -121,7 +121,7 @@ export default class Button extends InteractiveContainer {
 
         this.calculateRectangleSize();
         this.setInteractive();
-        this.animateButton([this.image, this.textObj], onClick, normalTintColor, hoverTintColor, pressingTintColor);
+        tintAnimation(this.image, [this.image, this.textObj], onClick, normalTintColor, hoverTintColor, pressingTintColor);
     }
 
     /**
@@ -151,75 +151,5 @@ export default class Button extends InteractiveContainer {
         textObj.adjustFontSize();
 
         return textObj;
-    }
-
-
-    /**
-    * Se anaden las animaciones de pasar y quitar el puntero y de pulsar
-    * @param {Array} targets - objetos que cambiar de color 
-    * @param {Function} onClick - funcion a llamar al pulsar el boton
-    * @param {Number} normalTintColor - valor hex del color normal (opcional)
-    * @param {Number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
-    * @param {Number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
-    */
-    animateButton(targets, onClick = () => { }, normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) {
-        let tintFadeTime = 50;
-
-        let normalTint = hexToColor(normalTintColor);
-        let hoverTint = hexToColor(hoverTintColor);
-        let pressingTint = hexToColor(pressingTintColor);
-
-        this.on("pointerover", () => {
-            this.scene.tweens.addCounter({
-                targets: targets,
-                from: 0,
-                to: 100,
-                onUpdate: (tween) => {
-                    const value = tween.getValue();
-                    let col = Phaser.Display.Color.Interpolate.ColorWithColor(normalTint, hoverTint, 100, value);
-                    let colInt = Phaser.Display.Color.GetColor(col.r, col.g, col.b);
-                    Phaser.Actions.SetTint(targets, colInt);
-                },
-                duration: tintFadeTime,
-                repeat: 0,
-            });
-        });
-        this.on("pointerout", () => {
-            this.scene.tweens.addCounter({
-                targets: this,
-                from: 0,
-                to: 100,
-                onUpdate: (tween) => {
-                    const value = tween.getValue();
-                    let col = Phaser.Display.Color.Interpolate.ColorWithColor(hoverTint, normalTint, 100, value);
-                    let colInt = Phaser.Display.Color.GetColor(col.r, col.g, col.b);
-                    Phaser.Actions.SetTint(targets, colInt);
-                },
-                duration: tintFadeTime,
-                repeat: 0,
-            });
-        });
-
-        this.on("pointerdown", () => {
-            let fadeColor = this.scene.tweens.addCounter({
-                targets: this,
-                from: 0,
-                to: 100,
-                onUpdate: (tween) => {
-                    const value = tween.getValue();
-                    let col = Phaser.Display.Color.Interpolate.ColorWithColor(hoverTint, pressingTint, 100, value);
-                    let colInt = Phaser.Display.Color.GetColor(col.r, col.g, col.b);
-                    Phaser.Actions.SetTint(targets, colInt);
-                },
-                duration: tintFadeTime,
-                repeat: 0,
-                yoyo: true
-            });
-            fadeColor.on("complete", () => {
-                if (onClick != null && typeof onClick == "function") {
-                    onClick();
-                }
-            });
-        });
     }
 }
