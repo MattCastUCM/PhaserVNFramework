@@ -67,9 +67,6 @@ export default class LocalizationManager extends Singleton {
                     if (str[i].text != null) {
                         str[i] = str[i].text;
                     }
-                    else {
-                        str[i] = str;
-                    }
                 }
             }
         }
