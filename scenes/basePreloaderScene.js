@@ -69,6 +69,7 @@ export default class BasePreloaderScene extends Phaser.Scene {
         this.i18nConfig = {
             defaultLanguage: "es",
             supportedLanguages: ["es", "fr"],
+            debug: false
         }
     }
 
@@ -205,7 +206,7 @@ export default class BasePreloaderScene extends Phaser.Scene {
             // basicNamespaces a cargar (archivos de traduccion)
             ns: allNamespaces,
             // Modo debug (logs por consola)
-            debug: this.sys.game.debug.enable,
+            debug: this.i18nConfig.debug,
             // Ruta base para cargar los archivos de traduccion en formato JSON
             backend: {
                 // {{lng}} --> nombre de las carpetas de idiomas

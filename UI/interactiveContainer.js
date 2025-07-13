@@ -47,10 +47,12 @@ export default class InteractiveContainer extends AnimatedContainer {
     * @param {String} objectName - nombre del objeto a imprimir en el debug (opcional)
     */
     calculateRectangleSize(debug = false, objectName = "") {
+        // Esta en coordenadas globlaes
         let dims = this.getBounds();
         this.setSize(dims.width, dims.height);
 
-        let rectangle = new Phaser.Geom.Rectangle(dims.x + dims.width / 2, dims.y + dims.height / 2, dims.width, dims.height);
+        let rectangle = new Phaser.Geom.Rectangle(dims.x + dims.width / 2 - this.x, dims.y + dims.height / 2 - this.y,
+            dims.width, dims.height);
 
         setInteractive(this, {
             hitArea: rectangle,

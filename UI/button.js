@@ -17,10 +17,8 @@ export default class Button extends InteractiveContainer {
     * @param {Number} height - alto maximo del boton
     */
     constructor(scene, x, y, width, height) {
-        super(scene);
+        super(scene, x, y);
 
-        this.posX = x;
-        this.posY = y;
         this.rectWidth = width;
         this.rectHeight = height;
     }
@@ -52,21 +50,19 @@ export default class Button extends InteractiveContainer {
     createImgButton(text = "", textConfig = {}, onClick = () => { },
         img = "", imgOriginX = 0.5, imgOriginY = 0.5, imgScaleX = 1, imgScaleY = 1, imgAlpha = 1,
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
-        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696)
-    {
-        this.createImgButtonWithAtlas(text, textConfig, onClick, "", img, imgOriginX, imgOriginY, imgScaleX, imgScaleY, imgAlpha, textPaddingX, textPaddingY, 
+        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) {
+        this.createImgButtonWithAtlas(text, textConfig, onClick, "", img, imgOriginX, imgOriginY, imgScaleX, imgScaleY, imgAlpha, textPaddingX, textPaddingY,
             textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY, normalTintColor, hoverTintColor, pressingTintColor);
     }
     createImgButtonWithAtlas(text = "", textConfig = {}, onClick = () => { },
         imgAtlas = "", img = "", imgOriginX = 0.5, imgOriginY = 0.5, imgScaleX = 1, imgScaleY = 1, imgAlpha = 1,
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
-        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
-    {
+        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) {
         if (imgAtlas == "") {
-            this.image = this.scene.add.image(this.posX, this.posY, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
+            this.image = this.scene.add.image(0, 0, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
         }
         else {
-            this.image = this.scene.add.image(this.posX, this.posY, imgAtlas, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
+            this.image = this.scene.add.image(0, 0, imgAtlas, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
         }
         this.add(this.image);
 
@@ -75,7 +71,7 @@ export default class Button extends InteractiveContainer {
 
         this.calculateRectangleSize();
         this.setInteractive();
-        tintAnimation(this.image, [this.image, this.textObj], onClick, normalTintColor, hoverTintColor, pressingTintColor);
+        tintAnimation(this, this.list, onClick, normalTintColor, hoverTintColor, pressingTintColor);
     }
 
 
@@ -107,21 +103,19 @@ export default class Button extends InteractiveContainer {
     createRectButton(text = "", textConfig = {}, onClick = () => { }, textureId = "buttonTexture",
         radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1,
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
-        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
-    {
-        // TODO: probablemente se podria hacer con Shape, que es la version mejor o no crear la textura, porque nunca se va a reutilizar
+        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) {
         createRectTexture(this.scene, textureId, this.rectWidth, this.rectHeight, fillColor, fillAlpha, borderThickness, borderNormalColor, borderAlpha, radiusPercentage);
 
         // Se crea la imagen en base a la textura
-        this.image = this.scene.add.image(this.posX, this.posY, textureId).setOrigin(0.5, 0.5);
+        this.image = this.scene.add.image(0, 0, textureId).setOrigin(0.5, 0.5);
         this.add(this.image);
 
-        this.textObj = this.createText(text, textConfig, textPaddingX, textPaddingY,textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY);
+        this.textObj = this.createText(text, textConfig, textPaddingX, textPaddingY, textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY);
         this.add(this.textObj);
 
         this.calculateRectangleSize();
         this.setInteractive();
-        tintAnimation(this.image, [this.image, this.textObj], onClick, normalTintColor, hoverTintColor, pressingTintColor);
+        tintAnimation(this, this.list, onClick, normalTintColor, hoverTintColor, pressingTintColor);
     }
 
     /**
@@ -138,14 +132,13 @@ export default class Button extends InteractiveContainer {
     * @param {Number} textAlignY - alineacion vertical del texto [0-1] (opcional)
     * @returns {TextArea} - texto creado
     */
-    createText(text = "", textConfig = {}, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, 
-        textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5) 
-    {
-        let textObj = new TextArea(this.scene, this.posX, this.posY, this.rectWidth - textPaddingX * 2, this.rectHeight - textPaddingY * 2, text, textConfig)
+    createText(text = "", textConfig = {}, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0,
+        textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5) {
+        let textObj = new TextArea(this.scene, 0, 0, this.rectWidth - textPaddingX * 2, this.rectHeight - textPaddingY * 2, text, textConfig)
             .setOrigin(textOriginX, textOriginY);
 
-        this.textX = this.posX - this.rectWidth * (0.5 - textAlignX) + textPaddingX * (0.5 - textAlignX) * 2 + textOffsetX;
-        this.textY = this.posY - this.rectHeight * (0.5 - textAlignY) + textPaddingY * (0.5 - textAlignY) * 2 + textOffsetY;
+        this.textX = -this.rectWidth * (0.5 - textAlignX) + textPaddingX * (0.5 - textAlignX) * 2 + textOffsetX;
+        this.textY = -this.rectHeight * (0.5 - textAlignY) + textPaddingY * (0.5 - textAlignY) * 2 + textOffsetY;
         textObj.setPosition(this.textX, this.textY);
 
         textObj.adjustFontSize();

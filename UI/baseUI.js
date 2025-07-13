@@ -1,7 +1,7 @@
 import BaseScene from "../scenes/baseScene.js";
 import DialogBox from "../UI/dialogBox.js"
 import OptionBox from "../UI/optionBox.js";
-import InteractiveContainer from "../UI/interactiveContainer.js";
+import AnimatedContainer from "./animatedContainer.js";
 
 import DefaultEventNames from "../utils/eventNames.js";
 import { splitByWord } from "../utils/misc.js";
@@ -34,7 +34,7 @@ export default class BaseUI extends BaseScene {
         this.bgBlock = this.add.rectangle(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT, 0x000, 0).setOrigin(0, 0);
         this.bgBlock.setInteractive();
 
-        this.bgElements = new InteractiveContainer(this, 0, 0);
+        this.bgElements = new AnimatedContainer(this, 0, 0);
         this.bgElements.setSize(1, 1);
         this.bgElements.add(this.bgBlock);
         this.bgElements.activate(false, null, 0);

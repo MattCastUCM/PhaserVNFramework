@@ -21,7 +21,7 @@ export default class TextArea extends Phaser.GameObjects.Text {
         this.debug = debug;
         if (this.debug) {
             this.debugRect = scene.add.rectangle(x, y, this.maxWidth, this.maxHeight, 0x000000, 0);
-            this.debugRect.setStrokeStyle(2, scene.sys.game.debug.color);
+            this.debugRect.setStrokeStyle(2, 0x00ff00);
         }
     }
 
@@ -77,6 +77,34 @@ export default class TextArea extends Phaser.GameObjects.Text {
 
 
         // console.log(fontSize);
+    }
+
+    /**
+    * Ajusta automaticamente el texto para que quepa dentro de los limites.
+    * Si el texto excede el tamano, se recorta progresivamente hasta que encoja
+    * 
+    * @param {Boolean} keepRight - Si es true, se recortan caracteres por la izquierda (se mantiene el final del texto).
+    *                              Si es false, se recortan por la derecha (se mantiene el inicio del texto).
+    * @param {String} - texto que se quiere ajustar. Si no se proporciona, se usara el texto actual.
+    * @param {Number} - cantidad de caracteres que se eliminan por iteracion (opcionaL9)
+    */
+    adjustTextLength(keepRight, text = "", reduction = 1) {
+        if (text == null || text == "") {
+            text = this.text;
+        }
+        if (text != "") {
+            while (this.maxWidth > 0 && this.maxHeight > 0 && text !== "" && !this.fits(text)) {
+                if (keepRight) {
+                    // Se elimina caracteres del inicio para mantener el final de texto
+                    text = text.slice(reduction - text.length);
+                }
+                else {
+                    // Se eliminan caracteres del final para mantener el inicio
+                    text = text.slice(0, -reduction);
+                }
+                this.setText(text);
+            }
+        }
     }
 
     setOrigin(x = 0.5, y = x) {

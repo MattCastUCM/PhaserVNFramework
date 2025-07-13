@@ -3,19 +3,20 @@ export default class Grid extends Phaser.GameObjects.Container {
     * Crea una cuadricula para organizar elementos visuales
     *
     * @param {Phaser.Scene} scene - escena donde se crea la cuadricula.
-    * @param {number} x - posicion x de la esquina superior izquierda
-    * @param {number} y - posicion y de la esquina superior izquierda
-    * @param {number} width - ancho total de la cuadricula
-    * @param {number} height - alto total de la cuadrícula
-    * @param {number} columns - nuemro de columnas
-    * @param {number} rows - numero de filas
-    * @param {number} margin - margen (espacio desde los bordes hacia dentro)
+    * @param {Number} x - posicion x de la esquina superior izquierda
+    * @param {Number} y - posicion y de la esquina superior izquierda
+    * @param {Number} width - ancho total de la cuadricula
+    * @param {Number} height - alto total de la cuadrícula
+    * @param {Number} columns - nuemro de columnas
+    * @param {Number} rows - numero de filas
+    * @param {Number} margin - margen (espacio desde los bordes hacia dentro)
+    * @param {Boolean} debug - mostrar el area total que ocupa la cuadricula (true) o no (false) (opcional)
     */
-    constructor(scene, x, y, width, height, columns, rows, margin) {
+    constructor(scene, x, y, width, height, columns, rows, margin, debug = false) {
         super(scene, x, y);
 
         scene.add.existing(this);
-        
+
         this.setSize(width, height);
         this.columns = columns;
         this.rows = rows;
@@ -29,10 +30,9 @@ export default class Grid extends Phaser.GameObjects.Container {
         this.cellWidth = (this.width - this.margin * 2) / this.columns;
         this.cellHeight = (this.height - this.margin * 2) / this.rows;
 
-        let debug = this.scene.sys.game.debug;
-        if (debug.enable) {
+        if (debug) {
             let debugRect = this.scene.add.rectangle(this.startingX, this.startingY, this.columns * this.cellWidth, this.rows * this.cellHeight, 0x000000, 0);
-            debugRect.setStrokeStyle(2, debug.color);
+            debugRect.setStrokeStyle(2, 0x00ff00);
             debugRect.setOrigin(0, 0);
         }
     }
