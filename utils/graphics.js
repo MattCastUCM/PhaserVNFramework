@@ -111,7 +111,7 @@ export function createCircleTexture(scene, textureId = "circleTexture", radius,
 /**
 * Anadir animacion de cambio de color al pasar y quitar el raton por encima
 * @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
-* @param {Array} targets - objetos que cambiar de color 
+* @param {Object, Array} targets - objetos que cambiar de color 
 * @param {Function} onClick - funcion a llamar al pulsar el boton
 * @param {Number} scaleFactor - escala respecto de la escala del boton que crecera al pasar el puntero por encima
 * @param {Boolean} smooth - si la animacion es progresiva o inmediata
@@ -143,6 +143,7 @@ export function growAnimation(button, targets, onClick = () => { }, scaleFactor 
     });
     // Al pulsar, se hace pequeno y grande de nuevo y se activa/desactiva el telefono
     button.on('pointerdown', () => {
+        button.disableInteractive();
         let anim = button.scene.tweens.add({
             targets: targets,
             scale: originalScale,
@@ -153,6 +154,7 @@ export function growAnimation(button, targets, onClick = () => { }, scaleFactor 
 
         // Al terminar la animacion se ejecucta el onClick
         anim.on("complete", () => {
+            button.setInteractive();
             if (onClick != null && typeof onClick == "function") {
                 onClick();
             }
@@ -164,7 +166,7 @@ export function growAnimation(button, targets, onClick = () => { }, scaleFactor 
 /**
 * Anadir animacion de cambio de color al pasar y quitar el raton por encima
 * @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
-* @param {Array} targets - objetos que cambiar de color 
+* @param {Object, Array} targets - objetos que cambiar de color 
 * @param {Function} onClick - funcion a llamar al pulsar el boton
 * @param {Number} normalTintColor - valor hex del color normal (opcional)
 * @param {Number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
@@ -210,6 +212,7 @@ export function tintAnimation(button, targets, onClick = () => { }, normalTintCo
     });
 
     button.on("pointerdown", () => {
+        button.disableInteractive();
         let fadeColor = button.scene.tweens.addCounter({
             targets: button,
             from: 0,
@@ -227,6 +230,7 @@ export function tintAnimation(button, targets, onClick = () => { }, normalTintCo
 
         // Al terminar la animacion se ejecucta el onClick
         fadeColor.on("complete", () => {
+            button.setInteractive();
             if (onClick != null && typeof onClick == "function") {
                 onClick();
             }
