@@ -24,11 +24,12 @@ export default class AnimatedContainer extends Phaser.GameObjects.Container {
     }
 
     /**
-    * Metodo base para activar o desactiar los objetos con una animacion de opacidad
+    * Para activar o desactiar los objetos con una animacion de opacidad
     * @param {Boolean} active - si se va a activar el objeto
-    * @param {Function} onComplete - funcion a la que llamar cuando acaba la animacion
+    * @param {Function} onComplete - funcion a la que llamar cuando acaba la animacion (opcional)
+    * @param {Number} delay - tiempo en ms que tarda en llamarse a onComplete (opcional)
     */
-    baseActivate(active, onComplete) {
+    activate(active, onComplete = () => { }, delay = 0) {
         let initAlpha = 0;
         let endAlpha = 1;
         let duration = this.animConfig.fadeTime
@@ -49,9 +50,9 @@ export default class AnimatedContainer extends Phaser.GameObjects.Container {
             duration = 0;
         }
 
-        this.setVisible(true);
 
         // Fuerza la opacidad a la inicial
+        this.setVisible(true);
         this.setAlpha(initAlpha);
 
         // Hace la animacion
@@ -65,29 +66,13 @@ export default class AnimatedContainer extends Phaser.GameObjects.Container {
 
         // Al terminar la animacion, se ejecuta el onComplete si es una funcion valida
         this.fadeAnim.on("complete", () => {
-            if (onComplete != null && typeof onComplete == "function") {
-                onComplete();
-            }
-        });
-    }
-
-    /**
-    * Activa o desactiva los objetos indicados
-    * @param {Boolean} active - si se va a activar el objeto
-    * @param {Function} onComplete - funcion a la que llamar cuando acaba la animacion (opcional)
-    * @param {Number} delay - tiempo en ms que tarda en llamarse a onComplete (opcional)
-    */
-    activate(active, onComplete = null, delay = 0) {
-        this.baseActivate(active, () => {
             if (!active) {
                 this.setVisible(false);
             }
 
-            if (onComplete != null && typeof onComplete == "function") {
-                setTimeout(() => {
-                    onComplete();
-                }, delay);
-            }
+            setTimeout(() => {
+                onComplete();
+            }, delay);
         });
     }
 }

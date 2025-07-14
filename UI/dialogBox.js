@@ -18,7 +18,7 @@ export default class DialogBox extends InteractiveContainer {
     constructor(scene, textboxConfig = {}, nameBoxConfig = {}, textConfig = {}, nameTextConfig = {}, textAnimDelay = 30, skipDelay = 200) {
         super(scene);
 
-        this.bgBlock = scene.add.rectangle(0, 0, scene.CANVAS_WIDTH, scene.CANVAS_HEIGHT, 0x000, 0).setOrigin(0, 0);
+        this.bgBlock = scene.add.zone(0, 0, scene.CANVAS_WIDTH, scene.CANVAS_HEIGHT).setOrigin(0, 0);
         this.add(this.bgBlock);
 
         let DEFAULT_TEXTBOX_CONFIG = {

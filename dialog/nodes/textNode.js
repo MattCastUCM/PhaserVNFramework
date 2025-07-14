@@ -62,7 +62,7 @@ export default class TextNode extends DialogNode {
     }
 
     translate(namespace) {
-        this.localizationManager.translate(this.character, "names");
+        this.name = this.localizationManager.translate(this.character, "names");
 
         // Se obtiene el dialogo traducido
         let translation = this.localizationManager.translate(this.fullId, namespace, true);

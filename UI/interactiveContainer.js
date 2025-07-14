@@ -19,25 +19,22 @@ export default class InteractiveContainer extends AnimatedContainer {
     * @param {Function} onComplete - funcion a la que llamar cuando acaba la animacion (opcional)
     * @param {Number} delay - tiempo en ms que tarda en llamarse a onComplete (opcional)
     */
-    activate(active, onComplete = null, delay = 0) {
+    activate(active, onComplete = () => { }, delay = 0) {
+        // Si se va a desactivar, se desactiva la interaccion inmediatamente para 
+        // que no se pueda seguir interactuando mientras se reproduce la animacion
         if (!active) {
             this.disableInteractive();
         }
 
-        super.baseActivate(active, () => {
-            if (active) {
-                this.setInteractive();
-            }
-            else {
-                this.setVisible(false);
-            }
+        super.activate(active, onComplete, delay);
 
-            if (onComplete != null && typeof onComplete == "function") {
-                setTimeout(() => {
-                    onComplete();
-                }, delay);
-            }
-        });
+        // Si se va a activar, se activa la interaccion una vez termina la animacion 
+        // para que no se pueda interactuar mientras se esta reproduciendo
+        if (active) {
+            this.fadeAnim.on("complete", () => {
+                this.setInteractive();
+            });
+        }
     }
 
 
