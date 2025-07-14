@@ -77,6 +77,9 @@ export default class LocalizationManager extends Singleton {
     /**
     * Reemplaza todas las expresiones regulares encontradas por el texto correspondiente
     * 
+    * IMPORTANTE: EL REEMPLAZO SE HACE AL LEER LOS NODOS, POR LO QUE SI UNA VARIABLE CAMBIA CUANDO LOS 
+    * NODOS YA HAN SIDO CREADOS, EL TEXTO DEL DIALOGO NO CAMBIARA SI NO SE VUELVEN A CREAR LOS NODOS
+    * 
     * Ejemplo:
     *   "{{name}} es <<gender || male:un || female:una || ... >> joven con <<studies || fp: un grado superior de reposteria || uni: una licenciatura en derecho || ...>>."
     * 

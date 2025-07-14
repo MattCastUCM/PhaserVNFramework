@@ -6,13 +6,11 @@ export default class DialogNode {
     /**
     * Clase base para la informacion de los nodos de dialogo. Inicialmente esta todo vacio
     * 
-    * SI SE QUIEREN ANADIR NUEVOS NODOS QUE NO SEAN LOS 4 TIPOS BASICOS, LO IDEAL SERIA CREAR CLASES
-    * NUEVAS QUE HEREDEN DE DIALOGNODE. PARA MODIFICAR EL COMPORTAMIENTO BASICO DE LOS NODOS YA 
-    * EXISTENTES, LO MEJOR SERIA MODIFICAR LA GESTION DE LOS EVENTOS EN LAS CLASES CORRESPONDIENTES,
-    * PERO NO MODIFICAR LOS NODOS DIRECTAMENTE
-    */
-
-    /**
+    * IMPORTANTE: SI SE QUIEREN ANADIR NUEVOS NODOS QUE NO SEAN LOS 4 TIPOS BASICOS, LO IDEAL SERIA CREAR 
+    * CLASES NUEVAS QUE HEREDEN DE DIALOGNODE Y MODIFICAR NODEREADER DESDE FUERA PARA QUE GESTIONE TAMBIEN 
+    * ESOS TIPOS DE NODOS. PARA MODIFICAR EL COMPORTAMIENTO BASICO DE LOS NODOS YA EXISTENTES, LO MEJOR SERIA
+    * MODIFICAR LA GESTION DE LOS EVENTOS EN LAS CLASES CORRESPONDIENTES, PERO NO MODIFICAR LOS NODOS DIRECTAMENTE
+    *
     * @param {BaseScene} scene - escena en la que se crea el nodo
     */
     constructor(scene) {
@@ -29,8 +27,20 @@ export default class DialogNode {
         this.nextDelay = 0;             // retardo con el que se procesara el siguiente nodo
     }
 
+    /**
+    * Gestiona la traduccion del noodo
+    * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
+    */
+    translate(namespace) { }
+
+    /**
+    * Procesa el nodo
+    */
     processNode() { }
 
+    /**
+    * Se pasa al nodo siguiente a este
+    */
     nextNode() {
         // Se dejan de escuchar los eventos para que no afecten a los nodos siguientes 
         // (ya que los nodos no se eliminan hasta que se elimine la escena en la que estan)

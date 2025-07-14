@@ -42,21 +42,30 @@ export default class TextNode extends DialogNode {
     * @param {String} fullId - id completa del nodo en el archivo
     * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
     */
-    constructor(scene, node, fullId, namespace) {
+    constructor(scene, node) {
         super(scene);
         this.trackerManager = BaseTrackerManager.getInstance();
 
-        // Se obtiene la id y nombre traducido del personaje
-        this.character = node.character;                                            // id del personaje que habla
-        this.name = this.localizationManager.translate(this.character, "names");    // nombre traducido del personaje que habla
+        this.character = node.character;    // id del personaje que habla
+        this.name = "",                     // nombre traducido del personaje que habla
 
-        this.dialogs = [];                                                          // serie de dialogos que se van a mostrar
-        this.currDialog = 0;                                                        // indice del dialogo que se esta mostrando
+        this.dialogs = [];                  // serie de dialogos que se van a mostrar
+        this.currDialog = 0;                // indice del dialogo que se esta mostrando
 
-        this.centered = (node.centered == null) ? false : node.centered;            // indica si el texto esta centrado o no (en caso de que no se especifique aparece alineado arriba a la izquierda)
+        // indica si el texto esta centrado o no (en caso de que no se especifique aparece alineado arriba a la izquierda)
+        this.centered = (node.centered == null) ? false : node.centered;            
+
+        // Guarda el siguiente nodo en la lista de siguientes
+        this.next.push(node.next);
+
+        this.textAdjusted = false;
+    }
+
+    translate(namespace) {
+        this.localizationManager.translate(this.character, "names");
 
         // Se obtiene el dialogo traducido
-        let translation = this.localizationManager.translate(fullId, namespace, true);
+        let translation = this.localizationManager.translate(this.fullId, namespace, true);
 
         // Si el texto no esta dividido en fragmentos, se guarda en el array de fragmentos
         // si no, el array de fragmentos es directamente el obtenido al traducir el nodo
@@ -66,18 +75,11 @@ export default class TextNode extends DialogNode {
         else if (Array.isArray(translation) && translation.length > 0) {
             this.dialogs = translation;
         }
-
+        
         // Se sustituyen las expresiones regulares
         this.dialogs.forEach((dialog, index, dialogs) => {
             dialogs[index] = this.localizationManager.replaceRegularExpressions(dialog)
         });
-
-        // Guarda el siguiente nodo en la lista de siguientes
-        if (node.next != null && node.next != "") {
-            this.next.push(node.next);
-        }
-
-        this.textAdjusted = false;
     }
 
     processNode() {

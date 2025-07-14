@@ -51,10 +51,8 @@ export default class EventNode extends DialogNode {
             this.events.push(evt);
         });
 
-        // Si hay un nodo despues de este, se guarda su id en la lista de nodos siguientes
-        if (node.next != null) {
-            this.next.push(node.next);
-        }
+        // Se guarda su id en la lista de nodos siguientes
+        this.next.push(node.next);
     }
 
     processNode() {

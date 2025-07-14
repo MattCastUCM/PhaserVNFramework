@@ -4,14 +4,46 @@ import TextNode from "./nodes/textNode.js";
 import ChoiceNode from "./nodes/choiceNode.js";
 
 export default class NodeReader {
-    constructor() { }
+    /**
+    * Clase encargada de la lectura de los nodos de dialogo
+    * 
+    * IMPORTANTE: SI SE QUIEREN ANADIR NUEVOS NODOS O MODIFICAR EL FUNCIONAMIENTO DE LOS TIPOS DE NODOS YA EXISTENTES, 
+    * LO IDEAL SERIA MODIFICAR DESDE FUERA EL MAPA NODECONSTRUCTORS PARA ANADIR LA CREACION DEL NUEVO TIPO DE NODO. SI
+    * ES COMPLETAMENTE NECESARIO ANADIR NUEVOS PARAMETROS A LA CREACION DEL NODO, SE PUEDE CREAR UNA CLASE QUE HEREDE
+    * DE NODEREADER PARA MODIFICAR EL COMPORTAMIENTO DE LOS METODOS, PERO NO SE DEBERIA MODIFICAR LA CLASE BASE DIRECTAMENTE 
+    */
+    constructor() {
+        // Mapa que asocia cada tipo de nodo a su constructora
+        this.nodeConstructors = new Map([
+            [
+                ConditionNode.TYPE,
+                (scene, objectJson) => {
+                    return new ConditionNode(scene, objectJson);
+                }
+            ],
+            [
+                TextNode.TYPE,
+                (scene, objectJson) => {
+                    return new TextNode(scene, objectJson);
+                }
+            ],
+            [
+                ChoiceNode.TYPE,
+                (scene, objectJson) => {
+                    return new ChoiceNode(scene, objectJson);
+                }
+            ],
+            [
+                EventNode.TYPE,
+                (scene, objectJson) => {
+                    return new EventNode(scene, objectJson);
+                }
+            ],
+        ])
+    }
 
     /**
     * Crea todos los nodos y luego se encarga de conectarlos
-    * 
-    * SI SE QUIEREN ANADIR NUEVOS NODOS, LO IDEAL SERIA HACER UNA CLASE QUE HEREDE DE 
-    * NODEREADER PARA QUE GESTIONE *SOLO* LA CREACION DE NUEVOS TIPOS DE NODOS. 
-    * 
     * @param {Phaser.Scene} scene - escena en la que se crea el nodo
     * @param {Object} fullJson - objeto json donde estan los nodos 
     * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
@@ -68,51 +100,20 @@ export default class NodeReader {
             // Si el nodo no se habia leido, se obtiene su tipo y se crea dependiendo del que sea
             if (!nodesMap.has(globalId)) {
                 let type = objectJson[id].type;
-                let node = null;
 
-                if (type === ConditionNode.TYPE) {
-                    node = this.createConditionNode(scene, objectJson[id])
-                }
-                else if (type === TextNode.TYPE) {
-                    node = this.createTextNode(scene, objectJson[id], fullId, namespace);
-                }
-                else if (type === ChoiceNode.TYPE) {
-                    node = this.createChoiceNode(scene, objectJson[id], fullId, namespace);
-                }
-                else if (type === EventNode.TYPE) {
-                    node = this.createEventNode(scene, objectJson[id]);
-                }
-
-                // Si se crea el nodo correctamente, se guarda el resto de parametros y se guarda en el mapa de nodos por su id
-                if (node != null) {
+                // Se guarda el resto de parametros y se guarda en el mapa de nodos por su id
+                if (this.nodeConstructors.get(type) != null) {
+                    let node = this.nodeConstructors.get(type)(scene, objectJson[id]);
                     node.id = id;
                     node.fullId = fullId;
                     node.globalId = globalId;
 
                     node.nextDelay = (objectJson[id].nextDelay == null) ? 0 : objectJson[id].nextDelay
 
+                    node.translate(namespace);
                     nodesMap.set(id, node);
                 }
             }
         }
-    }
-
-
-    // Metodos factoria para crear los distintos tipos de nodos
-
-    createConditionNode(scene, objectJson) {
-        return new ConditionNode(scene, objectJson);
-    }
-
-    createTextNode(scene, objectJson, fullId, namespace) {
-        return new TextNode(scene, objectJson, fullId, namespace);
-    }
-
-    createChoiceNode(scene, objectJson, fullId, namespace) {
-        return new ChoiceNode(scene, objectJson, fullId, namespace);
-    }
-
-    createEventNode(scene, objectJson) {
-        return new EventNode(scene, objectJson);
     }
 }

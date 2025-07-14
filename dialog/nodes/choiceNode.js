@@ -11,7 +11,7 @@ export default class ChoiceNode extends DialogNode {
         "nodeName": {
             "type": "choice",
             "choices":[
-                { "next": "choice1" },
+                { "next": "choice1", repeat: false },
                 { "next": "choice2" },
                 { ... }
             ],
@@ -36,33 +36,40 @@ export default class ChoiceNode extends DialogNode {
     * @param {BaseScene} scene - escena en la que se crea el nodo
     * @param {Object} node - objeto json con la informacion del nodo
     * @param {String} fullId - id completa del nodo en el archivo
-    * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
     */
-    constructor(scene, node, fullId, namespace) {
+    constructor(scene, node) {
         super(scene);
 
         this.choices = [];              // Lista con el texto traducido de cada opcion
+        this.repeat = [];
+        this.shuffle = (node.shuffle == null) ? false : node.shuffle;
 
+        // Recorre cada opcion del nodo y guarda el nodo siguiente a cada opcion y si se puede repetir la eleccion
+        if (node.choices != null) {
+            node.choices.forEach((choice) => {
+                this.next.push(choice.next)
+                this.repeat.push(choice.repeat);
+            });
+        }
+    }
+
+    translate(namespace) {
         // Obtiene el texto traducido de las opciones y lo guarda en la lista
-        this.choices = this.localizationManager.translate(fullId, namespace, true);
+        this.choices = this.localizationManager.translate(this.fullId, namespace, true);
 
         // Se sustituye usando las expresiones regulares
         this.choices.forEach((choice, index, choices) => {
             choices[index] = this.localizationManager.replaceRegularExpressions(choice)
         });
 
-        // Recorre cada opcion del nodo y guarda el nodo siguiente a cada opcion
-        node.choices.forEach((choice) => {
-            this.next.push(choice.next)
-        });
-
         // Si se elige que el orden de las respuestas se aleatorio, se barajan tanto
         // el texto de las opciones como los nodos siguientes con el Fisher-Yates Shuffle
-        if (node.shuffle != null && node.shuffle) {
+        if (this.shuffle != null && this.shuffle) {
             for (let i = this.choices.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [this.choices[i], this.choices[j]] = [this.choices[j], this.choices[i]];
                 [this.next[i], this.next[j]] = [this.next[j], this.next[i]];
+                [this.repeat[i], this.repeat[j]] = [this.repeat[j], this.repeat[i]];
             }
         }
     }
@@ -73,6 +80,19 @@ export default class ChoiceNode extends DialogNode {
         }
         else {
             this.nextNode();
+        }
+    }
+
+    nextNode() {
+        super.nextNode();
+
+        // Si la opcion elegida no se repite, se elimina de la lista de opciones una vez se haya pasado a procesar el nodo siguiente
+        if (this.repeat[this.nextIndex] != null && !this.repeat[this.nextIndex]) {
+            setTimeout(() => {
+                this.choices.splice(this.nextIndex, 1);
+                this.next.splice(this.nextIndex, 1);
+                this.repeat.splice(this.nextIndex, 1);
+            }, this.nextDelay);
         }
     }
 }
