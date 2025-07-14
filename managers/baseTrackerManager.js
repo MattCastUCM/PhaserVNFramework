@@ -23,43 +23,43 @@ export default class BaseTrackerManager extends Singleton {
     }
 
     sendInitializeDialog(name, dialog) {
-        this.seriousGameTracker.Completable(`${name.trim()} ${dialog.trim()}`, this.seriousGameTracker.COMPLETABLETYPE.STORYNODE)
-            .Initialized()
-            .Send();
+        this.seriousGameTracker.completable(`${name.trim()} ${dialog.trim()}`, this.seriousGameTracker.COMPLETABLETYPE.STORYNODE)
+            .initialized()
+            .send();
     }
 
     sendCompleteDialog(name, dialog) {
-        this.seriousGameTracker.Completable(`${name.trim()} ${dialog.trim()}`, this.seriousGameTracker.COMPLETABLETYPE.STORYNODE)
-            .Completed(true, true, 1)
-            .Send();
+        this.seriousGameTracker.completable(`${name.trim()} ${dialog.trim()}`, this.seriousGameTracker.COMPLETABLETYPE.STORYNODE)
+            .completed(true, true, 1)
+            .send();
     }
 
     sendSelectChoice(id, response) {
-        this.seriousGameTracker.Alternative(id, this.seriousGameTracker.ALTERNATIVETYPE.DIALOG)
-            .Selected(response)
-            .Send();
+        this.seriousGameTracker.alternative(id, this.seriousGameTracker.ALTERNATIVETYPE.DIALOG)
+            .selected(response)
+            .send();
     }
 
     sendInitializeScene(sceneKey) {
-        this.seriousGameTracker.Accessible(sceneKey, this.seriousGameTracker.ACCESSIBLETYPE.SCREEN)
-            .Accessed()
-            .Send();
+        this.seriousGameTracker.accessible(sceneKey, this.seriousGameTracker.ACCESSIBLETYPE.SCREEN)
+            .accessed()
+            .send();
 
-        this.seriousGameTracker.Completable(sceneKey, this.seriousGameTracker.COMPLETABLETYPE.COMPLETABLE)
-            .Initialized()
-            .Send();
+        this.seriousGameTracker.completable(sceneKey, this.seriousGameTracker.COMPLETABLETYPE.COMPLETABLE)
+            .initialized()
+            .send();
     }
 
     sendCompleteScene(sceneKey) {
-        this.seriousGameTracker.Completable(sceneKey, this.seriousGameTracker.COMPLETABLETYPE.COMPLETABLE)
-            .Completed(true, true, 1)
-            .Send();
+        this.seriousGameTracker.completable(sceneKey, this.seriousGameTracker.COMPLETABLETYPE.COMPLETABLE)
+            .completed(true, true, 1)
+            .send();
     }
 
     sendAccessCutscene(sceneKey) {
-        this.seriousGameTracker.Accessible(sceneKey, this.seriousGameTracker.ACCESSIBLETYPE.SCREEN)
-            .Accessed()
-            .Send();
+        this.seriousGameTracker.accessible(sceneKey, this.seriousGameTracker.ACCESSIBLETYPE.SCREEN)
+            .accessed()
+            .send();
     }
 
     sendInteractGameObject(id, npc = false, extensions = {}) {
@@ -67,17 +67,17 @@ export default class BaseTrackerManager extends Singleton {
         if (npc) {
             type = this.seriousGameTracker.GAMEOBJECTTYPE.NPC;
         }
-        this.seriousGameTracker.GameObject(id, type)
-            .Interacted()
-            .WithResultExtensions(extensions)
-            .Send();
+        this.seriousGameTracker.gameObject(id, type)
+            .interacted()
+            .withResultExtensions(extensions)
+            .send();
     }
 
     sendSelectMenuOption(id, response, extensions = {}) {
-        this.seriousGameTracker.Alternative(id, this.seriousGameTracker.ALTERNATIVETYPE.MENU)
-            .Selected(response)
-            .WithResultExtensions(extensions)
-            .Send();
+        this.seriousGameTracker.alternative(id, this.seriousGameTracker.ALTERNATIVETYPE.MENU)
+            .selected(response)
+            .withResultExtensions(extensions)
+            .send();
     }
 
     sendSelectLanguage(language) {
@@ -85,23 +85,24 @@ export default class BaseTrackerManager extends Singleton {
     }
 
     async sendInitializeGame() {
-        await this.seriousGameTracker.Completable(this.gameTitle, this.seriousGameTracker.COMPLETABLETYPE.GAME)
-            .Initialized()
-            .Send();
-        await this.seriousGameTracker.Flush();
+        await this.seriousGameTracker.completable(this.gameTitle, this.seriousGameTracker.COMPLETABLETYPE.GAME)
+            .initialized()
+            .send();
+        await this.seriousGameTracker.flush();
     }
 
     async sendProgressGame(progress, extensions = {}) {
-        await this.seriousGameTracker.Completable(this.gameTitle, this.seriousGameTracker.COMPLETABLETYPE.GAME)
-            .Progressed(progress)
-            .WithResultExtensions(extensions)
-            .Send();
-        await this.seriousGameTracker.Flush();
+        await this.seriousGameTracker.completable(this.gameTitle, this.seriousGameTracker.COMPLETABLETYPE.GAME)
+            .progressed(progress)
+            .withResultExtensions(extensions)
+            .send();
+        await this.seriousGameTracker.flush();
     }
 
     async sendCompleteGame(completion) {
-        await this.Completed(this.gameTitle, this.seriousGameTracker.COMPLETABLETYPE.GAME, completion, true, 1)
-            .Send();
-        await this.seriousGameTracker.Flush({ withBackup: true });
+        await this.seriousGameTracker.completable(this.gameTitle, this.seriousGameTracker.COMPLETABLETYPE.GAME)
+            .completed(completion, true, 1)
+            .send();
+        await this.seriousGameTracker.flush({ withBackup: true });
     }
 }

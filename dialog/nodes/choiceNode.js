@@ -1,5 +1,4 @@
 import DialogNode from "../dialogNode.js";
-import LocalizationManager from "../../managers/localizationManager.js";
 import DefaultEventNames from "../../utils/eventNames.js";
 
 export default class ChoiceNode extends DialogNode {
