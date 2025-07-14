@@ -84,7 +84,7 @@ export default class NodeReader {
     * archivo sin la extension .json
     */
     createNodes(scene, fullJson, namespace, objectName, getObjs, nodesMap) {
-        let objectJson = (objectName === "") ? fullJson : fullJson[objectName];
+        let objectJson = (objectName === "") ? fullJson : this.getObjFromName(fullJson, objectName);
         for (const [key, value] of Object.entries(objectJson)) {
             let id = key;
 
@@ -115,5 +115,26 @@ export default class NodeReader {
                 }
             }
         }
+    }
+
+    /**
+    * Obtiene el objeto indicado en el json completo a partir de su nombre
+    * @param {Object} obj - objeto json en el que se busca el objeto 
+    * @param {String} prop - nombre de la propiedad (o del objeto) que se busca 
+    * @returns {Object} - objeto json con el nombre indicado
+    */
+    getObjFromName(obj, prop) {
+        let nestedProperties = prop.split('.');
+        let currObj = obj;
+
+        for (let i = 0; i < nestedProperties.length; i++) {
+            if (!currObj) {
+                return null;
+            }
+            else {
+                currObj = currObj[nestedProperties[i]];
+            }
+        }
+        return currObj;
     }
 }

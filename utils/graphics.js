@@ -124,7 +124,7 @@ export function growAnimation(button, targets, onClick = () => { }, scaleFactor 
     let growDuration = smooth ? duration : 0;
 
     // Al pasar el raton por encima del icono, se hace mas grande
-    button.on('pointerover', () => {
+    button.on("pointerover", () => {
         button.scene.tweens.add({
             targets: targets,
             scale: originalScale * scaleFactor,
@@ -133,7 +133,7 @@ export function growAnimation(button, targets, onClick = () => { }, scaleFactor 
         });
     });
     // Al quitar el raton de encima vuelve a su tamano original
-    button.on('pointerout', () => {
+    button.on("pointerout", () => {
         button.scene.tweens.add({
             targets: targets,
             scale: originalScale,
@@ -142,7 +142,7 @@ export function growAnimation(button, targets, onClick = () => { }, scaleFactor 
         });
     });
     // Al pulsar, se hace pequeno y grande de nuevo y se activa/desactiva el telefono
-    button.on('pointerdown', () => {
+    button.on("pointerdown", () => {
         button.disableInteractive();
         let anim = button.scene.tweens.add({
             targets: targets,

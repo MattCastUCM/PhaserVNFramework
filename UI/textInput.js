@@ -53,7 +53,7 @@ export default class TextInput extends Button {
         this.textConfig.fontSize = reducedFontSize;
 
         // Crear el cursor visual que parpadea mientras se escribe
-        this.cursor = this.scene.add.text(0, 0, '|', this.textConfig)
+        this.cursor = this.scene.add.text(0, 0, "|", this.textConfig)
             .setOrigin(0.5, 0.5).setAlpha(0);
         this.add(this.cursor);
 
@@ -79,7 +79,7 @@ export default class TextInput extends Button {
 
     activeRegularKeyboard() {
         // Detectar la pulsacion de teclas fisicas
-        this.scene.input.keyboard.on('keydown', (event) => {
+        this.scene.input.keyboard.on("keydown", (event) => {
             if (!IS_TOUCH && this.isWriting) {
                 let change = false;
 
@@ -108,10 +108,10 @@ export default class TextInput extends Button {
 
     activeOnScreenKeyboard() {
         // Crear un input inivisible del DOM para el teclado virtual
-        this.onScreenKeyboard = document.createElement('input');
+        this.onScreenKeyboard = document.createElement("input");
 
         // Colocar el input en un lugar de la pantalla donde no molester y hacerlo invisible
-        this.onScreenKeyboard.style.position = 'absolute';
+        this.onScreenKeyboard.style.position = "absolute";
         this.onScreenKeyboard.style.top = '50px';
         this.onScreenKeyboard.style.left = '50px';
         this.onScreenKeyboard.style.opacity = '0';
@@ -121,7 +121,7 @@ export default class TextInput extends Button {
         document.body.appendChild(this.onScreenKeyboard);
 
         // Se detecta la entrada de texto en el teclado virtual
-        this.onScreenKeyboard.addEventListener('input', (event) => {
+        this.onScreenKeyboard.addEventListener("input", (event) => {
             if (IS_TOUCH) {
                 // Se cambia el valor del texto por el valor del input
                 this.text = event.target.value;
@@ -130,18 +130,18 @@ export default class TextInput extends Button {
         });
 
         // Se suaviza la aparicion del teclado virtual
-        this.onScreenKeyboard.addEventListener('focus', () => {
-            this.onScreenKeyboard.scrollIntoView({ behavior: 'smooth' });
+        this.onScreenKeyboard.addEventListener("focus", () => {
+            this.onScreenKeyboard.scrollIntoView({ behavior: "smooth" });
         });
 
         // Cuando se pulsa en la pantalla, se sustituye el valor del input
         // por el texto, por si previamente se habia escribo con el teclado regular
-        window.addEventListener('touchstart', () => {
+        window.addEventListener("touchstart", () => {
             this.onScreenKeyboard.value = this.text;
         });
 
         // Si se usa el raton, desaparece el teclado virtual
-        window.addEventListener('mousedown', () => {
+        window.addEventListener("mousedown", () => {
             this.onScreenKeyboard.blur();
         });
     }
