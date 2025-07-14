@@ -10,9 +10,8 @@ export default class Grid extends Phaser.GameObjects.Container {
     * @param {Number} columns - nuemro de columnas
     * @param {Number} rows - numero de filas
     * @param {Number} margin - margen (espacio desde los bordes hacia dentro)
-    * @param {Boolean} debug - mostrar el area total que ocupa la cuadricula (true) o no (false) (opcional)
     */
-    constructor(scene, x, y, width, height, columns, rows, margin, debug = false) {
+    constructor(scene, x, y, width, height, columns, rows, margin) {
         super(scene, x, y);
 
         scene.add.existing(this);
@@ -30,9 +29,9 @@ export default class Grid extends Phaser.GameObjects.Container {
         this.cellWidth = (this.width - this.margin * 2) / this.columns;
         this.cellHeight = (this.height - this.margin * 2) / this.rows;
 
-        if (debug) {
+        if (gameDebug.enable) {
             let debugRect = this.scene.add.rectangle(this.startingX, this.startingY, this.columns * this.cellWidth, this.rows * this.cellHeight, 0x000000, 0);
-            debugRect.setStrokeStyle(2, 0x00ff00);
+            debugRect.setStrokeStyle(2, gameDebug.color);
             debugRect.setOrigin(0, 0);
         }
     }

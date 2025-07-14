@@ -43,10 +43,9 @@ export default class InteractiveContainer extends AnimatedContainer {
 
     /**
     * Obtiene las dimensiones del rectangulo del container para hacerlo interactivo
-    * @param {Boolean} debug - true para dibujar el area del rectangulo, false en caso contrario (opcional)
     * @param {String} objectName - nombre del objeto a imprimir en el debug (opcional)
     */
-    calculateRectangleSize(debug = false, objectName = "") {
+    calculateRectangleSize(objectName = "") {
         // Esta en coordenadas globlaes
         let dims = this.getBounds();
         this.setSize(dims.width, dims.height);
@@ -59,8 +58,7 @@ export default class InteractiveContainer extends AnimatedContainer {
             hitAreaCallback: Phaser.Geom.Rectangle.Contains
         });
 
-        if (debug) {
-            this.add(this.scene.add.rectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height, 0x000, 0.4));
+        if (gameDebug.enable) {
             this.on("pointerdown", () => {
                 console.log("clicking", objectName);
             });

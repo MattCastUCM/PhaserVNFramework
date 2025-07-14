@@ -18,8 +18,6 @@ export default class DialogBox extends InteractiveContainer {
     constructor(scene, textboxConfig = {}, nameBoxConfig = {}, textConfig = {}, nameTextConfig = {}, textAnimDelay = 30, skipDelay = 200) {
         super(scene);
 
-        let debug = false;
-
         this.bgBlock = scene.add.rectangle(0, 0, scene.CANVAS_WIDTH, scene.CANVAS_HEIGHT, 0x000, 0).setOrigin(0, 0);
         this.add(this.bgBlock);
 
@@ -91,7 +89,7 @@ export default class DialogBox extends InteractiveContainer {
                 .setOrigin(this.textboxConfig.imgOriginX, this.textboxConfig.imgOriginY).setScale(this.textboxConfig.scaleX, this.textboxConfig.scaleY)
                 .setAlpha(this.textboxConfig.imgAlpha);
         }
-        this.textObj = new TextArea(scene, this.textboxConfig.textX, this.textboxConfig.textY, this.textboxConfig.realWidth, this.textboxConfig.realHeight, "", this.textConfig, debug)
+        this.textObj = new TextArea(scene, this.textboxConfig.textX, this.textboxConfig.textY, this.textboxConfig.realWidth, this.textboxConfig.realHeight, "", this.textConfig)
             .setOrigin(this.textboxConfig.textOriginX, this.textboxConfig.textOriginY);
 
         // Crear la imagen y el texto de la caja de nombre
@@ -120,7 +118,7 @@ export default class DialogBox extends InteractiveContainer {
         this.add(this.nameTextObj);
 
 
-        if (debug) {
+        if (gameDebug.enable) {
             let textboxDebug = scene.add.rectangle(this.textboxConfig.textX, this.textboxConfig.textY, this.textboxConfig.realWidth, this.textboxConfig.realHeight, 0xfff, 0.5)
                 .setOrigin(this.textboxConfig.textOriginX, this.textboxConfig.textOriginY).setScale(this.textboxConfig.scaleX, this.textboxConfig.scaleY);
             let nameBoxDebug = scene.add.rectangle(this.nameBoxConfig.textX, this.nameBoxConfig.textY, this.nameBoxConfig.realWidth, this.nameBoxConfig.realHeight, 0x000, 0.5)
@@ -146,7 +144,7 @@ export default class DialogBox extends InteractiveContainer {
 
         this.lastCharacter = "";
 
-        this.calculateRectangleSize(debug, "dialogBox");
+        this.calculateRectangleSize("dialogBox");
 
         this.setVisible(false);
     }

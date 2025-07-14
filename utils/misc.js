@@ -58,7 +58,7 @@ export function moveTowards(current, target, maxDistanceDelta) {
 * @param {Phaser.GameObject} gameObject - objeto que se va a hacer interactivo 
 * @param {Object} prevConfig - configuracion a la que agregar el parametro del cursor 
 */
-export function setInteractive(gameObject, config = {}, debug = false) {
+export function setInteractive(gameObject, config = {}) {
     let scene = gameObject.scene;
 
     if (scene.registry.get("pointerOver") != null) {
@@ -84,8 +84,8 @@ export function setInteractive(gameObject, config = {}, debug = false) {
         gameObject.disableInteractive = defaultDisableInteractive;
     }
 
-    if (debug) {
-        scene.input.enableDebug(gameObject, 0x00ff00);
+    if (gameDebug.enable) {
+        scene.input.enableDebug(gameObject, gameDebug.color);
     }
 }
 

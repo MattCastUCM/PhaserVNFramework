@@ -12,3 +12,8 @@ window.addEventListener("touchstart", function () {
 window.addEventListener("mousedown", function () {
     IS_TOUCH = false;
 });
+
+var gameDebug = {
+    enable: true,
+    color: "0x00ff00"
+}

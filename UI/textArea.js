@@ -9,20 +9,13 @@ export default class TextArea extends Phaser.GameObjects.Text {
     * @param {Number} maxHeight - alto maximo que puede ocupar el texto (opcional)
     * @param {String} text - texto a mostrar (opcional)
     * @param {Object} style - estilo del texto (opcional)
-    * @param {Boolean} debug - mostrar caja de depuracion (true) o no (false) (opcional)
     */
-    constructor(scene, x = 0, y = 0, maxWidth = 100, maxHeight = 100, text = "", style = {}, debug = false) {
+    constructor(scene, x = 0, y = 0, maxWidth = 100, maxHeight = 100, text = "", style = {}) {
         super(scene, x, y, text, style);
         scene.add.existing(this);
 
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
-
-        this.debug = debug;
-        if (this.debug) {
-            this.debugRect = scene.add.rectangle(x, y, this.maxWidth, this.maxHeight, 0x000000, 0);
-            this.debugRect.setStrokeStyle(2, 0x00ff00);
-        }
     }
 
     /**
@@ -105,15 +98,5 @@ export default class TextArea extends Phaser.GameObjects.Text {
                 this.setText(text);
             }
         }
-    }
-
-    setOrigin(x = 0.5, y = x) {
-        super.setOrigin(x, y);
-
-        if (this.debug) {
-            this.debugRect.setOrigin(x, y);
-        }
-
-        return this;
     }
 }

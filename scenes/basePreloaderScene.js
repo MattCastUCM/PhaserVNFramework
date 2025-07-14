@@ -69,7 +69,7 @@ export default class BasePreloaderScene extends Phaser.Scene {
         this.i18nConfig = {
             defaultLanguage: "es",
             supportedLanguages: ["es", "fr"],
-            debug: false
+            debug: gameDebug.enable
         }
     }
 

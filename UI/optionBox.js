@@ -17,8 +17,6 @@ export default class OptionBox extends Button {
     constructor(scene, index, totalOpts, text, onClick = {}, boxConfig = {}, textConfig = {}) {
         super(scene, 0, 0, 0, 0);
 
-        let debug = false;
-
         let DEFAULT_BOX_CONFIG = {
             collectiveAlignY: 1,
             collectiveTopMargin: 0,
@@ -59,7 +57,7 @@ export default class OptionBox extends Button {
         this.boxConfig = completeMissingProperties(boxConfig, DEFAULT_BOX_CONFIG);
         this.textConfig = completeMissingProperties(textConfig, DEFAULT_TEXT_CONFIG);
 
-        this.createImgButton(text, onClick);
+        this.createImgButton("", onClick);
 
         // Se calcula el ancho en base a la imagen
         if (boxConfig.realWidth == null) {
@@ -98,12 +96,9 @@ export default class OptionBox extends Button {
         this.setPosition(this.posX, this.posY);
         
 
-        if (debug) {
-            let textDebug = scene.add.rectangle(this.textObj.x, this.textObj.y, this.boxConfig.realWidth - this.boxConfig.textPaddingX * 2, 
+        if (gameDebug.enable) {
+            let textDebug = scene.add.rectangle(this.x, this.y, this.boxConfig.realWidth - this.boxConfig.textPaddingX * 2, 
                 this.boxConfig.realHeight - this.boxConfig.textPaddingY * 2, 0xfff, 0.5).setOrigin(this.boxConfig.textOriginX, this.boxConfig.textOriginY).setScale(this.boxConfig.scaleX, this.boxConfig.scaleY);
-
-            this.add(textDebug);
-            this.bringToTop(this.textObj);
         }
 
         this.setVisible(false);
