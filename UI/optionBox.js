@@ -98,15 +98,20 @@ export default class OptionBox extends Button {
 
         if (gameDebug.enable) {
             let textDebug = scene.add.rectangle(this.x, this.y, this.boxConfig.realWidth - this.boxConfig.textPaddingX * 2, 
-                this.boxConfig.realHeight - this.boxConfig.textPaddingY * 2, 0xfff, 0.5).setOrigin(this.boxConfig.textOriginX, this.boxConfig.textOriginY).setScale(this.boxConfig.scaleX, this.boxConfig.scaleY);
+                this.boxConfig.realHeight - this.boxConfig.textPaddingY * 2, 0xfff, 0.5).setOrigin(this.boxConfig.textOriginX, this.boxConfig.textOriginY)
+                .setOrigin(this.originX, this.originY).setScale(this.boxConfig.scaleX, this.boxConfig.scaleY);
+
+            this.on("destroy", () => {
+                textDebug.destroy();
+            })
         }
 
         this.setVisible(false);
     }
 
     createImgButton(text, onClick) {
-        super.createImgButtonWithAtlas(text, this.textConfig, onClick, this.boxConfig.imgAtlas, this.boxConfig.img, this.boxConfig.imgOriginX, this.boxConfig.imgOriginY, this.boxConfig.scaleX, 
-            this.boxConfig.scaleY, this.boxConfig.imgAlpha, this.boxConfig.textPaddingX, this.boxConfig.textPaddingY, this.boxConfig.textOffsetX, this.boxConfig.textOffsetY,
-            this.boxConfig.textOriginX, this.boxConfig.textOriginY, this.boxConfig.textAlignX, this.boxConfig.textAlignY);
+        super.createImgButtonWithAtlas(text, this.textConfig, onClick, this.boxConfig.imgAtlas, this.boxConfig.img, this.boxConfig.imgOriginX, this.boxConfig.imgOriginY, 
+            this.boxConfig.imgScaleX, this.boxConfig.imgScaleY, this.boxConfig.imgAlpha, this.boxConfig.textPaddingX, this.boxConfig.textPaddingY, this.boxConfig.textOffsetX, 
+            this.boxConfig.textOffsetY, this.boxConfig.textOriginX, this.boxConfig.textOriginY, this.boxConfig.textAlignX, this.boxConfig.textAlignY);
     }
 }

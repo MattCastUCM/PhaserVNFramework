@@ -47,14 +47,16 @@ export default class Button extends InteractiveContainer {
     createImgButton(text, textConfig, onClick,
         img = "", imgOriginX = 0.5, imgOriginY = 0.5, imgScaleX = 1, imgScaleY = 1, imgAlpha = 1,
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
-        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) {
+        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
+    {
         this.createImgButtonWithAtlas(text, textConfig, onClick, "", img, imgOriginX, imgOriginY, imgScaleX, imgScaleY, imgAlpha, textPaddingX, textPaddingY,
             textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY, normalTintColor, hoverTintColor, pressingTintColor);
     }
     createImgButtonWithAtlas(text, textConfig, onClick,
         imgAtlas = "", img = "", imgOriginX = 0.5, imgOriginY = 0.5, imgScaleX = 1, imgScaleY = 1, imgAlpha = 1,
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
-        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) {
+        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
+    {
         if (imgAtlas == "") {
             this.image = this.scene.add.image(0, 0, img).setOrigin(imgOriginX, imgOriginY).setScale(imgScaleX, imgScaleY).setAlpha(imgAlpha);
         }
@@ -102,7 +104,8 @@ export default class Button extends InteractiveContainer {
     createRectButton(text, textConfig, width, height, onClick, textureId = "buttonTexture",
         radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1,
         textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5,
-        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) {
+        normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) 
+    {
         createRectTexture(this.scene, textureId, width, height, fillColor, fillAlpha, borderThickness, borderNormalColor, borderAlpha, radiusPercentage);
 
         // Se crea la imagen en base a la textura
@@ -134,7 +137,8 @@ export default class Button extends InteractiveContainer {
     * @returns {TextArea} - texto creado
     */
     createText(text, textConfig, width, height, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0,
-        textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5) {
+        textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5) 
+    {
         let textObj = new TextArea(this.scene, 0, 0, width - textPaddingX * 2, height - textPaddingY * 2, text, textConfig)
             .setOrigin(textOriginX, textOriginY);
 
