@@ -4,6 +4,7 @@ export default class DefaultEventNames {
     static updateTextNode = "updateTextNode";
 
     static startChoiceNode = "startChoiceNode";
+    static selectChoiceNode = "selectChoiceNode"
 
     static endNodes = "endNodes";
     static clearNodes = "clearNodes";

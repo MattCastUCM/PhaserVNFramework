@@ -208,9 +208,7 @@ export default class BaseUI extends BaseScene {
                 // TRACKER EVENT
                 this.trackerManager.sendSelectChoice(node.fullId, node.choices[i]);
 
-                // TODO: quizas revisar?
-                node.nextIndex = i;
-                node.nextNode();
+                this.dispatcher.dispatch(DefaultEventNames.selectChoiceNode, i);
                 this.removeOptions();
             }, this.optionBoxConfig, this.optionsTextConfig);
 

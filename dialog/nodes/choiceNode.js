@@ -76,6 +76,10 @@ export default class ChoiceNode extends DialogNode {
     processNode() {
         if (this.choices.length > 0) {
             this.dispatcher.dispatch(DefaultEventNames.startChoiceNode, this);
+            this.dispatcher.add(DefaultEventNames.selectChoiceNode, this, (index) => {
+                this.nextIndex = index;
+                this.nextNode();
+            });
         }
         else {
             this.nextNode();
