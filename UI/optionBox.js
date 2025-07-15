@@ -51,6 +51,10 @@ export default class OptionBox extends ImageTextButton {
 
         // Completar los parametros faltantes de los argumentos
         let completedBoxConfig = completeMissingProperties(boxConfig, DEFAULT_BOX_CONFIG);
+        
+        if (textConfig.wordWrap != null) {
+            textConfig.wordWrap.width = textConfig.fontSize * 2;
+        }
         let completedTextConfig = completeMissingProperties(textConfig, DEFAULT_TEXT_CONFIG);
         
         super(scene, 0, 0, text, completedTextConfig, onClick, completedBoxConfig.imgAtlas, completedBoxConfig.img, completedBoxConfig.imgOriginX, completedBoxConfig.imgOriginY,
