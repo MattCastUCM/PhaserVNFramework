@@ -57,17 +57,17 @@ export function hexToColor(hex) {
 * @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
 * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
 * @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
-* @param {Number} borderNormalColor - valor hex del color por defecto del borde (opcional)
+* @param {Number} borderColor - valor hex del color por defecto del borde (opcional)
 * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
 * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
 */
 export function createRectTexture(scene, textureId = "rectTexture", width, height,
-    fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1, radiusPercentage = 0) {
+    fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1, radiusPercentage = 0) {
     if (!scene.textures.exists(textureId)) {
         // Se crea el rectangulo con el borde
         let graphics = scene.add.graphics();
         graphics.fillStyle(fillColor, fillAlpha);
-        graphics.lineStyle(borderThickness, borderNormalColor, borderAlpha);
+        graphics.lineStyle(borderThickness, borderColor, borderAlpha);
 
         // Se calcula el radio y se rellenan el rectangulo y el borde redondeados
         let radius = Math.min(width, height) * (radiusPercentage / 100);
@@ -108,17 +108,32 @@ export function createCircleTexture(scene, textureId = "circleTexture", radius,
     }
 }
 
+
+/**
+* Prepara el boton para anadirle posteriormente una animacion
+* @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
+* @param {Boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
+*/
+function prepareButtonInteraction(button, overrideOnClick = false) {
+    setInteractive(button);
+
+    if (overrideOnClick) {
+        button.off("pointerdown");
+    }
+}
+
 /**
 * Anadir animacion de cambio de color al pasar y quitar el raton por encima
 * @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
 * @param {Object, Array} targets - objetos que cambiar de color 
 * @param {Function} onClick - funcion a llamar al pulsar el boton
+* @param {Boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
 * @param {Number} scaleFactor - escala respecto de la escala del boton que crecera al pasar el puntero por encima
 * @param {Boolean} smooth - si la animacion es progresiva o inmediata
 * @param {Number} duration - tiempo que dura la animacino
 */
-export function growAnimation(button, targets, onClick = () => { }, scaleFactor = 1.1, smooth = true, duration = 20) {
-    setInteractive(button);
+export function growAnimation(button, targets, onClick = () => { }, overrideOnClick = false, scaleFactor = 1.1, smooth = true, duration = 20) {
+    prepareButtonInteraction(button, overrideOnClick);
 
     let originalScale = button.scale;
     let growDuration = smooth ? duration : 0;
@@ -168,18 +183,21 @@ export function growAnimation(button, targets, onClick = () => { }, scaleFactor 
 * @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
 * @param {Object, Array} targets - objetos que cambiar de color 
 * @param {Function} onClick - funcion a llamar al pulsar el boton
+* @param {Boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
 * @param {Number} normalTintColor - valor hex del color normal (opcional)
 * @param {Number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
 * @param {Number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
 * @param {Number} duration - tiempo que dura la animacino
 */
-export function tintAnimation(button, targets, onClick = () => { }, normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696, duration = 50) {
-    setInteractive(button);
+export function tintAnimation(button, targets, onClick = () => { }, overrideOnClick = false, normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696, duration = 50) {
+    prepareButtonInteraction(button, overrideOnClick);
 
     let normalTint = hexToColor(normalTintColor);
     let hoverTint = hexToColor(hoverTintColor);
     let pressingTint = hexToColor(pressingTintColor);
     
+    Phaser.Actions.SetTint(targets, normalTintColor);
+
     button.on("pointerover", () => {
         button.scene.tweens.addCounter({
             targets: button,

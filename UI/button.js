@@ -65,14 +65,15 @@ export default class Button extends InteractiveContainer {
         }
         this.add(this.image);
 
-        this.textObj = this.createText(text, textConfig, this.image.displayWidth, this.image.displayHeight, textPaddingX, textPaddingY, textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY);
+        this.textObj = new TextArea(this.scene, 
+            0, 0, this.image.displayWidth, this.image.displayHeight, text, textConfig, textOriginX, textOriginY, textPaddingX, textPaddingY, textOffsetX, textOffsetY, textAlignX, textAlignY)
+        this.textObj.adjustFontSize();
         this.add(this.textObj);
 
         this.calculateRectangleSize();
         this.setInteractive();
         tintAnimation(this, this.list, onClick, normalTintColor, hoverTintColor, pressingTintColor);
     }
-
 
 
     /**
@@ -112,42 +113,13 @@ export default class Button extends InteractiveContainer {
         this.image = this.scene.add.image(0, 0, textureId).setOrigin(0.5, 0.5);
         this.add(this.image);
 
-        this.textObj = this.createText(text, textConfig, width, height, textPaddingX, textPaddingY, textOffsetX, textOffsetY, textOriginX, textOriginY, textAlignX, textAlignY);
+        this.textObj = new TextArea(this.scene, 
+            0, 0, width, height, text, textConfig, textOriginX, textOriginY, textPaddingX, textPaddingY, textOffsetX, textOffsetY, textAlignX, textAlignY)
+        this.textObj.adjustFontSize();
         this.add(this.textObj);
 
         this.calculateRectangleSize();
         this.setInteractive();
         tintAnimation(this, this.list, onClick, normalTintColor, hoverTintColor, pressingTintColor);
-    }
-
-    /**
-    * Se crea el texto del boton
-    * @param {String} text - texto a escribir
-    * @param {Object} textConfig - configuracion del texto
-    * @param {Number} width - ancho maximo del texto
-    * @param {Number} height - alto maximo del texto
-    * @param {Number} textPaddingX - margen x del texto (opcional)
-    * @param {Number} textPaddingY - margen y del texto (opcional)
-    * @param {Number} textOffsetX - offset x del texto (opcional)
-    * @param {Number} textOffsetY - offset y del texto (opcional)
-    * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textAlignX - alineacion horizontal del texto [0-1] (opcional)
-    * @param {Number} textAlignY - alineacion vertical del texto [0-1] (opcional)
-    * @returns {TextArea} - texto creado
-    */
-    createText(text, textConfig, width, height, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0,
-        textOriginX = 0.5, textOriginY = 0.5, textAlignX = 0.5, textAlignY = 0.5) 
-    {
-        let textObj = new TextArea(this.scene, 0, 0, width - textPaddingX * 2, height - textPaddingY * 2, text, textConfig)
-            .setOrigin(textOriginX, textOriginY);
-
-        this.textX = -width * (0.5 - textAlignX) + textPaddingX * (0.5 - textAlignX) * 2 + textOffsetX;
-        this.textY = -height * (0.5 - textAlignY) + textPaddingY * (0.5 - textAlignY) * 2 + textOffsetY;
-        textObj.setPosition(this.textX, this.textY);
-
-        textObj.adjustFontSize();
-
-        return textObj;
     }
 }

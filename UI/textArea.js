@@ -9,13 +9,38 @@ export default class TextArea extends Phaser.GameObjects.Text {
     * @param {Number} maxHeight - alto maximo que puede ocupar el texto (opcional)
     * @param {String} text - texto a mostrar (opcional)
     * @param {Object} style - estilo del texto (opcional)
+    * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {Number} textPaddingX - margen x entre el texto y sus dimensiones maximas (opcional)
+    * @param {Number} textPaddingY - margen y entre el texto y sus dimensiones maximas (opcional)
+    * @param {Number} textOffsetX - offset x del texto (opcional)
+    * @param {Number} textOffsetY - offset y del texto (opcional)
+    * @param {Number} textAlignX - alineacion horizontal del texto [0-1] (opcional)
+    * @param {Number} textAlignY - alineacion vertical del texto [0-1] (opcional)
     */
-    constructor(scene, x = 0, y = 0, maxWidth = 100, maxHeight = 100, text = "", style = {}) {
+    constructor(scene, x = 0, y = 0, maxWidth = 100, maxHeight = 100, text = "", style = {}, 
+        textOriginX = 0.5, textOriginY = 0.5, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0,  textAlignX = 0.5, textAlignY = 0.5) 
+    {
+        // Se crea el texto y se anade a la escena
         super(scene, x, y, text, style);
         scene.add.existing(this);
 
-        this.maxWidth = maxWidth;
-        this.maxHeight = maxHeight;
+        // Se calculan las dimensiones maximas en base a las indicadas y el padding
+        this.maxWidth = maxWidth - textPaddingX * 2;
+        this.maxHeight = maxHeight - textPaddingY * 2;
+        
+        // Se pone el texto en el origen indicado
+        this.setOrigin(textOriginX, textOriginY);
+
+        // Se coloca el texto segun su alineacion y el padding
+        this.x -= this.maxWidth * (0.5 - textAlignX) + textPaddingX * (0.5 - textAlignX) * 2 + textOffsetX;
+        this.y -= -this.maxHeight * (0.5 - textAlignY) + textPaddingY * (0.5 - textAlignY) * 2 + textOffsetY;
+
+        if (gameDebug.enableText) {
+            this.setInteractive();
+            scene.input.enableDebug(this, gameDebug.textColor);
+            this.disableInteractive();
+        }
     }
 
     /**
@@ -65,10 +90,15 @@ export default class TextArea extends Phaser.GameObjects.Text {
             while (this.maxWidth > 0 && this.maxHeight > 0 && text != "" && !this.fits(text)) {
                 fontSize -= reduction;
                 this.setFontSize(fontSize);
+                // this.setSize(this.getBounds().width, this.getBounds().height);
+            }
+
+            if (gameDebug.enableText) {
+                this.setInteractive();
+                this.scene.input.enableDebug(this, gameDebug.textColor);
+                this.disableInteractive();
             }
         }
-
-
         // console.log(fontSize);
     }
 

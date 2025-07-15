@@ -118,7 +118,7 @@ export default class DialogBox extends InteractiveContainer {
         this.add(this.nameTextObj);
 
 
-        if (gameDebug.enable) {
+        if (gameDebug.enableText) {
             let textboxDebug = scene.add.rectangle(this.textboxConfig.textX, this.textboxConfig.textY, this.textboxConfig.realWidth, this.textboxConfig.realHeight, 0xfff, 0.5)
                 .setOrigin(this.textboxConfig.textOriginX, this.textboxConfig.textOriginY).setScale(this.textboxConfig.scaleX, this.textboxConfig.scaleY);
             let nameBoxDebug = scene.add.rectangle(this.nameBoxConfig.textX, this.nameBoxConfig.textY, this.nameBoxConfig.realWidth, this.nameBoxConfig.realHeight, 0x000, 0.5)

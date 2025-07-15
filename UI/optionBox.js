@@ -1,8 +1,8 @@
-import Button from "./button.js";
+import ImageTextButton from "./imageTextButton.js";
 import { completeMissingProperties } from "../utils/misc.js"
-import { DEFAULT_TEXT_CONFIG } from "../utils/graphics.js"
+import { DEFAULT_TEXT_CONFIG, tintAnimation } from "../utils/graphics.js"
 
-export default class OptionBox extends Button {
+export default class OptionBox extends ImageTextButton {
     /**
     * Caja de texto para los dialogos
     * @extends Button
@@ -15,13 +15,11 @@ export default class OptionBox extends Button {
     * @param {Object} textConfig - configuracion del texto de la caja (opcional)
     */
     constructor(scene, index, totalOpts, text, onClick = {}, boxConfig = {}, textConfig = {}) {
-        super(scene, 0, 0, 0, 0);
-
         let DEFAULT_BOX_CONFIG = {
             collectiveAlignY: 1,
             collectiveTopMargin: 0,
 
-            imgX: this.CANVAS_WIDTH / 2,
+            imgX: scene.CANVAS_WIDTH / 2,
             imgAtlas: "",
             img: "optionBox",
             imgOriginX: 0.5,
@@ -51,25 +49,35 @@ export default class OptionBox extends Button {
             pointerOverColor: "#d9d9d9"
         }
 
+        // Completar los parametros faltantes de los argumentos
+        let completedBoxConfig = completeMissingProperties(boxConfig, DEFAULT_BOX_CONFIG);
+        let completedTextConfig = completeMissingProperties(textConfig, DEFAULT_TEXT_CONFIG);
+        
+        super(scene, 0, 0, text, completedTextConfig, onClick, completedBoxConfig.imgAtlas, completedBoxConfig.img, completedBoxConfig.imgOriginX, completedBoxConfig.imgOriginY,
+            completedBoxConfig.imgScaleX, completedBoxConfig.imgScaleY, completedBoxConfig.imgAlpha, completedBoxConfig.textOriginX, completedBoxConfig.textOriginY,
+            completedBoxConfig.textPaddingX, completedBoxConfig.textPaddingY, completedBoxConfig.textOffsetX, completedBoxConfig.textOffsetY, 
+            completedBoxConfig.textAlignX, completedBoxConfig.textAlignY);
+
+
         // TODO: Meter soporte para agrandar la caja si el texto no cabe (y/o para usar nineslice)
 
-        // Completar los parametros faltantes de los argumentos
-        this.boxConfig = completeMissingProperties(boxConfig, DEFAULT_BOX_CONFIG);
-        this.textConfig = completeMissingProperties(textConfig, DEFAULT_TEXT_CONFIG);
 
-        this.createImgButton("", onClick);
+        this.boxConfig = completedBoxConfig;
+        this.textConfig = completedTextConfig;
+
 
         // Se calcula el ancho en base a la imagen
         if (boxConfig.realWidth == null) {
-            this.boxConfig.realWidth = this.image.displayWidth;
+            this.boxConfig.realWidth = this.image.displayWidth - this.boxConfig.textPaddingX * 2;
         }
         if (boxConfig.realHeight == null) {
-            this.boxConfig.realHeight = this.image.displayHeight;
+            this.boxConfig.realHeight = this.image.displayHeight - this.boxConfig.textPaddingY * 2;
         }
 
         if (textConfig.wordWrap != null) {
             this.textConfig.wordWrap.width = this.boxConfig.realWidth - this.boxConfig.textPaddingX * 2;
         }
+
 
         // Calcular la posicion de la caja dependiendo del numero total de cajas y su alineacion vertical total
         let totalHeight = (this.image.displayHeight + this.boxConfig.boxSpacing);
@@ -78,40 +86,16 @@ export default class OptionBox extends Button {
             + (0.5 - this.boxConfig.collectiveAlignY) * this.boxConfig.boxSpacing;
         let boxY = startY + (totalHeight * index) + this.boxConfig.collectiveTopMargin;
         
-        // Actualizar la informacion de la caja
-        this.rectWidth = this.boxConfig.realWidth;
-        this.rectHeight = this.boxConfig.realHeight;
-
-        // Se eliminan la imagen y el texto (necesario para actualizar correctamente los tamanos)
-        this.image.destroy();
-        this.textObj.destroy();
-        this.removeAllListeners();
-
-        // Se vuelve a crear la caja con las dimensiones bien calculadas 
-        this.createImgButton(text, onClick);
-
-
-        this.posX = this.boxConfig.imgX;
-        this.posY = boxY;
-        this.setPosition(this.posX, this.posY);
+        this.setPosition(this.boxConfig.imgX, boxY);
         
 
-        if (gameDebug.enable) {
-            let textDebug = scene.add.rectangle(this.x, this.y, this.boxConfig.realWidth - this.boxConfig.textPaddingX * 2, 
-                this.boxConfig.realHeight - this.boxConfig.textPaddingY * 2, 0xfff, 0.5).setOrigin(this.boxConfig.textOriginX, this.boxConfig.textOriginY)
-                .setOrigin(this.originX, this.originY).setScale(this.boxConfig.scaleX, this.boxConfig.scaleY);
+        // Actualizar la informacion del texto
+        this.textObj.maxWidth = this.boxConfig.realWidth;
+        this.textObj.maxHeight = this.boxConfig.realHeight;
+        this.textObj.setStyle(this.textConfig);
 
-            this.on("destroy", () => {
-                textDebug.destroy();
-            })
-        }
-
+        
+        tintAnimation(this, this.list, onClick, true);
         this.setVisible(false);
-    }
-
-    createImgButton(text, onClick) {
-        super.createImgButtonWithAtlas(text, this.textConfig, onClick, this.boxConfig.imgAtlas, this.boxConfig.img, this.boxConfig.imgOriginX, this.boxConfig.imgOriginY, 
-            this.boxConfig.imgScaleX, this.boxConfig.imgScaleY, this.boxConfig.imgAlpha, this.boxConfig.textPaddingX, this.boxConfig.textPaddingY, this.boxConfig.textOffsetX, 
-            this.boxConfig.textOffsetY, this.boxConfig.textOriginX, this.boxConfig.textOriginY, this.boxConfig.textAlignX, this.boxConfig.textAlignY);
     }
 }

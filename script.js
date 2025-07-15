@@ -14,6 +14,8 @@ window.addEventListener("mousedown", function () {
 });
 
 var gameDebug = {
-    enable: true,
-    color: "0x00ff00"
+    enable: false,
+    color: "0x00ff00",
+    enableText: false,
+    textColor: "0x0000ff"
 }
