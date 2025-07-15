@@ -5,7 +5,7 @@ import { DEFAULT_TEXT_CONFIG, tintAnimation } from "../utils/graphics.js"
 export default class OptionBox extends ImageTextButton {
     /**
     * Caja de texto para los dialogos
-    * @extends Button
+    * @extends ImageTextButton
     * @param {Phaser.Scene} scene - escena en la que se crea (idealmente la escena de UI)
     * @param {Number} index - indice de la opcion de entre todas las opciones
     * @param {Number} totalOpts - numero total de opciones
