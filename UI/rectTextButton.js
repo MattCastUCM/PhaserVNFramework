@@ -36,27 +36,28 @@ export default class RectTextButton extends InteractiveContainer {
     */
     constructor(scene, x, y, width, height, text, textConfig, onClick = () => { }, textureId = "rectButtonTexture",
         rectOriginX = 0.5, rectOriginY = 0.5, radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1,
-        textOriginX = 0.5, textOriginY = 0.5, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0,  textAlignX = 0.5, textAlignY = 0.5) 
-    {
+        textOriginX = 0.5, textOriginY = 0.5, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0, textAlignX = 0.5, textAlignY = 0.5) {
         super(scene, x, y);
 
         createRectTexture(this.scene, textureId, width, height, fillColor, fillAlpha, borderThickness, borderColor, borderAlpha, radiusPercentage);
 
         // Se crea la imagen en base a la textura indicada
-        this.image = this.scene.add.image(0, 0, textureId).setOrigin(rectOriginX, rectOriginY);
-        this.add(this.image);
-        
-        let textX = this.image.x + this.image.displayWidth * (0.5 - rectOriginX);
-        let textY = this.image.y + this.image.displayHeight * (0.5 - rectOriginY);
-        this.textObj = new TextArea(this.scene, 
+        this.rect = this.scene.add.image(0, 0, textureId).setOrigin(rectOriginX, rectOriginY);
+        this.add(this.rect);
+
+        let textX = this.rect.x + this.rect.displayWidth * (0.5 - rectOriginX);
+        let textY = this.rect.y + this.rect.displayHeight * (0.5 - rectOriginY);
+        this.textObj = new TextArea(this.scene,
             textX, textY, width, height, text, textConfig, textOriginX, textOriginY, textPaddingX, textPaddingY, textOffsetX, textOffsetY, textAlignX, textAlignY)
         this.textObj.adjustFontSize();
         this.add(this.textObj);
 
         this.calculateRectangleSize();
-        
-        this.onClick = onClick;
-        this.setInteractive();
-        this.on("pointerdown", onClick);
+
+        if (onClick != null && typeof onClick === "function") {
+            this.onClick = onClick;
+            this.setInteractive();
+            this.on("pointerdown", onClick);
+        }
     }
 }

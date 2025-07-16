@@ -1,11 +1,13 @@
-import Button from "./button.js";
+import { tintAnimation } from "../utils/graphics.js";
 import { setInteractive } from "../utils/misc.js";
+import InteractiveContainer from "./interactiveContainer.js";
+import RectTextButton from "./rectTextButton.js";
 
-export default class TextInput extends Button {
+export default class TextInput extends InteractiveContainer {
     /**
     * Crear una caja interactiva donde introducir texto
     * 
-    * @extends {Button}
+    * @extends {InteractiveContainer}
     * @param {Phaser.Scene} - escena donde crear la caja
     * @param {Number} x - posicion x de la caja de input
     * @param {Number} y - posicion y de la caja de input
@@ -27,22 +29,25 @@ export default class TextInput extends Button {
     * @param {Number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
     * @param {Number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
     */
-    constructor(scene, x, y, width, height, defaultText = "", defaultTextConfig = {}, textConfig = {}, textureId = "textInputTexture",
-        radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1,
+    constructor(scene, x, y, width, height, defaultText, defaultTextConfig, textConfig, textureId = "textInputTexture",
+        radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1,
         textPaddingX = 10, normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696) {
-        super(scene, x, y, width, height);
+        super(scene, x, y);
 
+        this.width = width;
         this.normalTintColor = normalTintColor;
 
         // Se crea el boton rectangular que simular una caja de texto.
         // Se usa el texto por defecto para calcular el tamano inicial de la fuente
-        this.createRectButton(defaultText, defaultTextConfig, () => {
-            this.write();
-        }, textureId, radiusPercentage, fillColor, fillAlpha, borderThickness, borderNormalColor, borderAlpha,
-            textPaddingX, 0, 0, 0, 0, 0.5, 0, 0.5, normalTintColor, hoverTintColor, pressingTintColor);
+        this.rectButton = new RectTextButton(scene, 0, 0, width, height, defaultText, defaultTextConfig, null,
+            textureId, 0.5, 0.5, radiusPercentage, fillColor, fillAlpha, borderThickness, borderColor, borderAlpha,
+            0, 0.5, textPaddingX, 0, 0, 0, 0, 0.5);
+        this.add(this.rectButton);
+
+        this.rectButton.removeInteractive();
 
         // Se obtiene el tamano de fuente reducida
-        let reducedFontSize = this.textObj.style.fontSize;
+        let reducedFontSize = this.rectButton.textObj.style.fontSize;
 
         this.defaultText = defaultText;
         this.defaultTextConfig = defaultTextConfig;
@@ -53,8 +58,7 @@ export default class TextInput extends Button {
         this.textConfig.fontSize = reducedFontSize;
 
         // Crear el cursor visual que parpadea mientras se escribe
-        this.cursor = this.scene.add.text(0, 0, "|", this.textConfig)
-            .setOrigin(0.5, 0.5).setAlpha(0);
+        this.cursor = this.scene.add.text(0, 0, "|", this.textConfig).setOrigin(0.5, 0.5).setAlpha(0);
         this.add(this.cursor);
 
         // Animacion que hace parpadear el cursor
@@ -70,11 +74,18 @@ export default class TextInput extends Button {
 
         this.isWriting = false;
 
-        // Habilitar el uso teclado fisico
+        // Habilitar el uso del teclado fisico
         this.activeRegularKeyboard();
 
         // Habilitar el uso del teclado virtual (pantallas tactiles)
         this.activeOnScreenKeyboard();
+
+        this.calculateRectangleSize();
+
+        this.allChildren = this.getAllChildren();
+        tintAnimation(this, this.allChildren, () => {
+            this.write();
+        }, true, normalTintColor, hoverTintColor, pressingTintColor);
     }
 
     activeRegularKeyboard() {
@@ -147,11 +158,11 @@ export default class TextInput extends Button {
     }
 
     setText(text) {
-        this.textObj.setText(text);
+        this.rectButton.textObj.setText(text);
         // Se eliminan caracteres por la izquierda para que no se salga del rectangulo permitido
-        this.textObj.adjustTextLength(true);
+        this.rectButton.textObj.adjustTextLength(true);
         // Se desplaza el cursor
-        this.cursor.x = this.textObj.x + this.textObj.displayWidth;
+        this.cursor.x = this.rectButton.textObj.x + this.rectButton.textObj.displayWidth;
     }
 
     write() {
@@ -159,12 +170,12 @@ export default class TextInput extends Button {
         this.isWriting = true;
         // Se desactiva la interaccion para no volver a pulsar la caja mientras se esta escribiendo
         this.disableInteractive();
-        Phaser.Actions.SetTint(this.list, this.normalTintColor);
+        Phaser.Actions.SetTint(this.allChildren, this.normalTintColor);
 
         // Si no hay texto escrito, es que estaba el texto por defecto, por lo tanto, hay que eliminarlo
         if (this.text === "") {
             this.setText(this.text);
-            this.textObj.setStyle(this.textConfig);
+            this.rectButton.textObj.setStyle(this.textConfig);
         }
 
         // Se activa el cursor
@@ -186,8 +197,8 @@ export default class TextInput extends Button {
 
                 // Si no hay ningun texto, se muestra el por defecto
                 if (this.text === "") {
-                    this.textObj.setText(this.defaultText)
-                    this.textObj.setStyle(this.defaultTextConfig);
+                    this.rectButton.textObj.setText(this.defaultText)
+                    this.rectButton.textObj.setStyle(this.defaultTextConfig);
                 }
 
                 // Se desactiva el cursor

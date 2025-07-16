@@ -75,4 +75,78 @@ export default class AnimatedContainer extends Phaser.GameObjects.Container {
             }, delay);
         });
     }
+
+    /**
+    * Devolver todos los hijos que hay en el container, incluyendo los hijos de cualquier container hijo
+    * @returns {Array, Phaser.GameObject}
+    */
+    getAllChildren() {
+        let allChildren = [];
+        // Se usa una pila para procesar los container.
+        // Se comienza con el container actual
+        let containerStack = [this];
+
+        while (containerStack.length > 0) {
+            // Se extrae el container mas reciente para procesar sus hijos
+            let container = containerStack.pop();
+            container.list.forEach(child => {
+                // Si el hijo es un container, se mete en la pila
+                if (child instanceof Phaser.GameObjects.Container) {
+                    containerStack.push(child);
+                }
+                else {
+                    // Si no, se anade a la lista de hijos
+                    allChildren.push(child);
+                }
+            })
+        }
+
+        return allChildren;
+    }
+
+    /**
+     * Convertir un punto de coordenadas globales (mundo) a coordenadas locales del container
+     * @param {Number} worldX - posicion x en el espacio global
+     * @param {Number} worldY - posicion y en el espacio global
+     * @returns {{x: Number, y: Number}} - posiciones x, y en el espacio local
+     */
+    worldToLocal(worldX, worldY) {
+        // Se obtiene la matriz de transformaciones global (mundo) del container
+        let matrix = this.getWorldTransformMatrix();
+
+        // La matriz de mundo convierte local -> global,
+        // asi que su inversa global -> local
+        let localPoint = matrix.applyInverse(worldX, worldY);
+        return localPoint;
+    }
+
+    /**
+    * Establecer el origen del container.
+    * Es decir, se reposicionan todos los elementos para que un punto especifico del bounding box
+    * quede en el origen (0,0) del espacio local del container
+    * @param {Number} originX - origen en x [0, 1] (opcional)
+    * @param {Number} originY - origen en y [0, 1] (opcional)
+    */
+    setContainerOrigin(originX = 0.5, originY = originX) {
+        // Se obtiene la bounding box, que esta en coordenadas globales
+        let bounds = this.getBounds();
+
+        // Se convierte la esquina superior izquierda a coordenadas locales
+        let topLeft = this.worldToLocal(bounds.x, bounds.y);
+        let width = bounds.width;
+        let height = bounds.height;
+
+        // Se calcula el offset, que depende del origen definido
+        let offsetX = topLeft.x + width * originX;
+        let offsetY = topLeft.y + height * originY;
+
+        // Se aplica el offset a todos los hijos para ajustar su posicion relativa
+        this.list.forEach(child => {
+            child.x -= offsetX;
+            child.y -= offsetY;
+        });
+
+        // this.x += offsetX;
+        // this.y += offsetY;
+    }
 }

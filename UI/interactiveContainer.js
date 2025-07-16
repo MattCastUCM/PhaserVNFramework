@@ -43,6 +43,9 @@ export default class InteractiveContainer extends AnimatedContainer {
     * @param {String} objectName - nombre del objeto a imprimir en el debug (opcional)
     */
     calculateRectangleSize(objectName = "") {
+        // Si no se elimina y se vuelve a llamar este metodo, la nueva zona no se calcula bien
+        this.removeInteractive();
+
         // Esta en coordenadas globlaes
         let dims = this.getBounds();
         this.setSize(dims.width, dims.height);

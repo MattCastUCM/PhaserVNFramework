@@ -1,40 +1,41 @@
+import { range } from "../utils/misc.js";
+
 export default class TextArea extends Phaser.GameObjects.Text {
     /**
     * Texto que tiene que estar contenido en un area especifica
     * @extends Phaser.GameObjects.Text
-    * @param {Phaser.GameObjects.Scene} scene - escena en la que se crea (idealmente la escena de UI)
+    * @param {Phaser.GameObjects.Scene} scene - escena en la que se crea
     * @param {Number} x - posicion x del texto (opcional)
     * @param {Number} y - posicion y del texto (opcional)
     * @param {Number} maxWidth - ancho maximo que puede ocupar el texto (opcional)
     * @param {Number} maxHeight - alto maximo que puede ocupar el texto (opcional)
     * @param {String} text - texto a mostrar (opcional)
     * @param {Object} style - estilo del texto (opcional)
-    * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textPaddingX - margen x entre el texto y sus dimensiones maximas (opcional)
-    * @param {Number} textPaddingY - margen y entre el texto y sus dimensiones maximas (opcional)
-    * @param {Number} textOffsetX - offset x del texto (opcional)
-    * @param {Number} textOffsetY - offset y del texto (opcional)
-    * @param {Number} textAlignX - alineacion horizontal del texto [0-1] (opcional)
-    * @param {Number} textAlignY - alineacion vertical del texto [0-1] (opcional)
+    * @param {Number} originX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {Number} originY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {Number} paddingX - margen x entre el texto y sus dimensiones maximas (opcional)
+    * @param {Number} paddingY - margen y entre el texto y sus dimensiones maximas (opcional)
+    * @param {Number} offsetX - offset x del texto (opcional)
+    * @param {Number} offsetY - offset y del texto (opcional)
+    * @param {Number} alignX - alineacion horizontal del texto [0-1] (opcional)
+    * @param {Number} alignY - alineacion vertical del texto [0-1] (opcional)
     */
-    constructor(scene, x = 0, y = 0, maxWidth = 100, maxHeight = 100, text = "", style = {}, 
-        textOriginX = 0.5, textOriginY = 0.5, textPaddingX = 0, textPaddingY = 0, textOffsetX = 0, textOffsetY = 0,  textAlignX = 0.5, textAlignY = 0.5) 
-    {
+    constructor(scene, x = 0, y = 0, maxWidth = 100, maxHeight = 100, text = "", style = {},
+        originX = 0.5, originY = 0.5, paddingX = 0, paddingY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
         // Se crea el texto y se anade a la escena
         super(scene, x, y, text, style);
         scene.add.existing(this);
 
         // Se calculan las dimensiones maximas en base a las indicadas y el padding
-        this.maxWidth = maxWidth - textPaddingX * 2;
-        this.maxHeight = maxHeight - textPaddingY * 2;
-        
+        this.maxWidth = maxWidth - paddingX * 2;
+        this.maxHeight = maxHeight - paddingY * 2;
+
         // Se pone el texto en el origen indicado
-        this.setOrigin(textOriginX, textOriginY);
+        this.setOrigin(originX, originY);
 
         // Se coloca el texto segun su alineacion y el padding
-        this.x -= this.maxWidth * (0.5 - textAlignX) + textPaddingX * (0.5 - textAlignX) * 2 - textOffsetX;
-        this.y -= -this.maxHeight * (0.5 - textAlignY) + textPaddingY * (0.5 - textAlignY) * 2 - textOffsetY;
+        this.x += -this.maxWidth * (0.5 - alignX) + paddingX * (0.5 - alignX) * 2 - offsetX;
+        this.y += -this.maxHeight * (0.5 - alignY) + paddingY * (0.5 - alignY) * 2 - offsetY;
 
         if (gameDebug.enableText) {
             this.setInteractive();
@@ -73,11 +74,7 @@ export default class TextArea extends Phaser.GameObjects.Text {
     /**
     * Ajusta automaticamente el tamano de la fuente hasta que quepa al menos 1 caracter
     * @param {String} text - primer caracter del texto a mostrar
-    * @param {Number} reduction - reduccion que se le ira aplicando a la fuente cada vez que se compruebe si cabe o no 
-    * 
-    * IMPORTANTE: ESTE METODO VA RECONSTRUYENDO EL TEXTO CON UN TAMANO DE FUENTE CADA VEZ
-    * MENOR Y COMPROBANDO SI CABE DENTRO DE LOS LIMITES DE LA CAJA, POR LO QUE SI EL TAMANO
-    * DEL TEXTO ES ENORME O LA REDUCCION ES MUY PEQUENA, TARDARA MUCHO TIEMPO EN TERMINAR
+    * @param {Number} reduction - reduccion que se le ira aplicando a la fuente cada vez que se compruebe si cabe o no
     */
     adjustFontSize(text = "", reduction = 5) {
         if (text == null || text == "") {
@@ -85,13 +82,52 @@ export default class TextArea extends Phaser.GameObjects.Text {
         }
         if (text != "") {
             let textConfig = this.style;
-            let fontSize = textConfig.fontSize.replace("px", "");
+            let fontSize = parseInt(textConfig.fontSize.replace("px", ""));
 
-            while (this.maxWidth > 0 && this.maxHeight > 0 && text != "" && !this.fits(text)) {
-                fontSize -= reduction;
-                this.setFontSize(fontSize);
-                // this.setSize(this.getBounds().width, this.getBounds().height);
+            let fontSizes = range(1, fontSize - 1, reduction);
+
+            // function adjustFontSizeAux(fontSizes, ini, fin, text) {
+            //     let n = fin - ini;
+            //     if (n == 1) {
+            //         return fontSizes[ini];
+            //     }
+            //     else {
+            //         let mitad = Math.floor((fin + ini) / 2);
+            //         this.setFontSize(fontSizes[mitad]);
+            //         if (this.fits(text)) {
+            //             return adjustFontSizeAux.call(this, fontSizes, mitad, fin, text);
+            //         }
+            //         else {
+            //             return adjustFontSizeAux.call(this, fontSizes, ini, mitad, text);
+            //         }
+            //     }
+            // }
+
+            if (this.maxWidth > 0 && this.maxHeight > 0 && text != "" && !this.fits(text)) {
+                let ini = 0;
+                let end = fontSizes.length - 1;
+
+                // Divide y venceras
+                while (end - ini > 1) {
+                    let half = Math.floor((end + ini) / 2);
+                    this.setFontSize(fontSizes[half]);
+
+                    if (this.fits(text)) {
+                        ini = half;
+                    }
+                    else {
+                        end = half;
+                    }
+                }
+
+                this.setFontSize(fontSizes[ini]);
             }
+
+            // while (this.maxWidth > 0 && this.maxHeight > 0 && text != "" && !this.fits(text)) {
+            //     fontSize -= reduction;
+            //     this.setFontSize(fontSize);
+            //     // this.setSize(this.getBounds().width, this.getBounds().height);
+            // }
 
             if (gameDebug.enableText) {
                 this.setInteractive();

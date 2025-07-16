@@ -101,3 +101,22 @@ export function getDifferenceTimeInS(startTime) {
     let durationInMs = currentTime.getTime() - startTime.getTime();
     return durationInMs / 1000;
 }
+
+/**
+* Crear una lista de numeros desde "start" hasta "end" incrementando "step" en cada paso
+* @param {Number} start - valor inicial de la lista
+* @param {Number} end - valor final de la lista
+* @param {Number} step - incremento en cada paso
+* @returns {Array, Number} - lista de numeros
+*/
+export function range(start, end, step) {
+    let range = [];
+    for (let i = start; i < end; i += step) {
+        range.push(i);
+    }
+    // Simpre se incluye "end"
+    if (range[range.length - 1] !== end) {
+        range.push(end);
+    }
+    return range;
+}
