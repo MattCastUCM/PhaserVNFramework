@@ -23,13 +23,13 @@ export default class BaseTrackerManager extends Singleton {
     }
 
     sendInitializeDialog(name, dialog) {
-        this.seriousGameTracker.completable(`${name.trim()} ${dialog.trim()}`, this.seriousGameTracker.COMPLETABLETYPE.STORYNODE)
+        this.seriousGameTracker.completable(`${name} ${dialog.replace(/\s\s+/g, ' ').trim()}`, this.seriousGameTracker.COMPLETABLETYPE.STORYNODE)
             .initialized()
             .send();
     }
 
     sendCompleteDialog(name, dialog) {
-        this.seriousGameTracker.completable(`${name.trim()} ${dialog.trim()}`, this.seriousGameTracker.COMPLETABLETYPE.STORYNODE)
+        this.seriousGameTracker.completable(`${name} ${dialog.replace(/\s\s+/g, ' ').trim()}`, this.seriousGameTracker.COMPLETABLETYPE.STORYNODE)
             .completed(true, true, 1)
             .send();
     }
