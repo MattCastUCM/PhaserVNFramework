@@ -34,8 +34,8 @@ export default class TextArea extends Phaser.GameObjects.Text {
         this.setOrigin(originX, originY);
 
         // Se coloca el texto segun su alineacion y el padding
-        this.x += -this.maxWidth * (0.5 - alignX) + paddingX * (0.5 - alignX) * 2 - offsetX;
-        this.y += -this.maxHeight * (0.5 - alignY) + paddingY * (0.5 - alignY) * 2 - offsetY;
+        this.x += -this.maxWidth * (0.5 - alignX) + paddingX * (0.5 - alignX) * 2 + offsetX;
+        this.y += -this.maxHeight * (0.5 - alignY) + paddingY * (0.5 - alignY) * 2 + offsetY;
 
         if (gameDebug.enableText) {
             this.setInteractive();

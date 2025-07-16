@@ -98,6 +98,18 @@ export default class OptionBox extends ImageTextButton {
         this.textObj.maxHeight = this.boxConfig.realHeight;
         this.textObj.setStyle(this.textConfig);
 
+        this.textObj.adjustFontSize();
+        
+
+        if (gameDebug.enableText) {
+            let debugRect = this.scene.add.rectangle(this.textObj.x, this.textObj.y, this.textObj.maxWidth, this.textObj.maxHeight, 0xff, 0).setOrigin(this.textObj.originX, this.textObj.originY);
+            debugRect.setTint = () => {};
+            debugRect.setStrokeStyle(2, 0xff0000);
+            this.add(debugRect);
+            this.on("destroy", () => {
+                debugRect.destroy();
+            });
+        }
         
         tintAnimation(this, this.list, onClick, true);
         this.setVisible(false);
