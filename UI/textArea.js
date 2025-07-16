@@ -38,6 +38,10 @@ export default class TextArea extends Phaser.GameObjects.Text {
         this.y += -this.maxHeight * (0.5 - alignY) + paddingY * (0.5 - alignY) * 2 + offsetY;
 
         if (gameDebug.enableText) {
+            this.debugRect = this.scene.add.rectangle(this.x, this.y, this.maxWidth, this.maxHeight, 0xff, 0)
+                .setOrigin(originX, originY);
+            this.debugRect.setStrokeStyle(2, gameDebug.textColor);
+
             this.setInteractive();
             scene.input.enableDebug(this, gameDebug.textColor);
             this.disableInteractive();
@@ -129,11 +133,11 @@ export default class TextArea extends Phaser.GameObjects.Text {
             //     // this.setSize(this.getBounds().width, this.getBounds().height);
             // }
 
-            if (gameDebug.enableText) {
-                this.setInteractive();
-                this.scene.input.enableDebug(this, gameDebug.textColor);
-                this.disableInteractive();
-            }
+            // if (gameDebug.enableText) {
+            //     this.setInteractive();
+            //     this.scene.input.enableDebug(this, gameDebug.textColor);
+            //     this.disableInteractive();
+            // }
         }
         // console.log(fontSize);
     }
@@ -163,6 +167,15 @@ export default class TextArea extends Phaser.GameObjects.Text {
                 }
                 this.setText(text);
             }
+        }
+    }
+
+    setAreaSize(maxWidth, maxHeight) {
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+
+        if (gameDebug.enableText) {
+            this.debugRect.setSize(this.maxWidth, this.maxHeight);
         }
     }
 }

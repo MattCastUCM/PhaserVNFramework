@@ -38,7 +38,7 @@ export default class OptionBox extends ImageTextButton {
 
             textOriginX: 0.5,
             textOriginY: 0.5,
-            
+
             textAlignX: 0.5,
             textAlignY: 0.5,
 
@@ -51,15 +51,15 @@ export default class OptionBox extends ImageTextButton {
 
         // Completar los parametros faltantes de los argumentos
         let completedBoxConfig = completeMissingProperties(boxConfig, DEFAULT_BOX_CONFIG);
-        
+
         if (textConfig.wordWrap != null) {
             textConfig.wordWrap.width = textConfig.fontSize * 2;
         }
         let completedTextConfig = completeMissingProperties(textConfig, DEFAULT_TEXT_CONFIG);
-        
+
         super(scene, 0, 0, text, completedTextConfig, onClick, completedBoxConfig.imgAtlas, completedBoxConfig.img, completedBoxConfig.imgOriginX, completedBoxConfig.imgOriginY,
             completedBoxConfig.imgScaleX, completedBoxConfig.imgScaleY, completedBoxConfig.imgAlpha, completedBoxConfig.textOriginX, completedBoxConfig.textOriginY,
-            completedBoxConfig.textPaddingX, completedBoxConfig.textPaddingY, completedBoxConfig.textOffsetX, completedBoxConfig.textOffsetY, 
+            completedBoxConfig.textPaddingX, completedBoxConfig.textPaddingY, completedBoxConfig.textOffsetX, completedBoxConfig.textOffsetY,
             completedBoxConfig.textAlignX, completedBoxConfig.textAlignY);
 
 
@@ -89,28 +89,22 @@ export default class OptionBox extends ImageTextButton {
             + this.image.displayHeight * this.boxConfig.imgOriginY
             + (0.5 - this.boxConfig.collectiveAlignY) * this.boxConfig.boxSpacing;
         let boxY = startY + (totalHeight * index) + this.boxConfig.collectiveTopMargin;
-        
+
         this.setPosition(this.boxConfig.imgX, boxY);
-        
+
 
         // Actualizar la informacion del texto
+        this.textObj.setAreaSize(this.boxConfig.realWidth, this.boxConfig.realHeight);
         this.textObj.maxWidth = this.boxConfig.realWidth;
         this.textObj.maxHeight = this.boxConfig.realHeight;
         this.textObj.setStyle(this.textConfig);
 
         this.textObj.adjustFontSize();
-        
 
         if (gameDebug.enableText) {
-            let debugRect = this.scene.add.rectangle(this.textObj.x, this.textObj.y, this.textObj.maxWidth, this.textObj.maxHeight, 0xff, 0).setOrigin(this.textObj.originX, this.textObj.originY);
-            debugRect.setTint = () => {};
-            debugRect.setStrokeStyle(2, 0xff0000);
-            this.add(debugRect);
-            this.on("destroy", () => {
-                debugRect.destroy();
-            });
+            this.add(this.textObj.debugRect);
         }
-        
+
         tintAnimation(this, this.list, onClick, true);
         this.setVisible(false);
     }

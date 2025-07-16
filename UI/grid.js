@@ -30,7 +30,7 @@ export default class Grid extends Phaser.GameObjects.Container {
         this.cellHeight = (this.height - this.margin * 2) / this.rows;
 
         if (gameDebug.enable) {
-            let debugRect = this.scene.add.rectangle(this.startingX, this.startingY, this.columns * this.cellWidth, this.rows * this.cellHeight, 0x000000, 0);
+            let debugRect = this.scene.add.rectangle(this.startingX, this.startingY, this.columns * this.cellWidth, this.rows * this.cellHeight, 0xff, 0);
             debugRect.setStrokeStyle(2, gameDebug.color);
             debugRect.setOrigin(0, 0);
         }
