@@ -48,12 +48,11 @@ export default class NodeReader {
     * @param {Object} fullJson - objeto json donde estan los nodos 
     * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
     * @param {String} objectName - nombre del objeto en el que esta el dialogo, si es que el json contiene varios dialogos de distintos objetos
-    * @param {Boolean} getObjs - si se quiere devolver el nodo leido como un objeto 
-    * @returns {DialogNode} - nodo raiz de los nodos leidos
+    * @returns {Map} - Mapa con todos los nodos leidos
     */
-    readNodes(scene, file, namespace, objectName, getObjs) {
+    readNodes(scene, file, namespace, objectName) {
         let nodesMap = new Map();
-        this.createNodes(scene, file, namespace, objectName, getObjs, nodesMap);
+        this.createNodes(scene, file, namespace, objectName, nodesMap);
 
         // Recorre todos los nodos guardados en el mapa
         nodesMap.forEach((node) => {
@@ -66,7 +65,7 @@ export default class NodeReader {
             // console.log(node.next)
         });
 
-        return nodesMap.get("root");
+        return nodesMap;
     }
 
     /**
@@ -75,7 +74,6 @@ export default class NodeReader {
     * @param {Object} fullJson - objeto json donde estan los nodos 
     * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
     * @param {String} objectName - nombre del objeto en el que esta el dialogo, si es que el json contiene varios dialogos de distintos objetos
-    * @param {Boolean} getObjs - si se quiere devolver el nodo leido como un objeto 
     * @param {Map} nodesMap - mapa donde se van a guardar los nodos leidos
     * 
     * IMPORTANTE: La estructura de nodos es comun a todos los idiomas y se tiene que guardar con anterioridad
@@ -83,7 +81,7 @@ export default class NodeReader {
     * traducciones es el que se pasa en el parametro namespace, y tiene que pasarse un string con el nombre del
     * archivo sin la extension .json
     */
-    createNodes(scene, fullJson, namespace, objectName, getObjs, nodesMap) {
+    createNodes(scene, fullJson, namespace, objectName, nodesMap) {
         let objectJson = (objectName === "") ? fullJson : this.getObjFromName(fullJson, objectName);
         for (const [key, value] of Object.entries(objectJson)) {
             let id = key;
@@ -110,7 +108,6 @@ export default class NodeReader {
 
                     node.nextDelay = (objectJson[id].nextDelay == null) ? 0 : objectJson[id].nextDelay
 
-                    node.translate(namespace);
                     nodesMap.set(id, node);
                 }
             }

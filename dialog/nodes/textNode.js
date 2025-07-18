@@ -61,12 +61,12 @@ export default class TextNode extends DialogNode {
         this.textAdjusted = false;
     }
 
-    translate(namespace) {
-        this.name = this.localizationManager.translate(this.character, "names");
+    translate(localizationManager, namespace, otherOptions = {}) {
+        this.name = localizationManager.translate(this.character, "names", otherOptions);
 
         // Se obtiene el dialogo traducido
-        let translation = this.localizationManager.translate(this.fullId, namespace, true);
-
+        let translation = localizationManager.translate(this.fullId, namespace, otherOptions);
+        
         // Si el texto no esta dividido en fragmentos, se guarda en el array de fragmentos
         // si no, el array de fragmentos es directamente el obtenido al traducir el nodo
         if (!Array.isArray(translation) && translation != "") {
@@ -78,7 +78,7 @@ export default class TextNode extends DialogNode {
         
         // Se sustituyen las expresiones regulares
         this.dialogs.forEach((dialog, index, dialogs) => {
-            dialogs[index] = this.localizationManager.replaceRegularExpressions(dialog)
+            dialogs[index] = localizationManager.replaceRegularExpressions(dialog)
         });
     }
 

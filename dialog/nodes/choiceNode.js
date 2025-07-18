@@ -52,13 +52,13 @@ export default class ChoiceNode extends DialogNode {
         }
     }
 
-    translate(namespace) {
+    translate(localizationManager, namespace, otherOptions = {}) {
         // Obtiene el texto traducido de las opciones y lo guarda en la lista
-        this.choices = this.localizationManager.translate(this.fullId, namespace, true);
+        this.choices = localizationManager.translate(this.fullId, namespace, otherOptions);
 
         // Se sustituye usando las expresiones regulares
         this.choices.forEach((choice, index, choices) => {
-            choices[index] = this.localizationManager.replaceRegularExpressions(choice)
+            choices[index] = localizationManager.replaceRegularExpressions(choice)
         });
 
         // Si se elige que el orden de las respuestas se aleatorio, se barajan tanto

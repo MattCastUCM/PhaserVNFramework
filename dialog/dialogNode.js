@@ -1,5 +1,4 @@
 import EventDispatcher from "../managers/eventDispatcher.js";
-import LocalizationManager from "../managers/localizationManager.js";
 import DefaultEventNames from "../utils/eventNames.js";
 
 export default class DialogNode {
@@ -16,7 +15,6 @@ export default class DialogNode {
     constructor(scene) {
         this.scene = scene;
         this.dispatcher = EventDispatcher.getInstance();
-        this.localizationManager = LocalizationManager.getInstance();
 
         this.id = "";                   // id del nodo dentro del objeto en el que se encuentra
         this.fullId = "";               // id completa del nodo en el archivo en general
@@ -29,9 +27,11 @@ export default class DialogNode {
 
     /**
     * Gestiona la traduccion del noodo
+    * @param {LocalizationManager} localizationManager - instancia del localizationManager
     * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
+    * @param {Object} otherOptions - parametros que pasarle a i18n (opcional)
     */
-    translate(namespace) { }
+    translate(localizationManager, namespace, otherOptions = {}) { }
 
     /**
     * Procesa el nodo

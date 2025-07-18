@@ -36,20 +36,19 @@ export default class LocalizationManager extends Singleton {
     /**
     * Obtiene el texto traducido
     * @param {String} translationId - id completa del nodo en el que mirar
-    * @param {Object} options - parametros que pasarle a i18n
+    * @param {String} namespace - nombre del archivo de localizacion del que se va a leer
+    * @param {Object} otherOptions - parametros que pasarle a i18n (opcional)
     * @returns {String / Array } - texto o array con los textos traducidos
     */
-    translate(translationId, namespace, returnObjects = true, otherOptions = {}) {
-        let options = otherOptions;
+    translate(translationId, namespace, otherOptions = {}) {
+        let options = { ... otherOptions};
         if (options.ns == null) {
             options.ns = namespace;
         }
-        if (options.returnObjects == null) {
-            options.returnObjects = returnObjects;
-        }
+        otherOptions.returnObjects = true;
 
         let str = this.i18next.t(translationId, options);
-
+        
         // Si se ha obtenido algo
         if (str != null) {
             // Si el objeto obtenido no es un array,
