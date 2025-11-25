@@ -48,7 +48,7 @@ export default class Checkbox extends InteractiveContainer {
         this.checkbox.removeInteractive();
         this.add(this.checkbox);
 
-        this.calculateRectangleSize();
+        // this.calculateRectangleSize();
 
         // Se inicializa la checkbox como desactivada
         this.setState(false);
@@ -60,26 +60,26 @@ export default class Checkbox extends InteractiveContainer {
 
     /**
     * Anadir un elemento al lado de la checkbox con opciones de posicionamiento y alineación.
+    * Por defecto, se puede pulsar en toda la nueva area para cambiar el estado de la checkbox
     * 
-    * @param {Number} paddingX - margen x entre la checkbox y el elemento (opcional)
-    * @param {Number} paddingY - margen y entre la checkbox y el elemento (opcional)
+    * @param {Number} marginX - margen x entre la checkbox y el elemento (opcional)
+    * @param {Number} marginY - margen y entre la checkbox y el elemento (opcional)
     * @param {Number} offsetX - offset x del elemento (opcional)
     * @param {Number} offsetY - offset y del elemento (opcional)
     * @param {Number} alignX - alineacion horizontal del elemento [0-1] (opcional)
     * @param {Number} alignY - alineacion vertical del elemento [0-1] (opcional)
     */
-    attachElement(element, paddingX = 0, paddingY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
+    attachElement(element, marginX = 0, marginY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
         this.add(element);
 
-        let x = -this.width * (0.5 - alignX) - paddingX * (0.5 - alignX) * 2 + offsetX;
-        let y = -this.height * (0.5 - alignY) - paddingY * (0.5 - alignY) * 2 + offsetY;
+        let x = -this.width * (0.5 - alignX) - marginX * (0.5 - alignX) * 2 + offsetX;
+        let y = -this.height * (0.5 - alignY) - marginY * (0.5 - alignY) * 2 + offsetY;
         element.setPosition(x, y);
 
         // Se coloca la checkbox encima del elemento
         this.bringToTop(this.checkbox);
 
-        // Por defecto, se puede clicar en toda la nueva area para cambiar el estado de la checkbox
-        this.calculateRectangleSize();
+        // this.calculateRectangleSize();
 
         tintAnimation(this, this.getAllChildren(), () => {
             this.toggleState();
@@ -99,18 +99,18 @@ export default class Checkbox extends InteractiveContainer {
     * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
     * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
     * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} paddingX - margen x entre la checkbox y el texto (opcional)
-    * @param {Number} paddingY - margen y entre la checkbox y el texto (opcional)
+    * @param {Number} marginX - margen x entre la checkbox y el texto (opcional)
+    * @param {Number} marginY - margen y entre la checkbox y el texto (opcional)
     * @param {Number} offsetX - offset x del texto (opcional)
     * @param {Number} offsetY - offset y del texto (opcional)
     * @param {Number} alignX - alineacion horizontal del texto [0-1] (opcional)
     * @param {Number} alignY - alineacion vertical del texto [0-1] (opcional)
     */
     attachText(width, height, text, textConfig, textOriginX = 0.5, textOriginY = 0.5,
-        paddingX = 0, paddingY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
+        marginX = 0, marginY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
 
         this.textObj = new TextArea(this.scene, 0, 0, width, height, text, textConfig, textOriginX, textOriginY);
-        this.attachElement(this.textObj, paddingX, paddingY, offsetX, offsetY, alignX, alignY);
+        this.attachElement(this.textObj, marginX, marginY, offsetX, offsetY, alignX, alignY);
     }
 
     /**
@@ -133,8 +133,8 @@ export default class Checkbox extends InteractiveContainer {
     * @param {Number} imgOriginX - origen x de la imagen [0-1] (opcional)
     * @param {Number} imgOriginY - origen y de la imagen [0-1] (opcional)
     * @param {Number} imgAlpha - alpha de la imagen [0-1] (opcional)
-    * @param {Number} paddingX - margen x entre la checkbox y la imagen (opcional)
-    * @param {Number} paddingY - margen y entre la checkbox y la imagen (opcional)
+    * @param {Number} marginX - margen x entre la checkbox y la imagen (opcional)
+    * @param {Number} marginY - margen y entre la checkbox y la imagen (opcional)
     * @param {Number} offsetX - offset x de la imagen (opcional)
     * @param {Number} offsetY - offset y de la imagen (opcional)
     * @param {Number} alignX - alineacion horizontal de la imagen [0-1] (opcional)
@@ -143,22 +143,22 @@ export default class Checkbox extends InteractiveContainer {
     attachRectImage(width, height, imgAtlas = "", imgId = "", textureId = "rectButtonTexture",
         rectOriginX = 0.5, rectOriginY = 0.5, radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1,
         imgOriginX = 0.5, imgOriginY = 0.5, imgAlpha = 1,
-        paddingX = 0, paddingY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
+        marginX = 0, marginY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
 
         // Se crea la imagen con el fondo
         this.image = new RectImageButton(this.scene, 0, 0, width, height, imgAtlas, imgId, null, textureId,
             rectOriginX, rectOriginY, radiusPercentage, fillColor, fillAlpha, borderThickness, borderColor, borderAlpha,
             imgOriginX, imgOriginY, imgAlpha);
-        this.attachElement(this.image, paddingX, paddingY, offsetX, offsetY, alignX, alignY);
+        this.attachElement(this.image, marginX, marginY, offsetX, offsetY, alignX, alignY);
 
-        // En este caso, cambiar el estado de la checkbox solo se puede hacer clicando en uno de los dos elementos
+        // En este caso, cambiar el estado de la checkbox solo se puede hacer pulsando en uno de los dos elementos
 
         // Se calcula el area de interseccion entre ambos 
         let overlapRect = Phaser.Geom.Rectangle.Intersection(this.checkbox.getBounds(), this.image.getBounds());
 
         let allChildren = this.getAllChildren();
         tintAnimation(this.checkbox, allChildren, (pointerX, pointerY) => {
-            // Si el clic esta en la zona comun, se ignora para evitar doble activacion
+            // Si se pulsa en la zona comun, se ignora para evitar doble activacion
             if (!Phaser.Geom.Rectangle.Contains(overlapRect, pointerX, pointerY)) {
                 this.toggleState();
             }

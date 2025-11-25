@@ -42,13 +42,12 @@ export default class InteractiveContainer extends AnimatedContainer {
     * Obtiene las dimensiones del rectangulo del container para hacerlo interactivo
     * @param {String} objectName - nombre del objeto a imprimir en el debug (opcional)
     */
-    calculateRectangleSize(objectName = "") {
+    calculateRectangleSize(objectName = "") {       
         // Si no se elimina y se vuelve a llamar este metodo, la nueva zona no se calcula bien
         this.removeInteractive();
 
-        // Esta en coordenadas globlaes
+        super.calculateRectangleSize();
         let dims = this.getBounds();
-        this.setSize(dims.width, dims.height);
 
         let rectangle = new Phaser.Geom.Rectangle(dims.x + dims.width / 2 - this.x, dims.y + dims.height / 2 - this.y,
             dims.width, dims.height);

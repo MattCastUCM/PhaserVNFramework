@@ -54,7 +54,7 @@ export default class RectImageButton extends InteractiveContainer {
         this.image.adjustScale();
         this.add(this.image);
 
-        this.calculateRectangleSize();
+        // this.calculateRectangleSize();
 
         if (onClick != null && typeof onClick === "function") {
             this.onClick = onClick;

@@ -50,7 +50,7 @@ export default class ImageTextButton extends InteractiveContainer {
         this.textObj.adjustFontSize();
         this.add(this.textObj);
 
-        this.calculateRectangleSize();
+        // this.calculateRectangleSize();
 
         if (onClick != null && typeof onClick === "function") {
             this.onClick = onClick;

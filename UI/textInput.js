@@ -80,7 +80,7 @@ export default class TextInput extends InteractiveContainer {
         // Habilitar el uso del teclado virtual (pantallas tactiles)
         this.activeOnScreenKeyboard();
 
-        this.calculateRectangleSize();
+        // this.calculateRectangleSize();
 
         this.allChildren = this.getAllChildren();
         tintAnimation(this, this.allChildren, () => {
