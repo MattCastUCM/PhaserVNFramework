@@ -20,7 +20,7 @@ export default class AnimatedContainer extends SimpleContainer {
             fadeEase: "linear"
         }
         this.fadeAnim = null;
-        this.saveInitialPosition(this);
+        this.saveOriginalPosition(this);
     }
 
     /**

@@ -1,6 +1,6 @@
 export default class SimpleContainer extends Phaser.GameObjects.Container {
     /**
-    * Clase que extiende Container para agregar animaciones al activar/desactivar la visibilidad
+    * Clase que extiende Container y anade funcionalidades para cambiar su origen
     * @extends Phaser.GameObjects.Container
     * @param {Phaser.Scene} scene - escena a la que pertenece
     * @param {Number} x - posicion x (opcional)
@@ -16,8 +16,8 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
 
         // Origen modificable (las propiedades originX y originY de los containers no se pueden 
         // sobreescribir y por defecto son (0.5, 0.5) aunque su origen real sea (0,0) )
-        this.origin_x = 0;
-        this.origin_y = 0;
+        this.origin_x = 0.5;
+        this.origin_y = 0.5;
 
         // Offset aplicado a los hijos al cambiar el origen
         this.offsetX = 0;
@@ -28,6 +28,9 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
         // Rectangulo que se coloca en la esquina superior izquierda del container para marcar su posicion
         this.posMark = scene.add.rectangle(0, 0, 0, 0, 0x0, 1).setVisible(false);
     }
+
+    get originX() { return this.origin_x; }
+    get originY() { return this.origin_y; }
 
     /**
     * Calcula y establece las dimensiones (en coordenadas globales) del container en base a todos sus hijos
@@ -43,8 +46,8 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
     }
 
     /**
-    * Devolver todos los hijos que hay en el container, incluyendo los hijos de cualquier container hijo
-    * @returns {Array, Phaser.GameObject}
+    * Devuelve todos los hijos que hay en el container, incluyendo los hijos de cualquier container hijo
+    * @returns {Array, Phaser.GameObject} - array con todos los objetos que tiene el container
     */
     getAllChildren() {
         let allChildren = [];
@@ -66,12 +69,26 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
                 }
             })
         }
-
         return allChildren;
     }
+    /**
+    * Devuelve si el container contiene el objeto indicado
+    * @param {Phaser.GameObject} gameObject - objeto que se quiere comprobar
+    * @param {Boolean} includeChildContainers - true si se quiere comprobar en los hijos de cualquier container hijo, false si solo se quiere comprobar en este container
+    * @returns {Boolean} - true si el objeto esta en el container, false en caso contrario
+    */
+    hasChild(gameObject, includeChildContainers = false) {
+        if (!includeChildContainers) {
+            return this.list.includes(gameObject);
+        }
+        else {
+            return this.getAllChildren().includes(gameObject);
+        }
+    }
+
 
     /**
-    * Convertir un punto de coordenadas globales (mundo) a coordenadas locales del container
+    * Convierte un punto de coordenadas globales (mundo) a coordenadas locales del container
     * @param {Number} worldX - posicion x en el espacio global
     * @param {Number} worldY - posicion y en el espacio global
     * @returns {{x: Number, y: Number}} - posiciones x, y en el espacio local
@@ -86,11 +103,12 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
         return localPoint;
     }
 
+
     /**
     * Guarda la posicion inicial del objeto indicado antes de aplicarle el offset
-    * @param {Phaser.GameObject} gameObject - objeto a introducir
+    * @param {Phaser.GameObject} gameObject - objeto cuya posicion guardar
     */
-    saveInitialPosition(gameObject) {
+    saveOriginalPosition(gameObject) {
         if (gameObject != null && gameObject.originalPosition == null) {
             gameObject.originalPosition = {
                 x: gameObject.x,
@@ -98,7 +116,15 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
             }
         }
     }
-
+    /**
+    * Borra la posicion inicial del objeto indicado
+    * @param {Phaser.GameObject} gameObject - objeto cuya posicion borrar
+    */
+    removeOriginalPosition(gameObject)  {
+        if (gameObject != null && gameObject.originalPosition != null) {
+            gameObject.originalPosition = null;
+        }
+    }
     /**
     * Reinicia la posicion del objeto a la que tenia antes de meterlo al container
     * @param {Phaser.GameObject} gameObject - objeto cuya posicion reiniciar
@@ -126,7 +152,7 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
         // Se guardan las posiciones de los hijos que no la tuvieran guardada
         // y se reinician para calcular correctamente el origen
         this.list.forEach(child => {
-            this.saveInitialPosition(child);
+            this.saveOriginalPosition(child);
             this.resetPosition(child);
         });
 
@@ -163,11 +189,12 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
     * Anade el objeto indicado al container y le aplica el offset respectivo al origen establecido
     * @param {Phaser.GameObject} gameObject - objeto a anadir
     * @param {Boolean} recalculateSize - true si se quiere volver a calcular el tamano del container, false en caso contrario (opcional)
+    * @returns {Phaser.GameObject} - objeto anadido
     */
     add(gameObject, recalculateSize = true) {
         super.add(gameObject);
 
-        this.saveInitialPosition(gameObject);
+        this.saveOriginalPosition(gameObject);
         
         gameObject.x += this.offsetX;
         gameObject.y += this.offsetY;
@@ -177,11 +204,14 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
         if (recalculateSize) {
             this.calculateRectangleSize();
         }
+
+        return gameObject;
     }
 
     /**
     * Elimina el objeto indicado del container y lo coloca en su posicion original
     * @param {Phaser.GameObject} gameObject - objeto a anadir
+    * @returns {Phaser.GameObject} - objeto eliminado
     */
     remove(gameObject, recalculateSize = true) {
         if (this.list.includes(gameObject)) {
@@ -197,6 +227,9 @@ export default class SimpleContainer extends Phaser.GameObjects.Container {
             if (recalculateSize) {
                 this.calculateRectangleSize();
             }
+
+            return gameObject;
         }
+        return null;
     }
 }

@@ -23,16 +23,13 @@ export default class ScrollListView extends InteractiveContainer {
     * @param {*} deceleration 
     * @param {*} velThreshold 
     */
-    constructor(scene, x = 0, y = 0, width, height, originX = 0.5, originY = 0.5, itemSpacing = 0, leftMargin = 0, rightMargin = 0, topMargin = 0, bottomMargin = 0,
-        horizontalScroll = false, scrollSpeed = 1, deceleration = 0.99, velThreshold = 0.1) 
-    {
+    constructor(scene, x = 0, y = 0, width, height, itemSpacing = 0, leftMargin = 0, rightMargin = 0, topMargin = 0, bottomMargin = 0,
+        horizontalScroll = false, scrollSpeed = 1, deceleration = 0.99, velThreshold = 0.1) {
         super(scene, x, y);
-
-        this.setOrigin(originX, originY);
 
         this.width = width;
         this.height = height;
-        
+
         this.itemSpacing = itemSpacing;
         this.leftMargin = leftMargin;
         this.rightMargin = rightMargin;
@@ -44,17 +41,15 @@ export default class ScrollListView extends InteractiveContainer {
         this.deceleration = deceleration;
         this.velThreshold = velThreshold;
 
-        
         // Rectangulo para la interaccion con la listView y el calculo correcto del tamano y el origen
-        let interactiveRect = scene.add.rectangle(0, 0, width, height, 0x0, 0.5).setOrigin(originX, originY).setVisible(false);
-        super.add(interactiveRect, true);
-        
-        // Mascara para ocultar todo lo que haya fuera del area indicada
-        this.maskRect = scene.add.rectangle(x, y, width, height, 0xff, 0.5).setOrigin(originX, originY).setVisible(false);
-        let mask = this.maskRect.createGeometryMask();
-        this.setMask(mask);
-        // mask.setInvertAlpha(true);
+        this.interactiveRect = scene.add.rectangle(0, 0, width, height, 0xffffff, 0.5).setVisible(false);
+        super.add(this.interactiveRect, true);
 
+        // Mascara para ocultar todo lo que haya fuera del area indicada
+        let maskRect = scene.add.rectangle(x, y, width, height, 0x0000ff, 0.5).setVisible(false);
+        this.maskObj = maskRect.createGeometryMask();
+        this.setMask(this.maskObj);
+        // this.mask.setInvertAlpha(true);
 
         // Configuracion de los eventos de arrastrar
         this.setInteractive();
@@ -66,19 +61,19 @@ export default class ScrollListView extends InteractiveContainer {
 
         this.dragging = false;
         let lastDrag = 0;
-        this.on("dragstart", (pointer) => {
+        this.on(Phaser.Input.Events.GAMEOBJECT_DRAG_START, (pointer) => {
             lastDrag = this.horizontalScroll ? pointer.x : pointer.y;
             this.dragging = true;
         });
 
         this.scrollDir = 0;
-        this.on("drag", (pointer) => {
+        this.on(Phaser.Input.Events.GAMEOBJECT_DRAG, (pointer) => {
             this.scrollDir = this.horizontalScroll ? pointer.x - lastDrag : pointer.y - lastDrag;
             lastDrag = this.horizontalScroll ? pointer.x : pointer.y;
             this.scroll();
         });
 
-        this.on("dragend", (pointer) => {
+        this.on(Phaser.Input.Events.GAMEOBJECT_DRAG_END, (pointer) => {
             this.dragging = false;
             lastDrag = this.horizontalScroll ? pointer.x : pointer.y;
         });
@@ -87,28 +82,22 @@ export default class ScrollListView extends InteractiveContainer {
         // Container con los elementos de la listView que van a scrollear
         // independientemente del origen del container, se coloca en la esquina superior izquierda
         this.scroller = new SimpleContainer(scene, this.getLocalBounds().left, this.getLocalBounds().top);
-        // this.scroller = new InteractiveContainer(scene, this.getLocalBounds().left, this.getLocalBounds().top);
-        // let posX = 70;
-        // let posY = 70;
-        // this.scroller = new InteractiveContainer(scene, posX, posY);
-        // this.scroller.setOrigin(0, 0);
+        this.scroller.setOrigin(0, 0);
         this.add(this.scroller);
-        
-        // this.add(biggerBg, false);
-        
+
+
         // Ultimo objeto introducido en la lista (para calcular la posicion del siguiente)
         this.lastItem = null;
-
 
         this.test1(scene, width, height);
     }
 
-     test1(scene, width, height) {
+    test1(scene, width, height) {
         this.itemSpacing = 10
         this.topMargin = this.bottomMargin = this.leftMargin = this.rightMargin = 15;
 
         // let bgScale = 1;
-        // let biggerBg = scene.add.rectangle(0, 0, width * bgScale, height * bgScale, 0xFF0000, 1);
+        // let biggerBg = scene.add.rectangle(0, 0, width * bgScale, height * bgScale, 0xFF0000, 0.5);
         // this.scroller.add(biggerBg);
         // biggerBg.setInteractive();
         // biggerBg.on("pointerdown", () => { console.log("bg") });
@@ -122,9 +111,27 @@ export default class ScrollListView extends InteractiveContainer {
         let rect2 = this.addToEnd(scene.add.rectangle(0, 0, size, size * 2, 0x0000FF, 1).setOrigin(0, 0), 1);
         let rect3 = this.addToEnd(scene.add.rectangle(0, 100, size, size, 0x0000FF, 1), 0.5);
         let rect4 = this.addToEnd(scene.add.rectangle(0, 0, size, size * 2, 0x0000FF, 1).setOrigin(0, 0), 0);
+        
+        scene.setInteractive(rect1);
+        rect1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+            console.log("rec1")
+        });
 
-        this.test1 = rect1;
-        this.test2 = rect4;
+        scene.setInteractive(rect2);
+        rect2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+            console.log("rec2")
+        });
+
+        scene.setInteractive(rect3);
+        rect3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+            console.log("rec3")
+        });
+
+        scene.setInteractive(rect4);
+        rect4.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
+            console.log("rec4")
+        });
+
         // this.once("pointerdown", () => {
         //     let removed = this.removeItem(rect3);
 
@@ -145,13 +152,67 @@ export default class ScrollListView extends InteractiveContainer {
 
         //     });
         // });
+
+        this.toLeft();
+        this.cull();
     }
 
-   /**
-    * Anade un objeto al container. Llama al metodo de su padre con el parametro de recalcular el tamano a false
-    */
+    setOrigin(x, y, recalculateSize = false) {
+        // Se recoloca el scroller para que no haya problemas al cambiar el offset de los hijos
+        //
+        // Si no se hace esto y el scroller es mas grande que el area visible, para calcular el
+        // offset que se tienen que mover los hijos, se utilizara la bounding box total de todo
+        // el container, incluyendo las dimensiones del scroller.
+        //
+        // Por ejemplo, si se quiere centrar el container a la derecha y el scroller esta en el
+        // limite izquierdo, lo que quedara en el punto xy no sera el lateral derecho de la zona
+        // visible, sino el lateral derecho de todo el scroller, incluidas las zonas invisibles,
+        // por lo que los elementos quedaran mas a la izquierda de lo que tendrian que estar
+        if (this.scroller != null) {
+            // Se elimina la posicion original del scroller
+            super.removeOriginalPosition(this.scroller.originalPosition);
+
+            // Se coloca el scroller en un extremo u otro dependiendo del origen que se le vaya a asignar
+            this.scroller.x = - this.scroller.displayWidth / 2;
+            if (x < 0.5) {
+                this.toLeft();
+            }
+            else if (x > 0.5) {
+                this.toRight();
+            }
+            this.scroller.y = - this.scroller.displayHeight / 2;
+            if (y < 0.5) {
+                this.toTop();
+            }
+            else if (y > 0.5) {
+                this.toBottom();
+            }
+
+            // Se vuelve a guardar la posicion original del scroller
+            super.saveOriginalPosition(this.scroller);
+
+            this.cull();
+        }
+        super.setOrigin(x, y, recalculateSize);
+
+        // Se recoloca el area de interaccion
+        if (this.input != null) {
+            this.input.hitArea = {
+                width: this.interactiveRect.width,
+                height: this.interactiveRect.height,
+                x: this.interactiveRect.x,
+                y: this.interactiveRect.y
+            }
+        }
+
+    }
+
+    /**
+     * Anade un objeto al container. Llama al metodo de su padre con el parametro de recalcular el tamano a false
+     * @returns {Phaser.GameObject} - objeto anadido
+     */
     add(gameObject) {
-        super.add(gameObject, false);
+        return super.add(gameObject, false);
     }
 
     /**
@@ -160,13 +221,12 @@ export default class ScrollListView extends InteractiveContainer {
     */
     getLocalBounds() {
         return {
-            left: - this.width * this.origin_x,
-            top: - this.height * this.origin_y,
-            right: (- this.width * this.origin_x) + this.width,
-            bottom: (- this.height * this.origin_y) + this.height
+            left: - this.width * this.originX,
+            top: - this.height * this.originY,
+            right: (- this.width * this.originX) + this.width,
+            bottom: (- this.height * this.originY) + this.height
         }
     }
-   
 
 
     /**
@@ -185,7 +245,7 @@ export default class ScrollListView extends InteractiveContainer {
         if (canMove) {
             let movement = this.scrollSpeed * this.scrollDir;
 
-            let origin = this.horizontalScroll ? this.origin_x : this.origin_y;
+            let origin = this.horizontalScroll ? this.originX : this.originY;
 
             // Limite para scrollear hasta el inicio (lateral izquierdo/superior, sin 
             // incluir el margen porque ya se aplica al anadir objetos al scroller)
@@ -217,19 +277,48 @@ export default class ScrollListView extends InteractiveContainer {
             let objStart = elemPos - elemDim * elemOrigin;
             let objEnd = elemPos + elemDim * (1 - elemOrigin);
 
-            let hide = scrollerPos + objEnd < minDim || scrollerPos + objStart > maxDim; 
+            let hide = scrollerPos + objEnd < minDim || scrollerPos + objStart > maxDim;
             elem.setVisible(!hide);
-            
-            if (!hide) {
-                let initExcess = scrollerPos + objStart - minDim;
-                let endExcess = maxDim - scrollerPos + objEnd;
 
-                // TODO
+            // Se ajustan las colisiones de los objetos que son visibles pero estan cortados 
+            if (!hide && elem.input != null) {
+                let initExcess = scrollerPos + objStart - minDim;
+                let endExcess = maxDim - (scrollerPos + objEnd);
+                
+                if (initExcess < 0 || endExcess < 0) {
+                    let excess = Math.min(initExcess, endExcess);
+
+                    let x = 0;
+                    let y = 0;
+                    if (initExcess < endExcess) {
+                        x = this.horizontalScroll ? -excess : 0;
+                        y = this.horizontalScroll ?  0 : -excess;
+                    }
+                    let w = this.horizontalScroll ? elem.width + excess : elem.width;
+                    let h = this.horizontalScroll ? elem.height : elem.height + excess;
+
+                    elem.input.hitArea = {
+                        width: w,
+                        height: h,
+                        x: x,
+                        y: y
+                    }
+                 }
+                else if (elem.input.hitArea.width != elem.width || elem.input.hitArea.height != elem.height || elem.input.hitArea.x != elem.x || elem.input.hitArea.y != elem.y) {
+                    elem.input.hitArea = {
+                        width: elem.width,
+                        height: elem.height,
+                        x: 0,
+                        y: 0
+                    }
+                }
             }
         });
     }
 
     preUpdate(t, dt) {
+        this.maskObj.geometryMask.setPosition(this.x + this.width * (0.5 - this.originX), this.y + this.height * (0.5 - this.originY));
+
         // Si ya no se esta arrastrando y la velocidad del scroll supera el umbral
         if (!this.dragging && Math.abs(this.scrollDir) > this.velThreshold) {
             // Va reduciendo la velocidad del scroll
@@ -287,7 +376,7 @@ export default class ScrollListView extends InteractiveContainer {
 
         // Se anade el objeto indicado al final
         this.addToEnd(gameObject, align);
-        
+
         // Se van anadiendo los objetos posteriores al final uno a uno
         elementsToMove.forEach(elem => {
             this.addToEnd(elem);
@@ -298,7 +387,7 @@ export default class ScrollListView extends InteractiveContainer {
     }
 
     /**
-    * Anade el objeto indicado al final de la lista
+    * Anade el objeto indicado al final de la lista (derecha/abajo)
     * 
     * Se ignoran (en el eje correspondiente) el origen y la posicion inicial de todos los objetos, 
     * pero no en el eje opuesto para que todos los objetos esten siempre a la misma distancia y 
@@ -311,8 +400,7 @@ export default class ScrollListView extends InteractiveContainer {
     *   superior en el margen superior, y el lateral inferior del ultimo objeto delimitara el final de la lista 
     * 
     * @param {Phaser.GameObject} gameObject - objeto a anadir
-    * @param {Number} - align - alineamiento (y si es scroll horizontal, x si es vertical) en la lista con el que se quiere anadir el objeto. 
-    *                           Si no es un numero, se alinea segun el origen del objeto [0, 1] (opcional)
+    * @param {Number} align - alineamiento (y si es scroll horizontal, x si es vertical) con el que se quiere anadir el objeto en la lista [0, 1] (opcional) Si no es un numero, se alinea segun el origen del objeto
     * @returns {Phaser.GameObject} - objeto anadido
     */
     addToEnd(gameObject, align = null) {
@@ -320,8 +408,7 @@ export default class ScrollListView extends InteractiveContainer {
         let margin = this.horizontalScroll ? this.leftMargin : this.topMargin;
         let objectDim = this.horizontalScroll ? gameObject.displayWidth : gameObject.displayHeight;
         let objectOrigin = this.horizontalScroll ? gameObject.originX : gameObject.originY;
-        
-        
+
         let pos = 0;
         if (this.lastItem == null) {
             pos = margin + objectDim * objectOrigin;
@@ -348,7 +435,7 @@ export default class ScrollListView extends InteractiveContainer {
                 margin = initialMargin;
             }
             else if (align > 0.5) {
-                margin -= endMargin ;
+                margin -= endMargin;
             }
             alignPos = objectDim * objectOrigin + margin
         }
@@ -371,8 +458,20 @@ export default class ScrollListView extends InteractiveContainer {
     }
 
     /**
-    * Anade el objeto indicado al principio de la lista
+    * Anade el objeto indicado al principio de la lista (izquierda/arriba)
+    * 
+    * Se ignoran (en el eje correspondiente) el origen y la posicion inicial de todos los objetos, 
+    * pero no en el eje opuesto para que todos los objetos esten siempre a la misma distancia y 
+    * el inicio y el final de la lista coincidan con los laterales correspondientes:
+    * 
+    *   - En el scroll horizontal se ignora el eje x (pero no el y), el primer objeto empezara con su lateral 
+    *   izquierdo en el margen izquierdo, y el lateral derecho del ultimo objeto delimitara el final de la lista 
+    * 
+    *   - En el scroll vertical se ignora el eje y (pero no el x), el primer objeto empezara con su lateral 
+    *   superior en el margen superior, y el lateral inferior del ultimo objeto delimitara el final de la lista 
+    * 
     * @param {Phaser.GameObject} gameObject - objeto a anadir
+    * @param {Number} align - alineamiento (y si es scroll horizontal, x si es vertical) con el que se quiere anadir el objeto en la lista [0, 1] (opcional) Si no es un numero, se alinea segun el origen del objeto
     * @returns {Phaser.GameObject} - objeto anadido
     */
     addToBeginning(gameObject, align = null) {
@@ -381,7 +480,7 @@ export default class ScrollListView extends InteractiveContainer {
 
 
     /**
-    * Elimina el objeto de la lista en el indice especificado
+    * Elimina el objeto de la lista en el indice especificado (los indices van de izquierda -> derecha / arriba -> abajo)
     * @param {Number} index - indice del objeto en la lista a eliminar 
     * @returns {Phaser.GameObject} - objeto eliminado
     */
@@ -418,7 +517,7 @@ export default class ScrollListView extends InteractiveContainer {
     }
 
     /**
-    * Elimina el ultimo elemento de la lista
+    * Elimina el ultimo elemento de la lista (derecha/abajo)
     * @returns {Phaser.GameObject} - objeto eliminado
     */
     removeLast() {
@@ -426,7 +525,7 @@ export default class ScrollListView extends InteractiveContainer {
     }
 
     /**
-    * Elimina el primer elemento de la lista
+    * Elimina el primer elemento de la lista (izquierda/arriba)
     * @returns {Phaser.GameObject} - objeto eliminado
     */
     removeFirst() {
@@ -467,7 +566,7 @@ export default class ScrollListView extends InteractiveContainer {
         if (!this.horizontalScroll) {
             this.stopScroll();
             this.toTop();
-            this.scroller.y += - this.scroller.displayHeight + this.height - this.bottomMargin; 
+            this.scroller.y += - this.scroller.displayHeight + this.height - this.bottomMargin;
         }
     }
 
@@ -488,7 +587,7 @@ export default class ScrollListView extends InteractiveContainer {
         if (this.horizontalScroll) {
             this.stopScroll();
             this.toLeft();
-            this.scroller.x += - this.scroller.displayWidth + this.width - this.rightMargin; 
+            this.scroller.x += - this.scroller.displayWidth + this.width - this.rightMargin;
         }
     }
 }
