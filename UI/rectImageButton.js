@@ -59,7 +59,7 @@ export default class RectImageButton extends InteractiveContainer {
         if (onClick != null && typeof onClick === "function") {
             this.onClick = onClick;
             this.setInteractive();
-            this.on("pointerdown", onClick);
+            this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, onClick);
         }
     }
 }

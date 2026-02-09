@@ -89,7 +89,7 @@ export default class ScrollListView extends InteractiveContainer {
         // Ultimo objeto introducido en la lista (para calcular la posicion del siguiente)
         this.lastItem = null;
 
-        this.test1(scene, width, height);
+        // this.test1(scene, width, height);
     }
 
     test1(scene, width, height) {
@@ -100,7 +100,7 @@ export default class ScrollListView extends InteractiveContainer {
         // let biggerBg = scene.add.rectangle(0, 0, width * bgScale, height * bgScale, 0xFF0000, 0.5);
         // this.scroller.add(biggerBg);
         // biggerBg.setInteractive();
-        // biggerBg.on("pointerdown", () => { console.log("bg") });
+        // biggerBg.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => { console.log("bg") });
         // this.sendToBack(biggerBg);
         this.scroller.calculateRectangleSize();
 
@@ -132,7 +132,7 @@ export default class ScrollListView extends InteractiveContainer {
             console.log("rec4")
         });
 
-        // this.once("pointerdown", () => {
+        // this.once(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
         //     let removed = this.removeItem(rect3);
 
         //     if (this.horizontalScroll) {
@@ -141,7 +141,7 @@ export default class ScrollListView extends InteractiveContainer {
         //     else {
         //         this.toBottom();
         //     }
-        //     this.once("pointerdown", () => {
+        //     this.once(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
         //         this.addToEnd(removed);
         //         if (this.horizontalScroll) {
         //             this.toLeft();

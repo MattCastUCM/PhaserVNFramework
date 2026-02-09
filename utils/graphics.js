@@ -181,7 +181,8 @@ export function fadeAnimation(targets, makeVisible, duration = 150, ease = Phase
         duration: duration,
         repeat: 0,
     });
-    anim.on("complete", () => {
+    
+    anim.on(Phaser.Tweens.Events.TWEEN_COMPLETE, () => {
         if (isArray) {
             targets.forEach((elem) => {
                 elem.setVisible(makeVisible);
@@ -203,7 +204,7 @@ export function fadeAnimation(targets, makeVisible, duration = 150, ease = Phase
 * @param {Boolean} single - true si se puede volver a interactuar con el elemento, false en caso contrario
 */
 function buttonInteractionComplete(button, anim, onClick, single) {
-    anim.on("complete", () => {
+    anim.on(Phaser.Tweens.Events.TWEEN_COMPLETE, () => {
         if (!single) {
             button.setInteractive();
         }
@@ -232,7 +233,7 @@ export function growAnimation(button, targets, onClick = () => { }, overrideOnCl
     let growDuration = smooth ? duration : 0;
 
     // Al pasar el raton por encima del icono, se hace mas grande
-    button.on("pointerover", () => {
+    button.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
         button.scene.tweens.add({
             targets: targets,
             scale: originalScale * scaleFactor,
@@ -241,7 +242,7 @@ export function growAnimation(button, targets, onClick = () => { }, overrideOnCl
         });
     });
     // Al quitar el raton de encima vuelve a su tamano original
-    button.on("pointerout", () => {
+    button.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
         button.scene.tweens.add({
             targets: targets,
             scale: originalScale,
@@ -249,8 +250,9 @@ export function growAnimation(button, targets, onClick = () => { }, overrideOnCl
             repeat: 0,
         });
     });
+    
     // Al pulsar, se hace pequeno y grande de nuevo y se activa/desactiva el telefono
-    button.on("pointerdown", () => {
+    button.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
         button.disableInteractive();
         let anim = button.scene.tweens.add({
             targets: targets,
@@ -287,7 +289,7 @@ export function tintAnimation(button, targets, onClick = () => { }, overrideOnCl
 
     Phaser.Actions.SetTint(targets, normalTintColor);
 
-    button.on("pointerover", () => {
+    button.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
         button.scene.tweens.addCounter({
             targets: button,
             from: 0,
@@ -302,7 +304,7 @@ export function tintAnimation(button, targets, onClick = () => { }, overrideOnCl
             repeat: 0,
         });
     });
-    button.on("pointerout", () => {
+    button.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
         button.scene.tweens.addCounter({
             targets: button,
             from: 0,
@@ -318,7 +320,7 @@ export function tintAnimation(button, targets, onClick = () => { }, overrideOnCl
         });
     });
 
-    button.on("pointerdown", () => {
+    button.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
         button.disableInteractive();
         let anim = button.scene.tweens.addCounter({
             targets: button,

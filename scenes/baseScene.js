@@ -34,10 +34,10 @@ export default class BaseScene extends Phaser.Scene {
         this.localizationManager.subscribeBlackboard(this.blackboard);
 
         // Funciones adicionales a las que se llamara al crear y reactivar la escena
-        this.events.once("create", () => {
+        this.events.once(Phaser.Scenes.Events.CREATE, () => {
             this.onCreate(params);
         }, this);
-        this.events.on("wake", (scene, params) => {
+        this.events.on(Phaser.Scenes.Events.WAKE, (scene, params) => {
             this.onWake(params);
         }, this);
     }

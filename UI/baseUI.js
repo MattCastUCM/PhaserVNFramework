@@ -95,7 +95,7 @@ export default class BaseUI extends BaseScene {
     }
 
     configureTextboxEvents() {
-        this.textbox.on("pointerdown", () => { this.skipDialog(); });
+        this.textbox.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => { this.skipDialog(); });
 
         // Si llega un evento de empezar nodo de texto, comienza a procesarlo
         this.dispatcher.add(DefaultEventNames.startTextNode, this, (node) => {

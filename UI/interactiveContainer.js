@@ -31,7 +31,7 @@ export default class InteractiveContainer extends AnimatedContainer {
         // Si se va a activar, se activa la interaccion una vez termina la animacion 
         // para que no se pueda interactuar mientras se esta reproduciendo
         if (active) {
-            this.fadeAnim.on("complete", () => {
+            this.fadeAnim.on(Phaser.Tweens.Events.TWEEN_COMPLETE, () => {
                 setInteractive(this);
             });
         }
@@ -58,7 +58,7 @@ export default class InteractiveContainer extends AnimatedContainer {
         });
 
         if (gameDebug.enable) {
-            this.on("pointerdown", () => {
+            this.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
                 console.log("clicking", objectName);
             });
         }

@@ -33,7 +33,7 @@ export default class AnimatedContainer extends SimpleContainer {
         this.fadeAnim = fadeAnimation(this, active);
 
         // Al terminar la animacion, se ejecuta el onComplete si es una funcion valida
-        this.fadeAnim.on("complete", () => {
+        this.fadeAnim.on(Phaser.Tweens.Events.TWEEN_COMPLETE, () => {
             if (!active) {
                 this.setVisible(false);
             }

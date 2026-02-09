@@ -90,7 +90,7 @@ export default class TextInput extends InteractiveContainer {
 
     activeRegularKeyboard() {
         // Detectar la pulsacion de teclas fisicas
-        this.scene.input.keyboard.on("keydown", (event) => {
+        this.scene.input.keyboard.on(Phaser.Input.Keyboard.Events.ANY_KEY_DOWN, (event) => {
             if (!IS_TOUCH && this.isWriting) {
                 let change = false;
 
@@ -187,9 +187,9 @@ export default class TextInput extends InteractiveContainer {
         }
 
         // Se habilita dejar de escribir pulsando en cualquier lado de la pantalla.
-        // Se necesita un temporizador para que no salten los dos eventos de "pointerdown" a la vez
+        // Se necesita un temporizador para que no salten los dos eventos de "pointerup" a la vez
         setTimeout(() => {
-            this.scene.input.once("pointerdown", () => {
+            this.scene.input.once(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
                 // Se deja de escribir
                 this.isWriting = false;
                 // Se puede volver a interactuar con la caja y, por lo tanto, escribir

@@ -128,7 +128,7 @@ export default class BasePreloaderScene extends Phaser.Scene {
 
 
         // Se va actualizando la barra de progreso y el texto con el porcentaje
-        this.load.on("progress", (value) => {
+        this.load.on(Phaser.Loader.Events.PROGRESS, (value) => {
             if (value > 0) {
                 percentText.setText(parseInt(value * 100) + "%");
                 progressBar.clear();
@@ -148,7 +148,7 @@ export default class BasePreloaderScene extends Phaser.Scene {
         let assetText = this.add.text(x, y + textPadding, "", style).setOrigin(originX, originY);
 
         // Cuando carga un archivo, muestra el nombre del archivo debajo de la barra
-        this.load.on("fileprogress", function (file) {
+        this.load.on(Phaser.Loader.Events.FILE_PROGRESS, (file) => {
             // console.log(file.key);
             assetText.setText("Loading asset: " + file.key);
         });
