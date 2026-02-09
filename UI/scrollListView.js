@@ -53,7 +53,7 @@ export default class ScrollListView extends InteractiveContainer {
 
         // Configuracion de los eventos de arrastrar
         this.setInteractive();
-        this.off("pointerdown");
+        this.off(Phaser.Input.Events.GAMEOBJECT_POINTER_UP);
 
         // Se tiene que hacer arrastrable desde el input de la escena, 
         // ya que los containers por defecto no son arrastrables
@@ -89,45 +89,45 @@ export default class ScrollListView extends InteractiveContainer {
         // Ultimo objeto introducido en la lista (para calcular la posicion del siguiente)
         this.lastItem = null;
 
-        // this.test1(scene, width, height);
+        // this.test1();
     }
 
-    test1(scene, width, height) {
+    test1() {
         this.itemSpacing = 10
         this.topMargin = this.bottomMargin = this.leftMargin = this.rightMargin = 15;
 
         // let bgScale = 1;
-        // let biggerBg = scene.add.rectangle(0, 0, width * bgScale, height * bgScale, 0xFF0000, 0.5);
+        // let biggerBg = this.scene.add.rectangle(0, 0, this.width * bgScale, this.height * bgScale, 0xFF0000, 0.5);
         // this.scroller.add(biggerBg);
         // biggerBg.setInteractive();
         // biggerBg.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => { console.log("bg") });
         // this.sendToBack(biggerBg);
-        this.scroller.calculateRectangleSize();
+        // this.scroller.calculateRectangleSize();
 
         this.horizontalScroll = true;
 
         let size = 100;
-        let rect1 = this.addToEnd(scene.add.rectangle(0, 0, size, size, 0x0000FF, 1), 0);
-        let rect2 = this.addToEnd(scene.add.rectangle(0, 0, size, size * 2, 0x0000FF, 1).setOrigin(0, 0), 1);
-        let rect3 = this.addToEnd(scene.add.rectangle(0, 100, size, size, 0x0000FF, 1), 0.5);
-        let rect4 = this.addToEnd(scene.add.rectangle(0, 0, size, size * 2, 0x0000FF, 1).setOrigin(0, 0), 0);
+        let rect1 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size, 0x0000FF, 1), 0);
+        let rect2 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size * 2, 0x0000FF, 1).setOrigin(0, 0), 1);
+        let rect3 = this.addToEnd(this.scene.add.rectangle(0, 100, size, size, 0x0000FF, 1), 0.5);
+        let rect4 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size * 2, 0x0000FF, 1).setOrigin(0, 0), 0);
         
-        scene.setInteractive(rect1);
+        this.scene.setInteractive(rect1);
         rect1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
             console.log("rec1")
         });
 
-        scene.setInteractive(rect2);
+        this.scene.setInteractive(rect2);
         rect2.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
             console.log("rec2")
         });
 
-        scene.setInteractive(rect3);
+        this.scene.setInteractive(rect3);
         rect3.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
             console.log("rec3")
         });
 
-        scene.setInteractive(rect4);
+        this.scene.setInteractive(rect4);
         rect4.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
             console.log("rec4")
         });

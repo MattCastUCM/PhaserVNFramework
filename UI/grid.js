@@ -9,9 +9,9 @@ export default class Grid extends Phaser.GameObjects.Container {
     * @param {Number} height - alto total de la cuadrícula
     * @param {Number} columns - nuemro de columnas
     * @param {Number} rows - numero de filas
-    * @param {Number} margin - margen (espacio desde los bordes hacia dentro)
+    * @param {Number} padding - espacio desde los bordes hacia dentro
     */
-    constructor(scene, x, y, width, height, columns, rows, margin) {
+    constructor(scene, x, y, width, height, columns, rows, padding) {
         super(scene, x, y);
 
         scene.add.existing(this);
@@ -19,15 +19,15 @@ export default class Grid extends Phaser.GameObjects.Container {
         this.setSize(width, height);
         this.columns = columns;
         this.rows = rows;
-        this.margin = margin;
+        this.padding = padding;
 
         // Se calcula el punto inicial (esquina superior izquierda)
-        this.startingX = this.x + this.margin;
-        this.startingY = this.y + this.margin;
+        this.startingX = this.x + this.padding;
+        this.startingY = this.y + this.padding;
 
         // Se calcula el ancho y el alto de cada celda
-        this.cellWidth = (this.width - this.margin * 2) / this.columns;
-        this.cellHeight = (this.height - this.margin * 2) / this.rows;
+        this.cellWidth = (this.width - this.padding * 2) / this.columns;
+        this.cellHeight = (this.height - this.padding * 2) / this.rows;
 
         if (gameDebug.enable) {
             let debugRect = this.scene.add.rectangle(this.startingX, this.startingY, this.columns * this.cellWidth, this.rows * this.cellHeight, 0xff, 0);
@@ -43,8 +43,8 @@ export default class Grid extends Phaser.GameObjects.Container {
             cellWidth: this.cellWidth,
             cellHeight: this.cellHeight,
             position: Phaser.Display.Align.CENTER,
-            x: this.margin,
-            y: this.margin
+            x: this.padding,
+            y: this.padding
         })
     }
 

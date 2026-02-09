@@ -75,7 +75,9 @@ export default class SceneManager extends Singleton {
     * @param {Boolean} canReturn - true si se puede regresar a la escena anterior, false en caso contrario (opcional)
     */
     changeScene(sceneKey, params = null, anim = false, canReturn = false) {
-        if (this.fading) {
+        // Si ya estaba en animacion de fade O si la escena a la que se va a cambiar es la misma
+        // que ya esta y no se va a detener (porque se puede volver a ella), no se hace el cambio
+        if (this.fading || (sceneKey == this.currentScene.scene.key && canReturn)) {
             return;
         }
 
@@ -128,12 +130,14 @@ export default class SceneManager extends Singleton {
                 let fadeIn = () => {
                     this.fadeIn(fadeInTime);
                 }
-                // Cuando se termina de crear la escena, se reproduce el fade in
+
+                // Cuando se termina de crear la escena, se anade una vez el fade in a
+                // sus eventos de inicio (al wake si ya estaba creada o al create si no)
                 if (wasRunning) {
-                    this.currentScene.events.once("wake", fadeIn);
+                    this.currentScene.events.once(Phaser.Scenes.Events.WAKE, fadeIn);
                 }
                 else {
-                    this.currentScene.events.once("create", fadeIn);
+                    this.currentScene.events.once(Phaser.Scenes.Events.CREATE, fadeIn);
                 }
             }
 

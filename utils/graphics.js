@@ -117,7 +117,7 @@ function prepareButtonInteraction(button, overrideOnClick = false) {
     setInteractive(button);
 
     if (overrideOnClick) {
-        button.off("pointerdown");
+        button.off(Phaser.Input.Events.GAMEOBJECT_POINTER_UP);
     }
 }
 
