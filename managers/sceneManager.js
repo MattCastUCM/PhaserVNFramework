@@ -31,7 +31,7 @@ export default class SceneManager extends Singleton {
 
     /**
     * Obtener una escena por su key
-    * @param {String} sceneKey - key de la escena que se quiere obtener
+    * @param {string} sceneKey - key de la escena que se quiere obtener
     * @returns {Phaser.Scene} escena con la key indicada
     */
     getScene(sceneKey) {
@@ -40,7 +40,7 @@ export default class SceneManager extends Singleton {
 
     /**
     * Ejecutar una escena en paralelo al resto
-    * @param {String} sceneKey - key de la escena a ejecutar en paralelo
+    * @param {string} sceneKey - key de la escena a ejecutar en paralelo
     */
     runInParallel(sceneKey) {
         this.currentScene.scene.launch(sceneKey);
@@ -50,8 +50,8 @@ export default class SceneManager extends Singleton {
 
     /**
     * Reiniciar la escena indicada
-    * @param {String} sceneKey - key de la escena a reiniciar
-    * @param {Object} params - informacion que pasar a la escena (opcional)
+    * @param {string} sceneKey - key de la escena a reiniciar
+    * @param {object} params - informacion que pasar a la escena (opcional)
     */
     restartScene(sceneKey) {
         let sc = this.currentScene.scene.get(sceneKey);
@@ -60,7 +60,7 @@ export default class SceneManager extends Singleton {
 
     /**
    * Detener la escena indicada
-   * @param {String} sceneKey - key de la escena a detener
+   * @param {string} sceneKey - key de la escena a detener
    */
     stopScene(sceneKey) {
         let sc = this.currentScene.scene.get(sceneKey);
@@ -69,10 +69,10 @@ export default class SceneManager extends Singleton {
 
     /**
     * Cambiar de escena
-    * @param {String} sceneKey - key de la escena a la que se va a pasar
-    * @param {Object} params - informacion que pasar a la escena (opcional)
-    * @param {Boolean} anim - true si se va a cambiar de escena con un fade in/out, false en caso contrario (oocional)
-    * @param {Boolean} canReturn - true si se puede regresar a la escena anterior, false en caso contrario (opcional)
+    * @param {string} sceneKey - key de la escena a la que se va a pasar
+    * @param {object} params - informacion que pasar a la escena (opcional)
+    * @param {boolean} anim - true si se va a cambiar de escena con un fade in/out, false en caso contrario (oocional)
+    * @param {boolean} canReturn - true si se puede regresar a la escena anterior, false en caso contrario (opcional)
     */
     changeScene(sceneKey, params = null, anim = false, canReturn = false) {
         // Si ya estaba en animacion de fade O si la escena a la que se va a cambiar es la misma
@@ -184,7 +184,7 @@ export default class SceneManager extends Singleton {
 
     /**
     * Hacer solo fade out
-    * @param {Number} time - tiempo en milisegundos que dura la animacion (opcional)
+    * @param {number} time - tiempo en milisegundos que dura la animacion (opcional)
     */
     fadeOut(time = this.DEFAULT_FADE_OUT_TIME) {
         this.currentScene.cameras.main.fadeOut(time, 0, 0, 0);
@@ -193,7 +193,7 @@ export default class SceneManager extends Singleton {
 
     /**
     * Hacer solo fade in
-    * @param {Number} time - tiempo en milisegundos que dura la animacion (opcional)
+    * @param {number} time - tiempo en milisegundos que dura la animacion (opcional)
     */
     fadeIn(time = this.DEFAULT_FADE_IN_TIME) {
         this.currentScene.cameras.main.fadeIn(time, 0, 0, 0);

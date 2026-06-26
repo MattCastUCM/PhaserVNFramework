@@ -9,8 +9,8 @@ export default class BaseScene extends Phaser.Scene {
     /**
     * Escena base para las escenas del juego. Guarda parametros como las dimensiones del canvas o los managers
     * @extends Phaser.Scene
-    * @param {String} name - id de la escena
-    * @param {String} atlasName - nombre del atlas que se utiliza en esta escena (opcional)
+    * @param {string} name - id de la escena
+    * @param {string} atlasName - nombre del atlas que se utiliza en esta escena (opcional)
     */
     constructor(name, atlasName = "") {
         super({ key: name });
@@ -45,19 +45,19 @@ export default class BaseScene extends Phaser.Scene {
 
     /**
     * Se llama al terminar de crear la escena
-    * @param {Object} params - parametros adicionales que pasar a la funcion (opcional)
+    * @param {object} params - parametros adicionales que pasar a la funcion (opcional)
     */
     onCreate(params) { }
 
     /**
     * Se llama al despertar la escena
-    * @param {Object} params - parametros adicionales que pasar a la funcion (opcional)
+    * @param {object} params - parametros adicionales que pasar a la funcion (opcional)
     */
     onWake(params) { }
 
     /**
     * Se llama al detener la escena. Elimina la blackboard del localizationManager y limpia los eventos del dispatcher
-    * @param {Object} params - parametros adicionales que pasar a la funcion (opcional)
+    * @param {object} params - parametros adicionales que pasar a la funcion (opcional)
     */
     shutdown(params) {
         this.localizationManager.unsubscribeBlackboard(this.blackboard);

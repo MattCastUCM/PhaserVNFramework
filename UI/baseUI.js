@@ -162,7 +162,7 @@ export default class BaseUI extends BaseScene {
 
     /**
     * Divide el texto por si alguno es demasiado largo y se sale de la caja de texto
-    * @param {String} text - texto a dividir
+    * @param {string} text - texto a dividir
     */
     splitDialog(dialogs, text) {
         // Se divide el texto por palabras

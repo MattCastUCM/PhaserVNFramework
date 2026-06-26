@@ -1,8 +1,8 @@
 /**
 * Comprueba y guarda las propiedades de defaultObj que falten en targetObj 
-* @param {Object} targetObj - objeto a completar con las propiedades faltantes
-* @param {Object} defaultObj - objeto del que mirar las propiedades faltantes
-* @returns {Object} - copia de targetObj con las propiedades que le falten de defaultObj
+* @param {object} targetObj - objeto a completar con las propiedades faltantes
+* @param {object} defaultObj - objeto del que mirar las propiedades faltantes
+* @returns {object} - copia de targetObj con las propiedades que le falten de defaultObj
 */
 export function completeMissingProperties(targetObj, defaultObj) {
     const completedObj = { ...targetObj };
@@ -31,10 +31,10 @@ export function splitByWord(text) {
 * Mueve un punto current hacia un punto target una distancia maxima maxDistanceDelta.
 * Si la distancia entre current y target es menor o igual a maxDistanceDelta, 
 * la funcion devuelve el punto target directamente
-* @param {Object} current - punto actual con propiedades {x, y}
-* @param {Object} target - punto destino con propiedades {x, y}
-* @param {Number} maxDistanceDelta - distancia maxima que se puede mover desde el punto actual
-* @returns {Object} - nuevo punto movido hacia target
+* @param {object} current - punto actual con propiedades {x, y}
+* @param {object} target - punto destino con propiedades {x, y}
+* @param {number} maxDistanceDelta - distancia maxima que se puede mover desde el punto actual
+* @returns {object} - nuevo punto movido hacia target
 */
 export function moveTowards(current, target, maxDistanceDelta) {
     let directionX = target.x - current.x;
@@ -55,8 +55,8 @@ export function moveTowards(current, target, maxDistanceDelta) {
 
 /**
 * Configura un objeto para que sea interactivo y le asigna un cursor personalizado si esta disponible
-* @param {Phaser.GameObject} gameObject - objeto que se va a hacer interactivo 
-* @param {Object} prevConfig - configuracion a la que agregar el parametro del cursor 
+* @param {Phaser.GameObjects.GameObject} gameObject - objeto que se va a hacer interactivo 
+* @param {object} prevConfig - configuracion a la que agregar el parametro del cursor 
 */
 export function setInteractive(gameObject, config = {}) {
     let scene = gameObject.scene;
@@ -104,9 +104,9 @@ export function getDifferenceTimeInS(startTime) {
 
 /**
 * Crear una lista de numeros desde "start" hasta "end" incrementando "step" en cada paso
-* @param {Number} start - valor inicial de la lista
-* @param {Number} end - valor final de la lista
-* @param {Number} step - incremento en cada paso
+* @param {number} start - valor inicial de la lista
+* @param {number} end - valor final de la lista
+* @param {number} step - incremento en cada paso
 * @returns {Array, Number} - lista de numeros
 */
 export function range(start, end, step) {

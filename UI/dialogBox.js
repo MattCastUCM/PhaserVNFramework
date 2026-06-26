@@ -8,12 +8,12 @@ export default class DialogBox extends InteractiveContainer {
     * Caja de texto para los dialogos
     * @extends InteractiveContainer
     * @param {Phaser.Scene} scene - escena en la que se crea (idealmente la escena de UI)
-    * @param {Object} textboxConfig - configuracion de la caja de texto (opcional)
-    * @param {Object} nameBoxConfig - configuracion de la caja de nombre (opcional)
-    * @param {Object} textConfig - configuracion del texto de la caja de texto (opcional)
-    * @param {Object} nameTextConfig - configuracion del texto de la caja de nombre (opcional)
-    * @param {Number} textAnimDelay - tiempo en milisegundos que tarda cada caracter en aparecer (opcional)
-    * @param {Number} skipDelay - tiempo en milisegundos que se tarda en poder saltar el dialogo tras mostrar todo el texto (opcional)
+    * @param {object} textboxConfig - configuracion de la caja de texto (opcional)
+    * @param {object} nameBoxConfig - configuracion de la caja de nombre (opcional)
+    * @param {object} textConfig - configuracion del texto de la caja de texto (opcional)
+    * @param {object} nameTextConfig - configuracion del texto de la caja de nombre (opcional)
+    * @param {number} textAnimDelay - tiempo en milisegundos que tarda cada caracter en aparecer (opcional)
+    * @param {number} skipDelay - tiempo en milisegundos que se tarda en poder saltar el dialogo tras mostrar todo el texto (opcional)
     */
     constructor(scene, textboxConfig = {}, nameBoxConfig = {}, textConfig = {}, nameTextConfig = {}, textAnimDelay = 30, skipDelay = 200) {
         super(scene);
@@ -150,8 +150,8 @@ export default class DialogBox extends InteractiveContainer {
 
     /**
     * Cambia el texto del nombre del personaje hablando
-    * @param {String} name - nombre del personaje
-    * @param {String} character - id del personaje
+    * @param {string} name - nombre del personaje
+    * @param {string} character - id del personaje
     */
     setName(name, character) {
         this.nameTextObj.setFontSize(this.nameTextConfig.fontSize);
@@ -164,7 +164,7 @@ export default class DialogBox extends InteractiveContainer {
 
     /**
     * Cambia el texto que se muestra por pantalla
-    * @param {String} text - texto a escribir
+    * @param {string} text - texto a escribir
     */
     setText(text) {
         this.textObj.setText(text);
@@ -172,11 +172,11 @@ export default class DialogBox extends InteractiveContainer {
 
     /**
     * Cambia el texto de la caja de nombre y la caja de texto
-    * @param {String} name - nombre del personaje
-    * @param {String} character - id del personaje
-    * @param {String} text - texto a escribir
-    * @param {Boolean} centered - true si se quiere mostrar el texto centrado, false en caso contrario
-    * @param {Boolean} animate - true si se quiere mostrar el texto letra a letra, false en caso contrario (opcional)
+    * @param {string} name - nombre del personaje
+    * @param {string} character - id del personaje
+    * @param {string} text - texto a escribir
+    * @param {boolean} centered - true si se quiere mostrar el texto centrado, false en caso contrario
+    * @param {boolean} animate - true si se quiere mostrar el texto letra a letra, false en caso contrario (opcional)
     */
     setDialog(name, character, text, centered, animate = true) {
         if (centered) {
@@ -266,8 +266,8 @@ export default class DialogBox extends InteractiveContainer {
 
     /**
     * Comprueba si el texto indicado cabe en la caja de texto
-    * @param {String} text - texto a mostrar
-    * @returns {Boolean} - true si el texto cabe, false en caso contrario
+    * @param {string} text - texto a mostrar
+    * @returns {boolean} - true si el texto cabe, false en caso contrario
     */
     textFits(text) {
         return this.textObj.fits(text);

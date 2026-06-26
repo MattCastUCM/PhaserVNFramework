@@ -7,7 +7,7 @@ import { completeMissingProperties } from "../utils/misc.js";
 export default class LocalizationManager extends Singleton {
     /**
     * Clase base para la gestion de todos los textos localizados, tanto de dialogos como de traducciones sueltas  
-    * @param {String} name - nombre de la clase. Se usa solo para el mensaje de la constructora (opcional) 
+    * @param {string} name - nombre de la clase. Se usa solo para el mensaje de la constructora (opcional) 
     */
     constructor(name = "LocalizationManager") {
         super(name);
@@ -33,7 +33,7 @@ export default class LocalizationManager extends Singleton {
     /**
     * Envia el evento de comenzar a procesar el nodo
     * @param {DialogNode} node - nodo a procesar 
-    * @param {Function} onStart - funcion llamada cuando el nodo se procesa (si no se procesa por cualquier razon, no se llama)
+    * @param {function} onStart - funcion llamada cuando el nodo se procesa (si no se procesa por cualquier razon, no se llama)
     */
     setNode(node, onStart = () => { }) {
         this.dispatcher.dispatch(DefaultEventNames.startDialogNode, { node: node, onStart: onStart });
@@ -43,10 +43,10 @@ export default class LocalizationManager extends Singleton {
     /**
     * Lee los nodos con el nodeReader y los traduce
     * @param {Phaser.Scene} scene - escena en la que se crea el nodo
-    * @param {Object} fullJson - objeto json donde estan los nodos 
-    * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
-    * @param {String} objectName - nombre del objeto en el que esta el dialogo, si es que el json contiene varios dialogos de distintos objetos (opcional)
-    * @param {Object} otherOptions - parametros que pasarle a i18n (opcional) 
+    * @param {object} fullJson - objeto json donde estan los nodos 
+    * @param {string} namespace - nombre del archivo de localizacion del que se va a leer 
+    * @param {string} objectName - nombre del objeto en el que esta el dialogo, si es que el json contiene varios dialogos de distintos objetos (opcional)
+    * @param {object} otherOptions - parametros que pasarle a i18n (opcional) 
     * @returns {DialogNode} - nodo raiz de los nodos leidos
     */
     readNodes(scene, file, namespace, objectName = "", otherOptions = {}) {
@@ -61,7 +61,7 @@ export default class LocalizationManager extends Singleton {
 
     /**
     * Cambia el idioma actual de la aplicacion
-    * @param {String} language - Codigo del idioma a establecer (por ejemplo,"en", "es", "fr").
+    * @param {string} language - Codigo del idioma a establecer (por ejemplo,"en", "es", "fr").
     */
     changeLanguage(language) {
         this.i18next.changeLanguage(language);
@@ -100,8 +100,8 @@ export default class LocalizationManager extends Singleton {
     *   key: count, value 10
     *       --> "10 girlfriends"
     *  
-    * @param {String} key - clave que se sustituira en el texto
-    * @param {String, Number} value - valor con el que se sustituira la clave
+    * @param {string} key - clave que se sustituira en el texto
+    * @param {string, Number} value - valor con el que se sustituira la clave
     */
     setInterpolationValue(key, value) {
         if (key != "returnObjects") {
@@ -129,10 +129,10 @@ export default class LocalizationManager extends Singleton {
 
     /**
     * Obtiene el texto traducido
-    * @param {String} translationId - id completa del nodo en el que mirar
-    * @param {String} namespace - nombre del archivo de localizacion del que se va a leer
-    * @param {Object} otherOptions - parametros que pasarle a i18n (opcional)
-    * @returns {String / Array } - texto o array con los textos traducidos
+    * @param {string} translationId - id completa del nodo en el que mirar
+    * @param {string} namespace - nombre del archivo de localizacion del que se va a leer
+    * @param {object} otherOptions - parametros que pasarle a i18n (opcional)
+    * @returns {string / Array } - texto o array con los textos traducidos
     */
     translate(translationId, namespace, otherOptions = {}) {
         let options = { ...otherOptions };
@@ -184,8 +184,8 @@ export default class LocalizationManager extends Singleton {
     * numero de espacios (0 incluido), pero no se tendran en cuenta a la hora de reemplazar el texto y se omitiran
     * 
     * 
-    * @param {String} inputText - texto en el que reemplazar las expresiones regulares
-    * @returns {String} - texto con las expresiones regulares reemplazadas
+    * @param {string} inputText - texto en el que reemplazar las expresiones regulares
+    * @returns {string} - texto con las expresiones regulares reemplazadas
     */
     replaceRegularExpressions(inputText) {
         // Se unen los mapas suscritos en otro mapa (si alguna clave coincide, se guardara el valor que tenga dicha clave en el ultimo mapa)

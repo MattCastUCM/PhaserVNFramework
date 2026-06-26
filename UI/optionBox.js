@@ -7,12 +7,12 @@ export default class OptionBox extends ImageTextButton {
     * Caja de texto para los dialogos
     * @extends ImageTextButton
     * @param {Phaser.Scene} scene - escena en la que se crea (idealmente la escena de UI)
-    * @param {Number} index - indice de la opcion de entre todas las opciones
-    * @param {Number} totalOpts - numero total de opciones
-    * @param {String} text - texto a mostrar en la opcion
-    * @param {Function} onClick - funcion a ejecutar al pulsar la opcion (opcional)
-    * @param {Object} boxConfig - configuracion de la caja de opcion (opcional)
-    * @param {Object} textConfig - configuracion del texto de la caja (opcional)
+    * @param {number} index - indice de la opcion de entre todas las opciones
+    * @param {number} totalOpts - numero total de opciones
+    * @param {string} text - texto a mostrar en la opcion
+    * @param {function} onClick - funcion a ejecutar al pulsar la opcion (opcional)
+    * @param {object} boxConfig - configuracion de la caja de opcion (opcional)
+    * @param {object} textConfig - configuracion del texto de la caja (opcional)
     */
     constructor(scene, index, totalOpts, text, onClick = {}, boxConfig = {}, textConfig = {}) {
         const DEFAULT_BOX_CONFIG = {

@@ -9,30 +9,30 @@ export default class RectTextButton extends InteractiveContainer {
     * 
     * @extends InteractiveContainer
     * @param {Phaser.Scene} scene - escena en la que se va a crear el boton 
-    * @param {Number} x - posicion x del boton 
-    * @param {Number} y - posicion y del boton 
-    * @param {Number} width - ancho del rectangulo
-    * @param {Number} height - alto del rectangulo
-    * @param {String} text - texto a escribir
-    * @param {Object} textConfig - configuracion del texto
-    * @param {Function} onClick - funcion a llamar al pulsar el boton (opcional)
-    * @param {String} textureId - id de la textura que se creara para el fondo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
-    * @param {Number} rectOriginX - origen x del rectangulo [0-1] (opcional)
-    * @param {Number} rectOriginY - origen y del rectangulo [0-1] (opcional)
-    * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
-    * @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
-    * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
-    * @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
-    * @param {Number} borderColor - valor hex del color por defecto del borde (opcional)
-    * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
-    * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textPaddingX - margen x entre el texto y sus dimensiones maximas (opcional)
-    * @param {Number} textPaddingY - margen y entre el texto y sus dimensiones maximas (opcional)
-    * @param {Number} textOffsetX - offset x del texto (opcional)
-    * @param {Number} textOffsetY - offset y del texto (opcional)
-    * @param {Number} textAlignX - alineacion horizontal del texto [0-1] (opcional)
-    * @param {Number} textAlignY - alineacion vertical del texto [0-1] (opcional)
+    * @param {number} x - posicion x del boton 
+    * @param {number} y - posicion y del boton 
+    * @param {number} width - ancho del rectangulo
+    * @param {number} height - alto del rectangulo
+    * @param {string} text - texto a escribir
+    * @param {object} textConfig - configuracion del texto
+    * @param {function} onClick - funcion a llamar al pulsar el boton (opcional)
+    * @param {string} textureId - id de la textura que se creara para el fondo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
+    * @param {number} rectOriginX - origen x del rectangulo [0-1] (opcional)
+    * @param {number} rectOriginY - origen y del rectangulo [0-1] (opcional)
+    * @param {number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
+    * @param {number} fillColor - valor hex del color por defecto del rectangulo (opcional)
+    * @param {number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
+    * @param {number} borderThickness - ancho del borde del rectangulo (opcional)
+    * @param {number} borderColor - valor hex del color por defecto del borde (opcional)
+    * @param {number} borderAlpha - alpha del borde [0-1] (opcional)
+    * @param {number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {number} textPaddingX - margen x entre el texto y sus dimensiones maximas (opcional)
+    * @param {number} textPaddingY - margen y entre el texto y sus dimensiones maximas (opcional)
+    * @param {number} textOffsetX - offset x del texto (opcional)
+    * @param {number} textOffsetY - offset y del texto (opcional)
+    * @param {number} textAlignX - alineacion horizontal del texto [0-1] (opcional)
+    * @param {number} textAlignY - alineacion vertical del texto [0-1] (opcional)
     */
     constructor(scene, x, y, width, height, text, textConfig, onClick = () => { }, textureId = "rectButtonTexture",
         rectOriginX = 0.5, rectOriginY = 0.5, radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1,

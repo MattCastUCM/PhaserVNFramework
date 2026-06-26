@@ -33,8 +33,8 @@ export default class ChoiceNode extends DialogNode {
 
     /**
     * @param {BaseScene} scene - escena en la que se crea el nodo
-    * @param {Object} node - objeto json con la informacion del nodo
-    * @param {String} fullId - id completa del nodo en el archivo
+    * @param {object} node - objeto json con la informacion del nodo
+    * @param {string} fullId - id completa del nodo en el archivo
     */
     constructor(scene, node) {
         super(scene);

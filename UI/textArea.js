@@ -5,20 +5,20 @@ export default class TextArea extends Phaser.GameObjects.Text {
     * Texto que tiene que estar contenido en un area especifica
     * @extends Phaser.GameObjects.Text
     * @param {Phaser.GameObjects.Scene} scene - escena en la que se crea
-    * @param {Number} x - posicion x del texto (opcional)
-    * @param {Number} y - posicion y del texto (opcional)
-    * @param {Number} maxWidth - ancho maximo que puede ocupar el texto (opcional)
-    * @param {Number} maxHeight - alto maximo que puede ocupar el texto (opcional)
-    * @param {String} text - texto a mostrar (opcional)
-    * @param {Object} style - estilo del texto (opcional)
-    * @param {Number} originX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} originY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} paddingX - margen x entre el texto y sus dimensiones maximas (opcional)
-    * @param {Number} paddingY - margen y entre el texto y sus dimensiones maximas (opcional)
-    * @param {Number} offsetX - offset x del texto (opcional)
-    * @param {Number} offsetY - offset y del texto (opcional)
-    * @param {Number} alignX - alineacion horizontal del texto [0-1] (opcional)
-    * @param {Number} alignY - alineacion vertical del texto [0-1] (opcional)
+    * @param {number} x - posicion x del texto (opcional)
+    * @param {number} y - posicion y del texto (opcional)
+    * @param {number} maxWidth - ancho maximo que puede ocupar el texto (opcional)
+    * @param {number} maxHeight - alto maximo que puede ocupar el texto (opcional)
+    * @param {string} text - texto a mostrar (opcional)
+    * @param {object} style - estilo del texto (opcional)
+    * @param {number} originX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {number} originY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {number} paddingX - margen x entre el texto y sus dimensiones maximas (opcional)
+    * @param {number} paddingY - margen y entre el texto y sus dimensiones maximas (opcional)
+    * @param {number} offsetX - offset x del texto (opcional)
+    * @param {number} offsetY - offset y del texto (opcional)
+    * @param {number} alignX - alineacion horizontal del texto [0-1] (opcional)
+    * @param {number} alignY - alineacion vertical del texto [0-1] (opcional)
     */
     constructor(scene, x = 0, y = 0, maxWidth = 100, maxHeight = 100, text = "", style = {},
         originX = 0.5, originY = 0.5, paddingX = 0, paddingY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
@@ -50,8 +50,8 @@ export default class TextArea extends Phaser.GameObjects.Text {
 
     /**
     * Comprueba si el texto indicado cabe los limites establecidos
-    * @param {String} text - texto a mostrar
-    * @returns {Boolean} - true si el texto cabe, false en caso contrario
+    * @param {string} text - texto a mostrar
+    * @returns {boolean} - true si el texto cabe, false en caso contrario
     */
     fits(text) {
         let prevText = this.text;
@@ -77,8 +77,8 @@ export default class TextArea extends Phaser.GameObjects.Text {
 
     /**
     * Ajusta automaticamente el tamano de la fuente hasta que quepa al menos 1 caracter
-    * @param {String} text - primer caracter del texto a mostrar
-    * @param {Number} reduction - reduccion que se le ira aplicando a la fuente cada vez que se compruebe si cabe o no
+    * @param {string} text - primer caracter del texto a mostrar
+    * @param {number} reduction - reduccion que se le ira aplicando a la fuente cada vez que se compruebe si cabe o no
     */
     adjustFontSize(text = "", reduction = 5) {
         if (text == null || text == "") {
@@ -116,10 +116,10 @@ export default class TextArea extends Phaser.GameObjects.Text {
     * Ajusta automaticamente el texto para que quepa dentro de los limites.
     * Si el texto excede el tamano, se recorta progresivamente hasta que encoja
     * 
-    * @param {Boolean} keepRight - Si es true, se recortan caracteres por la izquierda (se mantiene el final del texto).
+    * @param {boolean} keepRight - Si es true, se recortan caracteres por la izquierda (se mantiene el final del texto).
     *                              Si es false, se recortan por la derecha (se mantiene el inicio del texto).
-    * @param {String} - texto que se quiere ajustar. Si no se proporciona, se usara el texto actual.
-    * @param {Number} - cantidad de caracteres que se eliminan por iteracion (opcionaL9)
+    * @param {string} - texto que se quiere ajustar. Si no se proporciona, se usara el texto actual.
+    * @param {number} - cantidad de caracteres que se eliminan por iteracion (opcionaL9)
     */
     adjustTextLength(keepRight, text = "", reduction = 1) {
         if (text == null || text == "") {

@@ -1,7 +1,7 @@
 export default class Singleton {
     /**
     * Clase base para los singletons 
-    * @param {String} className - nombre de la clase. Se usa solo para el mensaje de la constructora
+    * @param {string} className - nombre de la clase. Se usa solo para el mensaje de la constructora
     */
 
     static instance = null;

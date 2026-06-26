@@ -10,22 +10,22 @@ export default class Checkbox extends InteractiveContainer {
     * 
     * @extends InteractiveContainer
     * @param {Phaser.Scene} scene - escena en la que se va a crear el boton 
-    * @param {Number} x - posicion x del boton 
-    * @param {Number} y - posicion y del boton 
-    * @param {Number} width - ancho de la checkbox
-    * @param {Number} height - alto de la checkbox
-    * @param {Object} labelTextConfig - configuracion del texto de la etiqueta
-    * @param {String} imgAtlas - id del atlas en el que esta la imagen de fondo (opcional)
-    * @param {String} textureId - id de la textura que se creara para el fondo de la checkbox. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
-    * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
-    * @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
-    * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
-    * @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
-    * @param {Number} borderColor - valor hex del color por defecto del borde (opcional)
-    * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
-    * @param {Number} normalTintColor - valor hex del color normal (opcional)
-    * @param {Number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
-    * @param {Number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
+    * @param {number} x - posicion x del boton 
+    * @param {number} y - posicion y del boton 
+    * @param {number} width - ancho de la checkbox
+    * @param {number} height - alto de la checkbox
+    * @param {object} labelTextConfig - configuracion del texto de la etiqueta
+    * @param {string} imgAtlas - id del atlas en el que esta la imagen de fondo (opcional)
+    * @param {string} textureId - id de la textura que se creara para el fondo de la checkbox. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
+    * @param {number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
+    * @param {number} fillColor - valor hex del color por defecto del rectangulo (opcional)
+    * @param {number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
+    * @param {number} borderThickness - ancho del borde del rectangulo (opcional)
+    * @param {number} borderColor - valor hex del color por defecto del borde (opcional)
+    * @param {number} borderAlpha - alpha del borde [0-1] (opcional)
+    * @param {number} normalTintColor - valor hex del color normal (opcional)
+    * @param {number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
+    * @param {number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
     */
     constructor(scene, x, y, width, height, labelTextConfig, textureId = "checkboxTexture",
         radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1,
@@ -62,12 +62,12 @@ export default class Checkbox extends InteractiveContainer {
     * Anadir un elemento al lado de la checkbox con opciones de posicionamiento y alineación.
     * Por defecto, se puede pulsar en toda la nueva area para cambiar el estado de la checkbox
     * 
-    * @param {Number} marginX - margen x entre la checkbox y el elemento (opcional)
-    * @param {Number} marginY - margen y entre la checkbox y el elemento (opcional)
-    * @param {Number} offsetX - offset x del elemento (opcional)
-    * @param {Number} offsetY - offset y del elemento (opcional)
-    * @param {Number} alignX - alineacion horizontal del elemento [0-1] (opcional)
-    * @param {Number} alignY - alineacion vertical del elemento [0-1] (opcional)
+    * @param {number} marginX - margen x entre la checkbox y el elemento (opcional)
+    * @param {number} marginY - margen y entre la checkbox y el elemento (opcional)
+    * @param {number} offsetX - offset x del elemento (opcional)
+    * @param {number} offsetY - offset y del elemento (opcional)
+    * @param {number} alignX - alineacion horizontal del elemento [0-1] (opcional)
+    * @param {number} alignY - alineacion vertical del elemento [0-1] (opcional)
     */
     attachElement(element, marginX = 0, marginY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
         this.add(element);
@@ -89,22 +89,22 @@ export default class Checkbox extends InteractiveContainer {
     /**
     * Anadir un texto al lado de la checkbox
     * 
-    * @param {Number} width - ancho del rectangulo
-    * @param {Number} height - alto del rectangulo
-    * @param {String} text - texto a escribir
-    * @param {Object} textConfig - configuracion del texto
-    * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
-    * @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
-    * @param {Number} borderColor - valor hex del color por defecto del borde (opcional)
-    * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
-    * @param {Number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
-    * @param {Number} marginX - margen x entre la checkbox y el texto (opcional)
-    * @param {Number} marginY - margen y entre la checkbox y el texto (opcional)
-    * @param {Number} offsetX - offset x del texto (opcional)
-    * @param {Number} offsetY - offset y del texto (opcional)
-    * @param {Number} alignX - alineacion horizontal del texto [0-1] (opcional)
-    * @param {Number} alignY - alineacion vertical del texto [0-1] (opcional)
+    * @param {number} width - ancho del rectangulo
+    * @param {number} height - alto del rectangulo
+    * @param {string} text - texto a escribir
+    * @param {object} textConfig - configuracion del texto
+    * @param {number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
+    * @param {number} borderThickness - ancho del borde del rectangulo (opcional)
+    * @param {number} borderColor - valor hex del color por defecto del borde (opcional)
+    * @param {number} borderAlpha - alpha del borde [0-1] (opcional)
+    * @param {number} textOriginX - origen x del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {number} textOriginY - origen y del texto [0-1] (si esta alineado en el centro, se ignora) (opcional)
+    * @param {number} marginX - margen x entre la checkbox y el texto (opcional)
+    * @param {number} marginY - margen y entre la checkbox y el texto (opcional)
+    * @param {number} offsetX - offset x del texto (opcional)
+    * @param {number} offsetY - offset y del texto (opcional)
+    * @param {number} alignX - alineacion horizontal del texto [0-1] (opcional)
+    * @param {number} alignY - alineacion vertical del texto [0-1] (opcional)
     */
     attachText(width, height, text, textConfig, textOriginX = 0.5, textOriginY = 0.5,
         marginX = 0, marginY = 0, offsetX = 0, offsetY = 0, alignX = 0.5, alignY = 0.5) {
@@ -116,29 +116,29 @@ export default class Checkbox extends InteractiveContainer {
     /**
     * Anadir una imagen con un fondo al lado de la checkbox
     * 
-    * @param {Number} width - ancho del rectangulo
-    * @param {Number} height - alto del rectangulo
-    * @param {String} text - texto a escribir
-    * @param {String} imgAtlas - id del atlas en el que esta la imagen (opcional)
-    * @param {String} imgId - id de la imagen
-    * @param {String} textureId - id de la textura que se creara para el fondo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
-    * @param {Number} rectOriginX - origen x del rectangulo [0-1] (opcional)
-    * @param {Number} rectOriginY - origen y del rectangulo [0-1] (opcional)
-    * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
-    * @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
-    * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
-    * @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
-    * @param {Number} borderColor - valor hex del color por defecto del borde (opcional)
-    * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
-    * @param {Number} imgOriginX - origen x de la imagen [0-1] (opcional)
-    * @param {Number} imgOriginY - origen y de la imagen [0-1] (opcional)
-    * @param {Number} imgAlpha - alpha de la imagen [0-1] (opcional)
-    * @param {Number} marginX - margen x entre la checkbox y la imagen (opcional)
-    * @param {Number} marginY - margen y entre la checkbox y la imagen (opcional)
-    * @param {Number} offsetX - offset x de la imagen (opcional)
-    * @param {Number} offsetY - offset y de la imagen (opcional)
-    * @param {Number} alignX - alineacion horizontal de la imagen [0-1] (opcional)
-    * @param {Number} alignY - alineacion vertical de la imagen [0-1] (opcional)
+    * @param {number} width - ancho del rectangulo
+    * @param {number} height - alto del rectangulo
+    * @param {string} text - texto a escribir
+    * @param {string} imgAtlas - id del atlas en el que esta la imagen (opcional)
+    * @param {string} imgId - id de la imagen
+    * @param {string} textureId - id de la textura que se creara para el fondo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
+    * @param {number} rectOriginX - origen x del rectangulo [0-1] (opcional)
+    * @param {number} rectOriginY - origen y del rectangulo [0-1] (opcional)
+    * @param {number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
+    * @param {number} fillColor - valor hex del color por defecto del rectangulo (opcional)
+    * @param {number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
+    * @param {number} borderThickness - ancho del borde del rectangulo (opcional)
+    * @param {number} borderColor - valor hex del color por defecto del borde (opcional)
+    * @param {number} borderAlpha - alpha del borde [0-1] (opcional)
+    * @param {number} imgOriginX - origen x de la imagen [0-1] (opcional)
+    * @param {number} imgOriginY - origen y de la imagen [0-1] (opcional)
+    * @param {number} imgAlpha - alpha de la imagen [0-1] (opcional)
+    * @param {number} marginX - margen x entre la checkbox y la imagen (opcional)
+    * @param {number} marginY - margen y entre la checkbox y la imagen (opcional)
+    * @param {number} offsetX - offset x de la imagen (opcional)
+    * @param {number} offsetY - offset y de la imagen (opcional)
+    * @param {number} alignX - alineacion horizontal de la imagen [0-1] (opcional)
+    * @param {number} alignY - alineacion vertical de la imagen [0-1] (opcional)
     */
     attachRectImage(width, height, imgAtlas = "", imgId = "", textureId = "rectButtonTexture",
         rectOriginX = 0.5, rectOriginY = 0.5, radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1,

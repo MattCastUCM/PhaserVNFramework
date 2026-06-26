@@ -9,24 +9,24 @@ export default class RectImageButton extends InteractiveContainer {
     * 
     * @extends InteractiveContainer
     * @param {Phaser.Scene} scene - escena en la que se va a crear el boton 
-    * @param {Number} x - posicion x del boton 
-    * @param {Number} y - posicion y del boton 
-    * @param {Number} width - ancho del rectangulo
-    * @param {Number} height - alto del rectangulo
-    * @param {String} imgAtlas - id del atlas en el que esta la imagen (opcional)
-    * @param {String} imgId - id de la imagen (opcional)
-    * @param {Function} onClick - funcion a llamar al pulsar el boton (opcional)
-    * @param {Number} rectOriginX - origen x del rectangulo [0-1] (opcional)
-    * @param {Number} rectOriginY - origen y del rectangulo [0-1] (opcional)
-    * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
-    * @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
-    * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
-    * @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
-    * @param {Number} borderColor - valor hex del color por defecto del borde (opcional)
-    * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
-    * @param {Number} imgOriginX - origen x de la imagen [0-1] (opcional)
-    * @param {Number} imgOriginY - origen y de la imagen [0-1] (opcional)
-    * @param {Number} imgAlpha - alpha de la imagen [0-1] (opcional)
+    * @param {number} x - posicion x del boton 
+    * @param {number} y - posicion y del boton 
+    * @param {number} width - ancho del rectangulo
+    * @param {number} height - alto del rectangulo
+    * @param {string} imgAtlas - id del atlas en el que esta la imagen (opcional)
+    * @param {string} imgId - id de la imagen (opcional)
+    * @param {function} onClick - funcion a llamar al pulsar el boton (opcional)
+    * @param {number} rectOriginX - origen x del rectangulo [0-1] (opcional)
+    * @param {number} rectOriginY - origen y del rectangulo [0-1] (opcional)
+    * @param {number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
+    * @param {number} fillColor - valor hex del color por defecto del rectangulo (opcional)
+    * @param {number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
+    * @param {number} borderThickness - ancho del borde del rectangulo (opcional)
+    * @param {number} borderColor - valor hex del color por defecto del borde (opcional)
+    * @param {number} borderAlpha - alpha del borde [0-1] (opcional)
+    * @param {number} imgOriginX - origen x de la imagen [0-1] (opcional)
+    * @param {number} imgOriginY - origen y de la imagen [0-1] (opcional)
+    * @param {number} imgAlpha - alpha de la imagen [0-1] (opcional)
     */
     constructor(scene, x, y, width, height, imgAtlas = "", imgId = "", onClick = () => { }, textureId = "rectButtonTexture",
         rectOriginX = 0.5, rectOriginY = 0.5, radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1,

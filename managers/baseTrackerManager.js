@@ -15,7 +15,7 @@ export default class BaseTrackerManager extends Singleton {
     /**
     * Inicializa el tracker con una instancia del tracker y con el titulo del juego
     * @param {SeriousGameTracker} seriousGameTracker 
-    * @param {String} gameTitle 
+    * @param {string} gameTitle 
     */
     init(seriousGameTracker, gameTitle) {
         this.seriousGameTracker = seriousGameTracker;

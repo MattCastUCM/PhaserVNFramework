@@ -28,7 +28,7 @@ export default class DialogNode {
     /**
     * Gestiona la traduccion del noodo
     * @param {LocalizationManager} localizationManager - instancia del localizationManager
-    * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
+    * @param {string} namespace - nombre del archivo de localizacion del que se va a leer 
     */
     translate(localizationManager, namespace) { }
 

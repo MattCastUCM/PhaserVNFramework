@@ -6,8 +6,8 @@ export default class AnimatedContainer extends SimpleContainer {
     * Clase que extiende Container para agregar animaciones al activar/desactivar la visibilidad
     * @extends Phaser.GameObjects.Container
     * @param {Phaser.Scene} scene - escena a la que pertenece
-    * @param {Number} x - posicion x (opcional)
-    * @param {Number} y - posicion y (opcional)
+    * @param {number} x - posicion x (opcional)
+    * @param {number} y - posicion y (opcional)
     */
     constructor(scene, x = 0, y = 0) {
         super(scene, x, y);
@@ -25,9 +25,9 @@ export default class AnimatedContainer extends SimpleContainer {
 
     /**
     * Activar o desactivar los objetos con una animacion de opacidad
-    * @param {Boolean} active - si se va a activar el objeto
-    * @param {Function} onComplete - funcion a la que llamar cuando acaba la animacion (opcional)
-    * @param {Number} delay - tiempo en ms que tarda en llamarse a onComplete (opcional)
+    * @param {boolean} active - si se va a activar el objeto
+    * @param {function} onComplete - funcion a la que llamar cuando acaba la animacion (opcional)
+    * @param {number} delay - tiempo en ms que tarda en llamarse a onComplete (opcional)
     */
     activate(active, onComplete = () => { }, delay = 0) {
         this.fadeAnim = fadeAnimation(this, active);

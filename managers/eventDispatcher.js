@@ -28,11 +28,11 @@ export class EventHandler {
 
     /**
     * Comprobar si un evento existe
-    * @param {String} event - nombre del evento 
-    * @param {Object} object - objeto suscrito al evento
-    * @param {Function} callback - funcion que se ejecuta al producirse el evento
+    * @param {string} event - nombre del evento 
+    * @param {object} object - objeto suscrito al evento
+    * @param {function} callback - funcion que se ejecuta al producirse el evento
     * @param {Map} objectsMap - mapa de objetos en el que buscar el evento
-    * @returns {Boolean} - si existe (true) o no (false)
+    * @returns {boolean} - si existe (true) o no (false)
     */
     has(event, object, callback) {
         // Si existe el objeto
@@ -52,9 +52,9 @@ export class EventHandler {
 
     /**
     * Guardar en evento
-    * @param {String} event - nombre del evento 
-    * @param {Object} object - objeto suscrito al evento
-    * @param {Function} callback - funcion que se ejecuta al producirse el evento
+    * @param {string} event - nombre del evento 
+    * @param {object} object - objeto suscrito al evento
+    * @param {function} callback - funcion que se ejecuta al producirse el evento
     */
     add(event, object, callback) {
         // Si el evento no existe en el mapa de eventos, se crea el set de objetos
@@ -86,9 +86,9 @@ export class EventHandler {
 
     /**
     * Eliminar un callback especifico de un evento para un objeto
-    * @param {String} event - nombre del evento 
-    * @param {String} object - objeto suscrito al evento 
-    * @param {Function} callback - funcion que se ejecuta al producirse el evento
+    * @param {string} event - nombre del evento 
+    * @param {string} object - objeto suscrito al evento 
+    * @param {function} callback - funcion que se ejecuta al producirse el evento
     */
     remove(event, object, callback) {
         // Si existe el objeto
@@ -111,7 +111,7 @@ export class EventHandler {
 
     /**
     * Eliminar un evento
-    * @param {String} event - nombre del evento
+    * @param {string} event - nombre del evento
     */
     removeByEvent(event) {
         // Si existe el evento
@@ -132,7 +132,7 @@ export class EventHandler {
 
     /**
     * Eliminar todos los eventos suscritos a un objeto
-    * @param {Object} object - objeto suscrito al evento
+    * @param {object} object - objeto suscrito al evento
     */
     removeByObject(object) {
         // Si existe el objeto
@@ -157,8 +157,8 @@ export class EventHandler {
 
     /**
     * Eliminar todos los callbacks de un evento de un objeto
-    * @param {String} event - nombre del evento
-    * @param {Object} object - objeto suscrito al evento
+    * @param {string} event - nombre del evento
+    * @param {object} object - objeto suscrito al evento
     */
     removeAllCallbacks(event, object) {
         // Si existe el evento
@@ -217,8 +217,8 @@ export default class EventDispatcher extends Singleton {
 
     /**
     * Emitir un evento
-    * @param {String} event - nombre del evento
-    * @param {Object} params - parametros del evento (opcional)
+    * @param {string} event - nombre del evento
+    * @param {object} params - parametros del evento (opcional)
     */
     dispatch(event, params = {}) {
         this.emitter.emit(event, params);
@@ -226,10 +226,10 @@ export default class EventDispatcher extends Singleton {
 
     /**
     * Suscribir un objeto a un evento
-    * @param {String} event - nombre del evento
-    * @param {Object} object - objeto suscrito al evento
-    * @param {callback} callback - funcion que se ejecuta cuando se produce el evento
-    * @param {Boolean} permanent - si la suscripcion es permanente (true) o temporal (false) (opcional)
+    * @param {string} event - nombre del evento
+    * @param {object} object - objeto suscrito al evento
+    * @param {function} callback - funcion que se ejecuta cuando se produce el evento
+    * @param {boolean} permanent - si la suscripcion es permanente (true) o temporal (false) (opcional)
     */
     add(event, object, callback, permanent = false) {
         if (!this.permanentHandler.has(event, object, callback)) {
@@ -251,9 +251,9 @@ export default class EventDispatcher extends Singleton {
 
     /**
     * Suscribir un objeto a un evento una sola vez
-    * @param {String} event - nombre del evento
-    * @param {Object} object - objeto suscrito al evento
-    * @param {callback} callback - funcion que se ejecuta cuando se produce el evento
+    * @param {string} event - nombre del evento
+    * @param {object} object - objeto suscrito al evento
+    * @param {function} callback - funcion que se ejecuta cuando se produce el evento
     */
     addOnce(event, object, callback) {
         this.emitter.once(event, callback, object);
@@ -261,9 +261,9 @@ export default class EventDispatcher extends Singleton {
 
     /**
     * Eliminar un evento temporal 
-    * @param {String} event - nombre del evento 
-    * @param {String} object - objeto suscrito al evento 
-    * @param {Function} callback - funcion que se ejecuta cuando se produce al evento
+    * @param {string} event - nombre del evento 
+    * @param {string} object - objeto suscrito al evento 
+    * @param {function} callback - funcion que se ejecuta cuando se produce al evento
     */
     remove(event, object, callback) {
         this.temporaryHandler.remove(event, object, callback);
@@ -271,7 +271,7 @@ export default class EventDispatcher extends Singleton {
 
     /**
     * Eliminar todas las suscripciones temporales a un evento
-    * @param {String} event - nombre del evento
+    * @param {string} event - nombre del evento
     */
     removeByEvent(event) {
         this.temporaryHandler.removeByEvent(event);
@@ -279,7 +279,7 @@ export default class EventDispatcher extends Singleton {
 
     /**
     * Eliminar todos los eventos temporales de un objeto
-    * @param {Object} object - objeto suscrito al evento
+    * @param {object} object - objeto suscrito al evento
     */
     removeByObject(object) {
         this.temporaryHandler.removeByObject(object);
@@ -287,8 +287,8 @@ export default class EventDispatcher extends Singleton {
 
     /**
     * Eliminar todas las funciones de un evento de un objeto
-    * @param {String} event - nombre del evento
-    * @param {Object} object - objeto suscrito al evento
+    * @param {string} event - nombre del evento
+    * @param {object} object - objeto suscrito al evento
     */
     removeAllCallbacks(event, object) {
         this.temporaryHandler.removeAllCallbacks(event, object);

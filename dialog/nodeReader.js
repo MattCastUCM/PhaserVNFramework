@@ -45,9 +45,9 @@ export default class NodeReader {
     /**
     * Crea todos los nodos y luego se encarga de conectarlos
     * @param {Phaser.Scene} scene - escena en la que se crea el nodo
-    * @param {Object} fullJson - objeto json donde estan los nodos 
-    * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
-    * @param {String} objectName - nombre del objeto en el que esta el dialogo, si es que el json contiene varios dialogos de distintos objetos
+    * @param {object} fullJson - objeto json donde estan los nodos 
+    * @param {string} namespace - nombre del archivo de localizacion del que se va a leer 
+    * @param {string} objectName - nombre del objeto en el que esta el dialogo, si es que el json contiene varios dialogos de distintos objetos
     * @returns {Map} - Mapa con todos los nodos leidos
     */
     readNodes(scene, file, namespace, objectName) {
@@ -71,9 +71,9 @@ export default class NodeReader {
     /**
     * Se obtienen todos los nodos del objeto json, se crean dependiendo de su tipo, y se guardan al mapa de nodos
     * @param {Phaser.Scene} scene - escena en la que se crea el nodo
-    * @param {Object} fullJson - objeto json donde estan los nodos 
-    * @param {String} namespace - nombre del archivo de localizacion del que se va a leer 
-    * @param {String} objectName - nombre del objeto en el que esta el dialogo, si es que el json contiene varios dialogos de distintos objetos
+    * @param {object} fullJson - objeto json donde estan los nodos 
+    * @param {string} namespace - nombre del archivo de localizacion del que se va a leer 
+    * @param {string} objectName - nombre del objeto en el que esta el dialogo, si es que el json contiene varios dialogos de distintos objetos
     * @param {Map} nodesMap - mapa donde se van a guardar los nodos leidos
     * 
     * IMPORTANTE: La estructura de nodos es comun a todos los idiomas y se tiene que guardar con anterioridad
@@ -116,9 +116,9 @@ export default class NodeReader {
 
     /**
     * Obtiene el objeto indicado en el json completo a partir de su nombre
-    * @param {Object} obj - objeto json en el que se busca el objeto 
-    * @param {String} prop - nombre de la propiedad (o del objeto) que se busca 
-    * @returns {Object} - objeto json con el nombre indicado
+    * @param {object} obj - objeto json en el que se busca el objeto 
+    * @param {string} prop - nombre de la propiedad (o del objeto) que se busca 
+    * @returns {object} - objeto json con el nombre indicado
     */
     getObjFromName(obj, prop) {
         let nestedProperties = prop.split('.');

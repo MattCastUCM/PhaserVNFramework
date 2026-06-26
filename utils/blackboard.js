@@ -1,7 +1,7 @@
 export default class Blackboard extends Map {
     /**
     * Devuelve el valor buscado en la blackboard
-    * @param {String} key - valor buscado
+    * @param {string} key - valor buscado
     * @returns {object} - el objeto buscado en caso de que exista. null en caso contrario
     */
     get(key) {
@@ -13,8 +13,8 @@ export default class Blackboard extends Map {
 
     /**
     * Establece un valor en la blackboard
-    * @param {String} key - valor que se va a cambiar
-    * @param {Object} value - valor que se le va a poner al valor a cambiar
+    * @param {string} key - valor que se va a cambiar
+    * @param {object} value - valor que se le va a poner al valor a cambiar
     * @returns {boolean} - si se ha sobreescrito un valor (true) o no (false)
     */
     set(key, value) {

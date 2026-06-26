@@ -3,28 +3,27 @@ import SimpleContainer from "./simpleContainer.js";
 
 export default class ScrollListView extends InteractiveContainer {
     /**
-    * 
+    * Clase para listas deslizables que contienen otros tipos de objetos
     * @extends InteractiveContainer
-    * @param {*} scene 
-    * @param {*} x 
-    * @param {*} y 
-    * @param {*} width 
-    * @param {*} height 
-    * @param {*} originX 
-    * @param {*} originY 
-    * @param {*} itemSpacing 
-    * @param {*} leftMargin 
-    * @param {*} rightMargin 
-    * @param {*} topMargin 
-    * @param {*} bottomMargin 
-    * @param {*} dragThreshold 
-    * @param {*} horizontalScroll 
-    * @param {*} scrollSpeed 
-    * @param {*} deceleration 
-    * @param {*} velThreshold 
+    * @param {Phaser.Scene} scene - escena en la que se va a crear 
+    * @param {number} x - posicion x
+    * @param {number} y - posicion y
+    * @param {number} width - ancho del area visible
+    * @param {number} height - alto del area visible
+    * @param {number} horizontalScroll - true si la lista es horizontal, false si es vertical 
+    * @param {number} itemSpacing - espacio entre los objetos
+    * @param {number} leftMargin - espacio entre el extremo izquierdo del primer elemento y el extremo izquierdo del area visible
+    * @param {number} rightMargin - espacio entre el extremo derecho del ultimo elemento y el extremo derecho del area visible
+    * @param {number} topMargin - espacio entre el extremo superior del primer elemento y el extremo superior del area visible
+    * @param {number} bottomMargin - espacio entre el extremo inferior del ultimo elemento y el extremo inferior del area visible
+    * @param {number} dragThreshold - cantidad minima que necesita arrastrarse la lista para que comience a moverse
+    * @param {number} scrollSpeed - velocidad a la que se arrastra
+    * @param {number} deceleration - cantidad de deceleracion cuando se la lista se esta moviendo y se deja de arrastrar
+    * @param {number} velThreshold - velocidad minima que tiene que tener la lista antes de pararse del todo
     */
-    constructor(scene, x = 0, y = 0, width, height, itemSpacing = 0, leftMargin = 0, rightMargin = 0, topMargin = 0, bottomMargin = 0,
-        horizontalScroll = false, scrollSpeed = 1, deceleration = 0.99, velThreshold = 0.1) {
+    constructor(scene, x = 0, y = 0, width, height, horizontalScroll = false, itemSpacing = 0, 
+        leftMargin = 0, rightMargin = 0, topMargin = 0, bottomMargin = 0, scrollSpeed = 1, deceleration = 0.99, velThreshold = 0.1) 
+    {
         super(scene, x, y);
 
         this.width = width;
@@ -92,7 +91,7 @@ export default class ScrollListView extends InteractiveContainer {
         // this.test1();
     }
 
-    test1() {
+    test1(color = 0x0000FF) {
         this.itemSpacing = 10
         this.topMargin = this.bottomMargin = this.leftMargin = this.rightMargin = 15;
 
@@ -107,10 +106,10 @@ export default class ScrollListView extends InteractiveContainer {
         this.horizontalScroll = true;
 
         let size = 100;
-        let rect1 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size, 0x0000FF, 1), 0);
-        let rect2 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size * 2, 0x0000FF, 1).setOrigin(0, 0), 1);
-        let rect3 = this.addToEnd(this.scene.add.rectangle(0, 100, size, size, 0x0000FF, 1), 0.5);
-        let rect4 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size * 2, 0x0000FF, 1).setOrigin(0, 0), 0);
+        let rect1 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size, color, 1), 0);
+        let rect2 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size * 2, color, 1).setOrigin(0, 0), 1);
+        let rect3 = this.addToEnd(this.scene.add.rectangle(0, 100, size, size, color, 1), 0.5);
+        let rect4 = this.addToEnd(this.scene.add.rectangle(0, 0, size, size * 2, color, 1).setOrigin(0, 0), 0);
         
         this.scene.setInteractive(rect1);
         rect1.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, () => {
@@ -209,7 +208,7 @@ export default class ScrollListView extends InteractiveContainer {
 
     /**
      * Anade un objeto al container. Llama al metodo de su padre con el parametro de recalcular el tamano a false
-     * @returns {Phaser.GameObject} - objeto anadido
+     * @returns {Phaser.GameObjects.GameObject} - objeto anadido
      */
     add(gameObject) {
         return super.add(gameObject, false);
@@ -217,7 +216,7 @@ export default class ScrollListView extends InteractiveContainer {
 
     /**
     * Devuelve la posicion de los laterales en coordenadas locales teniendo en cuenta el origen
-    * @returns {Object} - objeto con la posicion local de los laterales izquierdo, derecho, superior e inferior
+    * @returns {object} - objeto con la posicion local de los laterales izquierdo, derecho, superior e inferior
     */
     getLocalBounds() {
         return {
@@ -343,9 +342,9 @@ export default class ScrollListView extends InteractiveContainer {
 
     /**
     * Anade el objeto indicado en un indice especifico
-    * @param {Phaser.GameObject} gameObject - objeto a anadir 
-    * @param {Number} index - indice en el que introducir el objeto 
-    * @returns {Phaser.GameObject} - objeto anadido
+    * @param {Phaser.GameObjects.GameObject} gameObject - objeto a anadir 
+    * @param {number} index - indice en el que introducir el objeto 
+    * @returns {Phaser.GameObjects.GameObject} - objeto anadido
     */
     addByIndex(gameObject, index, align = null) {
         // Si el indice supera el numero de elementos de la lista, anade el objeto al final y no hace nada mas
@@ -399,9 +398,9 @@ export default class ScrollListView extends InteractiveContainer {
     *   - En el scroll vertical se ignora el eje y (pero no el x), el primer objeto empezara con su lateral 
     *   superior en el margen superior, y el lateral inferior del ultimo objeto delimitara el final de la lista 
     * 
-    * @param {Phaser.GameObject} gameObject - objeto a anadir
-    * @param {Number} align - alineamiento (y si es scroll horizontal, x si es vertical) con el que se quiere anadir el objeto en la lista [0, 1] (opcional) Si no es un numero, se alinea segun el origen del objeto
-    * @returns {Phaser.GameObject} - objeto anadido
+    * @param {Phaser.GameObjects.GameObject} gameObject - objeto a anadir
+    * @param {number} align - alineamiento (y si es scroll horizontal, x si es vertical) con el que se quiere anadir el objeto en la lista [0, 1] (opcional) Si no es un numero, se alinea segun el origen del objeto
+    * @returns {Phaser.GameObjects.GameObject} - objeto anadido
     */
     addToEnd(gameObject, align = null) {
         // Calcula la posicion correspondiente en el eje del scroll
@@ -470,9 +469,9 @@ export default class ScrollListView extends InteractiveContainer {
     *   - En el scroll vertical se ignora el eje y (pero no el x), el primer objeto empezara con su lateral 
     *   superior en el margen superior, y el lateral inferior del ultimo objeto delimitara el final de la lista 
     * 
-    * @param {Phaser.GameObject} gameObject - objeto a anadir
-    * @param {Number} align - alineamiento (y si es scroll horizontal, x si es vertical) con el que se quiere anadir el objeto en la lista [0, 1] (opcional) Si no es un numero, se alinea segun el origen del objeto
-    * @returns {Phaser.GameObject} - objeto anadido
+    * @param {Phaser.GameObjects.GameObject} gameObject - objeto a anadir
+    * @param {number} align - alineamiento (y si es scroll horizontal, x si es vertical) con el que se quiere anadir el objeto en la lista [0, 1] (opcional) Si no es un numero, se alinea segun el origen del objeto
+    * @returns {Phaser.GameObjects.GameObject} - objeto anadido
     */
     addToBeginning(gameObject, align = null) {
         return this.addByIndex(gameObject, -1, align);
@@ -481,8 +480,8 @@ export default class ScrollListView extends InteractiveContainer {
 
     /**
     * Elimina el objeto de la lista en el indice especificado (los indices van de izquierda -> derecha / arriba -> abajo)
-    * @param {Number} index - indice del objeto en la lista a eliminar 
-    * @returns {Phaser.GameObject} - objeto eliminado
+    * @param {number} index - indice del objeto en la lista a eliminar 
+    * @returns {Phaser.GameObjects.GameObject} - objeto eliminado
     */
     removeByIndex(index) {
         // Si el indice no esta en la lista, no se hace nada
@@ -518,7 +517,7 @@ export default class ScrollListView extends InteractiveContainer {
 
     /**
     * Elimina el ultimo elemento de la lista (derecha/abajo)
-    * @returns {Phaser.GameObject} - objeto eliminado
+    * @returns {Phaser.GameObjects.GameObject} - objeto eliminado
     */
     removeLast() {
         return this.removeByIndex(this.scroller.list.length - 1);
@@ -526,7 +525,7 @@ export default class ScrollListView extends InteractiveContainer {
 
     /**
     * Elimina el primer elemento de la lista (izquierda/arriba)
-    * @returns {Phaser.GameObject} - objeto eliminado
+    * @returns {Phaser.GameObjects.GameObject} - objeto eliminado
     */
     removeFirst() {
         return this.removeByIndex(0);
@@ -534,8 +533,8 @@ export default class ScrollListView extends InteractiveContainer {
 
     /**
     * Elimina el objeto especificado de la lista
-    * @param {Phaser.GameObject} gameObject - objeto a eliminar
-    * @returns {Phaser.GameObject} - objeto eliminado
+    * @param {Phaser.GameObjects.GameObject} gameObject - objeto a eliminar
+    * @returns {Phaser.GameObjects.GameObject} - objeto eliminado
     */
     removeItem(gameObject) {
         return this.removeByIndex(this.scroller.list.indexOf(gameObject));

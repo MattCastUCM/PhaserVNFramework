@@ -3,13 +3,13 @@ export default class Grid extends Phaser.GameObjects.Container {
     * Crea una cuadricula para organizar elementos visuales
     *
     * @param {Phaser.Scene} scene - escena donde se crea la cuadricula.
-    * @param {Number} x - posicion x de la esquina superior izquierda
-    * @param {Number} y - posicion y de la esquina superior izquierda
-    * @param {Number} width - ancho total de la cuadricula
-    * @param {Number} height - alto total de la cuadrícula
-    * @param {Number} columns - nuemro de columnas
-    * @param {Number} rows - numero de filas
-    * @param {Number} padding - espacio desde los bordes hacia dentro
+    * @param {number} x - posicion x de la esquina superior izquierda
+    * @param {number} y - posicion y de la esquina superior izquierda
+    * @param {number} width - ancho total de la cuadricula
+    * @param {number} height - alto total de la cuadrícula
+    * @param {number} columns - nuemro de columnas
+    * @param {number} rows - numero de filas
+    * @param {number} padding - espacio desde los bordes hacia dentro
     */
     constructor(scene, x, y, width, height, columns, rows, padding) {
         super(scene, x, y);

@@ -51,15 +51,15 @@ export function hexToColor(hex) {
 /**
 * Crea una textura a partir de un rectangulo con las caracteristicas indicadas
 * @param {Phaser.Scene} scene - escena con acceso a las texturas existentes
-* @param {String} textureId - id de la textura que se creara para el rectangulo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree
-* @param {Number} width - ancho del rectangulo
-* @param {Number} height - alto del rectangulo
-* @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
-* @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
-* @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
-* @param {Number} borderColor - valor hex del color por defecto del borde (opcional)
-* @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
-* @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
+* @param {string} textureId - id de la textura que se creara para el rectangulo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree
+* @param {number} width - ancho del rectangulo
+* @param {number} height - alto del rectangulo
+* @param {number} fillColor - valor hex del color por defecto del rectangulo (opcional)
+* @param {number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
+* @param {number} borderThickness - ancho del borde del rectangulo (opcional)
+* @param {number} borderColor - valor hex del color por defecto del borde (opcional)
+* @param {number} borderAlpha - alpha del borde [0-1] (opcional)
+* @param {number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
 */
 export function createRectTexture(scene, textureId = "rectTexture", width, height,
     fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1, radiusPercentage = 0) {
@@ -83,13 +83,13 @@ export function createRectTexture(scene, textureId = "rectTexture", width, heigh
 /**
 * Crea una textura a partir de un circulo con las caracteristicas indicadas
 * @param {Phaser.Scene} scene - escena con acceso a las texturas existentes
-* @param {String} textureId - id de la textura que se creara para el circulo. Si no se especifica, se reutilizara la del primer circulo sin id que se cree
-* @param {Number} radius - radio del circulo
-* @param {Number} fillColor - valor hex del color por defecto del circulo (opcional)
-* @param {Number} fillAlpha - alpha del circulo [0-1] (opcional) 
-* @param {Number} borderThickness - ancho del borde del circulo (opcional)
-* @param {Number} borderNormalColor - valor hex del color por defecto del borde (opcional)
-* @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
+* @param {string} textureId - id de la textura que se creara para el circulo. Si no se especifica, se reutilizara la del primer circulo sin id que se cree
+* @param {number} radius - radio del circulo
+* @param {number} fillColor - valor hex del color por defecto del circulo (opcional)
+* @param {number} fillAlpha - alpha del circulo [0-1] (opcional) 
+* @param {number} borderThickness - ancho del borde del circulo (opcional)
+* @param {number} borderNormalColor - valor hex del color por defecto del borde (opcional)
+* @param {number} borderAlpha - alpha del borde [0-1] (opcional)
 */
 export function createCircleTexture(scene, textureId = "circleTexture", radius,
     fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderNormalColor = 0x000000, borderAlpha = 1) {
@@ -110,8 +110,8 @@ export function createCircleTexture(scene, textureId = "circleTexture", radius,
 
 /**
 * Prepara el boton para anadirle posteriormente una animacion
-* @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
-* @param {Boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
+* @param {Phaser.GameObjects.GameObject} button - elemento que reaccionara a los eventos del raton
+* @param {boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
 */
 function prepareButtonInteraction(button, overrideOnClick = false) {
     setInteractive(button);
@@ -125,8 +125,8 @@ function prepareButtonInteraction(button, overrideOnClick = false) {
 /**
 * Anadir animacion de mostrar/ocultar un objeto con un fade in/out
 * @param {Phaser.GameObject, Array} targets - elemento/s que haran la animacion
-* @param {Boolean} makeVisible - true si se quiere mostrar el objetivo, false en caso contrario
-* @param {Number} duration - duracion en ms que durara el fade (opcional)
+* @param {boolean} makeVisible - true si se quiere mostrar el objetivo, false en caso contrario
+* @param {number} duration - duracion en ms que durara el fade (opcional)
 * @param {Phaser.Math.Easing, String} ease - funcion de suavizado que aplicar a la animacion (opcional)
 * @returns {Phaser.Tweens.Tween} - instancia de la animacion reproducida (por si se quieren anadir eventos que reaccionen a ella)
 */
@@ -198,10 +198,10 @@ export function fadeAnimation(targets, makeVisible, duration = 150, ease = Phase
 
 /**
 * Una vez terminada la animacion indicada, se ejecuta el onClick y se reactiva la interaccion si no es una interaccion unica
-* @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
+* @param {Phaser.GameObjects.GameObject} button - elemento que reaccionara a los eventos del raton
 * @param {Phaser.Tweens.Tween} anim - tween que esperar a que termine
-* @param {Function} onClick - funcion a llamar al pulsar el boton
-* @param {Boolean} single - true si se puede volver a interactuar con el elemento, false en caso contrario
+* @param {function} onClick - funcion a llamar al pulsar el boton
+* @param {boolean} single - true si se puede volver a interactuar con el elemento, false en caso contrario
 */
 function buttonInteractionComplete(button, anim, onClick, single) {
     anim.on(Phaser.Tweens.Events.TWEEN_COMPLETE, () => {
@@ -217,14 +217,14 @@ function buttonInteractionComplete(button, anim, onClick, single) {
 
 /**
 * Anadir animacion de cambio de color al pasar y quitar el raton por encima
-* @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
+* @param {Phaser.GameObjects.GameObject} button - elemento que reaccionara a los eventos del raton
 * @param {Phaser.GameObject, Array} targets - objetos que cambiar de color 
-* @param {Function} onClick - funcion a llamar al pulsar el boton
-* @param {Boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
-* @param {Boolean} single - true si se puede volver a interactuar con el elemento, false en caso contrario
-* @param {Number} scaleFactor - factor para disminuir o aumentar la escala del boton al pasar el puntero por encima
-* @param {Boolean} smooth - si la animacion es progresiva o inmediata
-* @param {Number} duration - tiempo que dura la animacino
+* @param {function} onClick - funcion a llamar al pulsar el boton
+* @param {boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
+* @param {boolean} single - true si se puede volver a interactuar con el elemento, false en caso contrario
+* @param {number} scaleFactor - factor para disminuir o aumentar la escala del boton al pasar el puntero por encima
+* @param {boolean} smooth - si la animacion es progresiva o inmediata
+* @param {number} duration - tiempo que dura la animacino
 */
 export function growAnimation(button, targets, onClick = () => { }, overrideOnClick = false, single = false, scaleFactor = 1.1, smooth = true, duration = 20) {
     prepareButtonInteraction(button, overrideOnClick);
@@ -270,15 +270,15 @@ export function growAnimation(button, targets, onClick = () => { }, overrideOnCl
 
 /**
 * Anadir animacion de cambio de color al pasar y quitar el raton por encima
-* @param {Phaser.GameObject} button - elemento que reaccionara a los eventos del raton
+* @param {Phaser.GameObjects.GameObject} button - elemento que reaccionara a los eventos del raton
 * @param {Phaser.GameObject, Array} targets - objetos que cambiar de color 
-* @param {Function} onClick - funcion a llamar al pulsar el boton
-* @param {Boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
-* @param {Boolean} single - true si se puede volver a interactuar con el elemento, false en caso contrario
-* @param {Number} normalTintColor - valor hex del color normal (opcional)
-* @param {Number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
-* @param {Number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
-* @param {Number} duration - tiempo que dura la animacino
+* @param {function} onClick - funcion a llamar al pulsar el boton
+* @param {boolean} overrideOnClick - true si se quieren sustituir todos los callbacks que tuviera el objeto en su evento pointerdown, false en caso contrario 
+* @param {boolean} single - true si se puede volver a interactuar con el elemento, false en caso contrario
+* @param {number} normalTintColor - valor hex del color normal (opcional)
+* @param {number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
+* @param {number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
+* @param {number} duration - tiempo que dura la animacino
 */
 export function tintAnimation(button, targets, onClick = () => { }, overrideOnClick = false, single = false, normalTintColor = 0xffffff, hoverTintColor = 0xd9d9d9, pressingTintColor = 0x969696, duration = 50) {
     prepareButtonInteraction(button, overrideOnClick);

@@ -26,7 +26,7 @@ export default class EventNode extends DialogNode {
 
     /**
     * @param {BaseScene} scene - escena en la que se crea el nodo
-    * @param {Object} node - objeto json con la informacion del nodo
+    * @param {object} node - objeto json con la informacion del nodo
     */
     constructor(scene, node) {
         super(scene);

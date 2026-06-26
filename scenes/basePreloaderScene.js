@@ -77,7 +77,7 @@ export default class BasePreloaderScene extends Phaser.Scene {
     /**
     * Aqui se deben cargar el resto de assets como imagenes, videos o los archivos de localizacion
     * 
-    * @param {Function} loadAssets - funcion con la carga del resto de assets
+    * @param {function} loadAssets - funcion con la carga del resto de assets
     * @param {Array} dialogNamespaces - array con la ruta de los archivos de la estructura y traduccion de los nodos de dialogo (sin la extension) 
     *                                   usando assets/localization/structure/ O assets/localization/{idioma}/ como raiz
     * @param {Array} basicNamespaces - array con la ruta de los archivos de traduccion general (sin la extension) con assets/localization/{idioma}/ como raiz

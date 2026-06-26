@@ -6,8 +6,8 @@ export default class InteractiveContainer extends AnimatedContainer {
     * Clase base para los contenedores interactuables, con metodos para calcular su rectangulo de colision
     * @extends AnimatedContainer
     * @param {Phaser.Scene} scene - escena a la que pertenece
-    * @param {Number} x - posicion x (opcional)
-    * @param {Number} y - posicion y (opcional)
+    * @param {number} x - posicion x (opcional)
+    * @param {number} y - posicion y (opcional)
     */
     constructor(scene, x = 0, y = 0) {
         super(scene, x, y);
@@ -15,9 +15,9 @@ export default class InteractiveContainer extends AnimatedContainer {
 
     /**
     * Activa o desactiva los objetos indicados
-    * @param {Boolean} active - si se va a activar el objeto
-    * @param {Function} onComplete - funcion a la que llamar cuando acaba la animacion (opcional)
-    * @param {Number} delay - tiempo en ms que tarda en llamarse a onComplete (opcional)
+    * @param {boolean} active - si se va a activar el objeto
+    * @param {function} onComplete - funcion a la que llamar cuando acaba la animacion (opcional)
+    * @param {number} delay - tiempo en ms que tarda en llamarse a onComplete (opcional)
     */
     activate(active, onComplete = () => { }, delay = 0) {
         // Si se va a desactivar, se desactiva la interaccion inmediatamente para 
@@ -40,7 +40,7 @@ export default class InteractiveContainer extends AnimatedContainer {
 
     /**
     * Obtiene las dimensiones del rectangulo del container para hacerlo interactivo
-    * @param {String} objectName - nombre del objeto a imprimir en el debug (opcional)
+    * @param {string} objectName - nombre del objeto a imprimir en el debug (opcional)
     */
     calculateRectangleSize(objectName = "") {       
         // Si no se elimina y se vuelve a llamar este metodo, la nueva zona no se calcula bien

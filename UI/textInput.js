@@ -9,25 +9,25 @@ export default class TextInput extends InteractiveContainer {
     * 
     * @extends {InteractiveContainer}
     * @param {Phaser.Scene} - escena donde crear la caja
-    * @param {Number} x - posicion x de la caja de input
-    * @param {Number} y - posicion y de la caja de input
-    * @param {Number} width - ancho maximo de la caja
-    * @param {Number} height - alto maximo de la caja
-    * @param {String} defaultText - texto por defecto que se muestra cuando la caja esta vacia
-    * @param {Object} defaultTextConfig - configuracion del texto por defecto
-    * @param {Object} textConfig - configuracion del texto
-    * @param {String} textureId - id de la textura que se creara para el fondo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
-    * @param {Number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
-    * @param {Number} fillColor - valor hex del color por defecto del rectangulo (opcional)
-    * @param {Number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
-    * @param {Number} borderThickness - ancho del borde del rectangulo (opcional)
-    * @param {Number} borderNormalColor - valor hex del color por defecto del borde (opcional)
-    * @param {Number} borderAlpha - alpha del borde [0-1] (opcional)
-    * @param {Number} textPaddingX - margen x del texto (opcional)
-    * @param {Number} textAlignY - alineacion vertical del texto [0-1] (opcional)
-    * @param {Number} normalTintColor - valor hex del color normal (opcional)
-    * @param {Number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
-    * @param {Number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
+    * @param {number} x - posicion x de la caja de input
+    * @param {number} y - posicion y de la caja de input
+    * @param {number} width - ancho maximo de la caja
+    * @param {number} height - alto maximo de la caja
+    * @param {string} defaultText - texto por defecto que se muestra cuando la caja esta vacia
+    * @param {object} defaultTextConfig - configuracion del texto por defecto
+    * @param {object} textConfig - configuracion del texto
+    * @param {string} textureId - id de la textura que se creara para el fondo. Si no se especifica, se reutilizara la del primer rectangulo sin id que se cree (opcional)
+    * @param {number} radiusPercentage - valor en porcentaje del radio de los bordes [0-100] (opcional)
+    * @param {number} fillColor - valor hex del color por defecto del rectangulo (opcional)
+    * @param {number} fillAlpha - alpha del rectangulo [0-1] (opcional) 
+    * @param {number} borderThickness - ancho del borde del rectangulo (opcional)
+    * @param {number} borderNormalColor - valor hex del color por defecto del borde (opcional)
+    * @param {number} borderAlpha - alpha del borde [0-1] (opcional)
+    * @param {number} textPaddingX - margen x del texto (opcional)
+    * @param {number} textAlignY - alineacion vertical del texto [0-1] (opcional)
+    * @param {number} normalTintColor - valor hex del color normal (opcional)
+    * @param {number} hoverTintColor - valor hex del color al pasar el puntero por encima (opcional)
+    * @param {number} pressingTintColor - valor hex del color al pulsar el boton (opcional)
     */
     constructor(scene, x, y, width, height, defaultText, defaultTextConfig, textConfig, textureId = "textInputTexture",
         radiusPercentage = 0, fillColor = 0xffffff, fillAlpha = 1, borderThickness = 5, borderColor = 0x000000, borderAlpha = 1,
